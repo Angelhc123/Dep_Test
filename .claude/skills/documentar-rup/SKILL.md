@@ -41,3 +41,9 @@ Al terminar, revisar que cada título de la plantilla tenga contenido y que cada
 - Los diagramas Mermaid se insertan como imágenes `docs/RUP/img/fdXX-NN.png` (NN = orden del diagrama en el .md).
 - Generar: `cd docs/RUP && npm install && npm run docs` (o `node fdXX.js`). Los `fdXX.js` ya no escriben el `.md`.
 - Al abrir el .docx, Word pregunta si actualizar los campos: responder "Sí" para numerar el índice.
+
+## Diccionario de datos
+- `docs/DICCIONARIO_DATOS.md` se genera con `npm run docs:datos` (script `scripts/diccionario-datos.js`), que aplica las migraciones reales de `apps/api/src/db.ts` y lee el esquema con PRAGMA.
+- El workflow `.github/workflows/diccionario-datos.yml` lo regenera y commitea en cada push a main que toque `db.ts` o el script.
+- Si se agrega una tabla o columna, escribir su descripción en el script: sin ella el script falla.
+- En FD04 (vista de datos) y FD03 se debe citar este diccionario, no duplicarlo a mano.
