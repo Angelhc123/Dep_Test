@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DepScan · Presentación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #e9ebef; --slide: #ffffff; --ink: #14161b; --muted: #5b6270; --line: #dfe2e8; --card: #f5f6f8;
+  --accent: #2563eb; --red: #dc2626; --amber: #d97706; --green: #16a34a; --code: #eef1f5;
+  --shadow: 0 10px 40px rgba(20, 22, 27, .14);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #050608; --slide: #0f1115; --ink: #eef0f4; --muted: #9aa1ad; --line: #262a33; --card: #171a20;
+    --accent: #60a5fa; --red: #ef4444; --amber: #f59e0b; --green: #22c55e; --code: #1b1f27;
+    --shadow: 0 10px 40px rgba(0, 0, 0, .6);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #050608; --slide: #0f1115; --ink: #eef0f4; --muted: #9aa1ad; --line: #262a33; --card: #171a20;
+  --accent: #60a5fa; --red: #ef4444; --amber: #f59e0b; --green: #22c55e; --code: #1b1f27;
+  --shadow: 0 10px 40px rgba(0, 0, 0, .6);
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: Inter, system-ui, sans-serif; overflow: hidden; }
+code, .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+#stage { position: fixed; inset: 0 0 44px 0; display: grid; place-items: center; }
+.slide {
+  position: absolute; width: 1280px; height: 720px; background: var(--slide); border-radius: 14px;
+  box-shadow: var(--shadow); padding: 56px 72px 48px; display: none; flex-direction: column; overflow: hidden;
+  transform-origin: center center;
+}
+.slide.on { display: flex; }
+.slide::after { /* barra semáforo */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px;
+  background: linear-gradient(90deg, var(--red) 0 33.3%, var(--amber) 33.3% 66.6%, var(--green) 66.6%);
+}
+.num { position: absolute; right: 28px; bottom: 18px; font-size: 13px; color: var(--muted); }
+.brand { position: absolute; left: 72px; bottom: 18px; font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+.dots { display: inline-flex; gap: 4px; }
+.dots i { width: 9px; height: 9px; border-radius: 50%; display: block; }
+.dots i:nth-child(1) { background: var(--red); } .dots i:nth-child(2) { background: var(--amber); } .dots i:nth-child(3) { background: var(--green); }
+
+.kicker { font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+h1 { font-size: 64px; line-height: 1.05; font-weight: 800; letter-spacing: -.02em; }
+h2 { font-size: 40px; line-height: 1.12; font-weight: 800; letter-spacing: -.015em; margin-bottom: 26px; }
+h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+p, li { font-size: 20px; line-height: 1.5; }
+.muted { color: var(--muted); }
+.small, .small li { font-size: 16px; }
+ul.list { padding-left: 0; list-style: none; display: grid; gap: 12px; }
+ul.list li { padding-left: 26px; position: relative; }
+ul.list li::before { content: ""; position: absolute; left: 4px; top: 11px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }
+.body { flex: 1; min-height: 0; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; }
+.card p, .card li { font-size: 17px; }
+.big { font-size: 46px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.red { color: var(--red); } .amber { color: var(--amber); } .green { color: var(--green); } .acc { color: var(--accent); }
+.pill { display: inline-block; font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--code); color: var(--muted); }
+code { background: var(--code); padding: 1px 6px; border-radius: 5px; font-size: .88em; }
+
+table { width: 100%; border-collapse: collapse; font-size: 16px; }
+th { text-align: left; font-weight: 700; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; padding: 9px 10px; border-bottom: 2px solid var(--line); }
+td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+td.y { color: var(--green); font-weight: 700; } td.n { color: var(--muted); } td.p { color: var(--amber); font-weight: 600; }
+tr.us td { background: color-mix(in srgb, var(--accent) 9%, transparent); }
+th.us { color: var(--accent); }
+
+.shot { border-radius: 10px; border: 1px solid var(--line); box-shadow: var(--shadow); width: 100%; display: block; }
+.cover { justify-content: center; }
+.cover h1 { font-size: 92px; }
+.cover .sub { font-size: 28px; color: var(--muted); max-width: 900px; margin-top: 14px; line-height: 1.3; }
+.meta { margin-top: 48px; display: grid; gap: 6px; font-size: 18px; color: var(--muted); }
+.meta b { color: var(--ink); }
+.biglogo { display: inline-flex; gap: 10px; margin-bottom: 28px; }
+.biglogo i { width: 26px; height: 26px; border-radius: 50%; display: block; }
+.biglogo i:nth-child(1) { background: var(--red); } .biglogo i:nth-child(2) { background: var(--amber); } .biglogo i:nth-child(3) { background: var(--green); }
+
+/* pipeline */
+.pipe { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 8px; }
+.step { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 12px; position: relative; }
+.step b { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: var(--slide); font-size: 15px; margin-bottom: 10px; }
+.step h4 { font-size: 16px; margin-bottom: 6px; }
+.step p { font-size: 14px; line-height: 1.4; color: var(--muted); }
+
+/* arquitectura */
+.arch { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 18px; align-items: stretch; }
+.layer { border: 2px dashed var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.layer > span { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.box { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 15px; }
+.box b { display: block; font-size: 16px; }
+.box small { color: var(--muted); font-size: 13px; }
+.core { border-color: var(--accent); border-style: solid; }
+.core .box { border-left: 4px solid var(--accent); }
+.flowarrow { text-align: center; color: var(--muted); font-size: 13px; }
+
+.quote { border-left: 4px solid var(--red); padding: 4px 0 4px 18px; }
+
+/* barra inferior */
+#bar { position: fixed; left: 0; right: 0; bottom: 0; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 14px; color: var(--muted); font-size: 13px; }
+#bar button { background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; height: 30px; min-width: 34px; padding: 0 10px; font: inherit; cursor: pointer; }
+#bar button:hover { border-color: var(--accent); }
+#prog { flex: 1; height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; }
+#prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+.hide-sm { }
+@media (max-width: 600px) { .hide-sm { display: none; } }
+
+@media print {
+  @page { size: 1280px 720px; margin: 0; }
+  body { overflow: visible; background: none; }
+  #bar { display: none; }
+  #stage { position: static; display: block; }
+  .slide { display: flex !important; position: relative; transform: none !important; box-shadow: none; border-radius: 0; break-after: page; }
+}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- 1 -->
+<section class="slide cover">
+  <div class="biglogo"><i></i><i></i><i></i></div>
+  <h1>DepScan</h1>
+  <p class="sub">Sistema web de detección y remediación de dependencias vulnerables para proyectos npm y PyPI</p>
+  <div class="meta">
+    <div><b>Autor:</b> Angel Gadiel Hernández Cruz</div>
+    <div><b>Universidad Privada de Tacna</b> · Escuela Profesional de Ingeniería de Sistemas</div>
+    <div>Tacna – Perú · 2026</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="kicker">El problema</div>
+  <h2>El código que no escribimos también nos puede atacar</h2>
+  <div class="body grid2">
+    <div>
+      <ul class="list">
+        <li>Un proyecto moderno usa <b>cientos o miles de librerías</b> de terceros, y la mayoría llega de forma indirecta (transitiva).</li>
+        <li>Cuando se publica una falla en una de ellas, el equipo <b>no se entera</b> si no cruza "lo que tengo instalado" con "lo que ya se sabe que está roto".</li>
+        <li>Saber <b>a qué versión actualizar</b> sin romper el proyecto ni caer en otra versión vulnerable es prueba y error.</li>
+      </ul>
+    </div>
+    <div class="grid2" style="align-content:start">
+      <div class="card"><div class="big">1091</div><p class="muted">dependencias en OWASP NodeGoat</p></div>
+      <div class="card"><div class="big amber">97 %</div><p class="muted">son transitivas (1055)<br>no aparecen en <code>package.json</code></p></div>
+      <div class="card"><div class="big red">133</div><p class="muted">de ellas son vulnerables</p></div>
+      <div class="card"><div class="big red">20</div><p class="muted">fallas críticas</p></div>
+      <p class="small muted" style="grid-column:1/-1">Fuente: escaneo propio con DepScan en producción, commit <code>c5cb68a7</code>, 14/10/2026.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="kicker">Antecedentes</div>
+  <h2>No es un riesgo teórico</h2>
+  <div class="body grid3">
+    <div class="card">
+      <span class="pill">2017</span>
+      <h3 style="margin-top:10px">Equifax</h3>
+      <p>Apache Struts sin parchear (<code>CVE-2017-5638</code>). El parche existía desde el 6 de marzo, unos dos meses antes del ataque. Se expusieron datos de unos 147 millones de personas.</p>
+    </div>
+    <div class="card">
+      <span class="pill">2021</span>
+      <h3 style="margin-top:10px">Log4Shell</h3>
+      <p>Una falla en la librería de registro Log4j (<code>CVE-2021-44228</code>) permitió ejecutar código remoto en miles de sistemas que ni sabían que la usaban.</p>
+    </div>
+    <div class="card">
+      <span class="pill">OWASP Top 10</span>
+      <h3 style="margin-top:10px">Componentes vulnerables</h3>
+      <p>"Componentes vulnerables y desactualizados" figura entre los diez riesgos principales de aplicaciones web (A06:2021).</p>
+    </div>
+    <div class="card" style="grid-column:1/-1">
+      <h3>Lo que ya existe</h3>
+      <p><b>Bases públicas y gratuitas:</b> OSV (Google) y NVD (NIST) publican las vulnerabilidades. <b>Herramientas:</b> <code>npm audit</code>, <code>pip-audit</code> y OSV-Scanner (gratuitas, de consola, en inglés, un ecosistema o sin interfaz web) y Snyk (comercial). El valor no está en los datos, sino en <b>procesarlos bien y explicarlos</b>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="kicker">Objetivo</div>
+  <h2>Detectar, priorizar y decir cómo corregir</h2>
+  <div class="body">
+    <div class="card" style="margin-bottom:22px; border-left:4px solid var(--accent)">
+      <p><b>Objetivo general:</b> desarrollar un sistema web que detecte las dependencias vulnerables de proyectos npm y PyPI a partir de sus versiones exactas, las priorice por severidad y entregue al usuario los pasos concretos para remediarlas.</p>
+    </div>
+    <div class="grid2">
+      <ul class="list">
+        <li>Leer <code>package.json</code>, <code>package-lock.json</code> y <code>requirements.txt</code> y obtener la <b>versión exacta</b> de cada dependencia directa y transitiva.</li>
+        <li>Consultar <b>OSV</b> en lote y enriquecer con <b>NVD</b> (CVSS oficial).</li>
+        <li>Aplicar <b>lógica propia</b>: deduplicación CVE/GHSA/PYSEC, prioridad y semáforo de riesgo.</li>
+      </ul>
+      <ul class="list">
+        <li>Recomendar la <b>versión segura</b> verificada contra todos los avisos del paquete.</li>
+        <li>Ofrecer web, reportes <b>HTML/PDF</b>, historial, login y <b>CLI para CI</b>.</li>
+        <li><b>Medir</b> los resultados contra herramientas existentes con un benchmark reproducible.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="kicker">Alcance</div>
+  <h2>Qué hace y qué no hace</h2>
+  <div class="body grid2">
+    <div class="card">
+      <h3 class="green">Dentro del alcance</h3>
+      <ul class="list small">
+        <li>Ecosistemas npm y PyPI, con dependencias transitivas.</li>
+        <li>Subir archivos o carpeta, o escanear un repo de GitHub por commit.</li>
+        <li>Repos privados con la cuenta de GitHub conectada.</li>
+        <li>Remediación: versión recomendada, comandos, <code>overrides</code>, mitigaciones y parches.</li>
+        <li>Historial, comparación antes/después, reportes HTML y PDF.</li>
+        <li>CLI con código de salida para detener entregas inseguras.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 class="amber">Limitaciones declaradas</h3>
+      <ul class="list small">
+        <li>No descubre fallas nuevas: solo las ya publicadas en OSV/NVD.</li>
+        <li>No sabe si el código usa la función afectada (alcanzabilidad).</li>
+        <li>Sin lockfile la precisión baja; se avisa o se estima, y se marca como estimación.</li>
+        <li>No aplica las correcciones automáticamente.</li>
+        <li>Requiere internet (se mitiga con caché de 24 h).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="kicker">Cómo funciona</div>
+  <h2>Un escaneo en 7 pasos</h2>
+  <div class="body">
+    <div class="pipe">
+      <div class="step"><b>1</b><h4>Leer</h4><p>Detecta y parsea los manifiestos (rangos, <code>-r</code>, extras, comentarios).</p></div>
+      <div class="step"><b>2</b><h4>Resolver</h4><p>Versión exacta desde el lockfile; sin él, avisa o estima.</p></div>
+      <div class="step"><b>3</b><h4>Consultar</h4><p>OSV <code>querybatch</code>: hasta 1000 paquetes por lote.</p></div>
+      <div class="step"><b>4</b><h4>Detallar</h4><p>Severidad, alias y versiones corregidas, con caché.</p></div>
+      <div class="step"><b>5</b><h4>Enriquecer</h4><p>CVSS oficial de NVD por CVE (opcional).</p></div>
+      <div class="step"><b>6</b><h4>Analizar</h4><p>Deduplica, separa directa/transitiva, prioriza y calcula la versión segura.</p></div>
+      <div class="step"><b>7</b><h4>Reportar</h4><p>Semáforo, web, HTML/PDF y código de salida para CI.</p></div>
+    </div>
+    <div class="grid2" style="margin-top:26px">
+      <div class="card"><h3>Lo que aportan OSV y NVD</h3><p class="muted">Descubrir y publicar las vulnerabilidades.</p></div>
+      <div class="card" style="border-left:4px solid var(--accent)"><h3>Lo que aporta DepScan</h3><p class="muted">Parsers, resolución de versiones, comparadores semver / PEP 440 propios, deduplicación, priorización, remediación, reportes e interfaz.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="kicker">Tecnología</div>
+  <h2>Un solo lenguaje de punta a punta: TypeScript</h2>
+  <div class="body">
+    <table>
+      <tr><th>Capa</th><th>Tecnología</th><th>Para qué</th></tr>
+      <tr><td><b>Frontend</b></td><td>React 19 + Vite + Tailwind CSS</td><td>Interfaz web, TanStack Query para datos y Recharts para gráficas.</td></tr>
+      <tr><td><b>Backend</b></td><td>Node.js 24 + Fastify 5</td><td>API REST con validación por esquemas, rate limit y cookies seguras.</td></tr>
+      <tr><td><b>Motor</b></td><td>Librería propia <code>@depscan/core</code></td><td>Toda la lógica del escáner, sin dependencias de runtime.</td></tr>
+      <tr><td><b>Base de datos</b></td><td>SQLite nativo (<code>node:sqlite</code>)</td><td>Historial, usuarios, sesiones y caché de consultas.</td></tr>
+      <tr><td><b>Reportes</b></td><td>HTML propio + pdfkit</td><td>Reportes descargables generados en el servidor.</td></tr>
+      <tr><td><b>CLI</b></td><td><code>node:util parseArgs</code></td><td>Uso en terminal y en pipelines de CI.</td></tr>
+      <tr><td><b>Calidad</b></td><td>Vitest 4 · ESLint · Prettier · GitHub Actions</td><td>97 pruebas automatizadas, lint y tipado en cada push.</td></tr>
+      <tr><td><b>Despliegue</b></td><td>Docker + Railway (volumen persistente)</td><td>Un solo servicio que sirve la API y la web.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="kicker">Decisiones</div>
+  <h2>¿Por qué esta tecnología y no otra?</h2>
+  <div class="body">
+    <table class="small">
+      <tr><th style="width:22%">Elegido</th><th style="width:24%">Descartado</th><th>Razón</th></tr>
+      <tr><td><b>TypeScript en todo</b></td><td>Python / Java / .NET</td><td>Tipos compartidos entre web, API y motor sin duplicar modelos. Java y .NET dependen de IDEs pesados; la restricción era solo VS Code.</td></tr>
+      <tr><td><b>Fastify</b></td><td>Express / NestJS</td><td>Más moderno y con validación por esquemas que Express; mucho más ligero que NestJS.</td></tr>
+      <tr><td><b>SQLite nativo</b></td><td>PostgreSQL</td><td>Sin servidor de BD que instalar ni pagar; suficiente para historial y caché con una réplica.</td></tr>
+      <tr><td><b>OSV como fuente principal</b></td><td>NVD por nombre</td><td>NVD tiene mala cobertura de paquetes npm y limita a 5 consultas cada 30 s; OSV acepta lotes de 1000.</td></tr>
+      <tr><td><b>Comparadores propios</b></td><td>Librería <code>semver</code></td><td>Es la parte evaluable del proyecto; se valida con pruebas y cubre también PEP 440 (Python).</td></tr>
+      <tr><td><b>OAuth propio</b></td><td>Passport / Auth.js</td><td>Dos proveedores no justifican otra dependencia; control total de la seguridad.</td></tr>
+      <tr><td><b>Un servicio en Railway</b></td><td>Web y API separadas</td><td>Un dominio, sin CORS, un solo despliegue y menor costo.</td></tr>
+      <tr><td><b>pdfkit</b></td><td>Chrome headless</td><td>Sin navegador dentro del contenedor: imagen más liviana.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="kicker">Arquitectura</div>
+  <h2>Monorepo con arquitectura hexagonal en el motor</h2>
+  <div class="body arch">
+    <div class="layer">
+      <span>Entradas</span>
+      <div class="box"><b>Web</b><small>React 19 · <code>apps/web</code></small></div>
+      <div class="box"><b>API REST</b><small>Fastify · <code>apps/api</code></small></div>
+      <div class="box"><b>CLI</b><small>Para CI · <code>apps/cli</code></small></div>
+      <div class="box"><b>SQLite</b><small>Historial, usuarios, caché</small></div>
+    </div>
+    <div class="layer core">
+      <span class="acc">Núcleo · packages/core (no conoce HTTP, BD ni React)</span>
+      <div class="grid2" style="gap:10px">
+        <div class="box"><b>Parsers</b><small>npm y PyPI</small></div>
+        <div class="box"><b>Resolver</b><small>versión exacta</small></div>
+        <div class="box"><b>Analizador</b><small>dedupe · prioridad</small></div>
+        <div class="box"><b>Remediación</b><small>versiones seguras · CWE</small></div>
+        <div class="box"><b>Comparadores</b><small>semver · PEP 440</small></div>
+        <div class="box"><b>Reportes</b><small>JSON · HTML</small></div>
+      </div>
+      <div class="box" style="border-left-style:dashed"><b>Puertos (interfaces)</b><small>VulnSource · CveEnricher · RegistrySource · Cache — se simulan en las pruebas</small></div>
+    </div>
+    <div class="layer">
+      <span>Adaptadores externos</span>
+      <div class="box"><b>OSV</b><small>api.osv.dev</small></div>
+      <div class="box"><b>NVD</b><small>services.nvd.nist.gov</small></div>
+      <div class="box"><b>Registros</b><small>npmjs.org · pypi.org</small></div>
+      <div class="box"><b>GitHub</b><small>repos y OAuth</small></div>
+    </div>
+  </div>
+  <p class="small muted" style="margin-top:14px">Patrones: puertos y adaptadores, repositorio, estrategia (por ecosistema), fachada (<code>scanProject</code>) y pipeline. Web, API y CLI usan el mismo núcleo.</p>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="kicker">Despliegue</div>
+  <h2>De un push a producción</h2>
+  <div class="body grid3">
+    <div class="card">
+      <span class="pill">1 · GitHub</span>
+      <h3 style="margin-top:10px">Código</h3>
+      <p>Monorepo con npm workspaces. Cada push a <code>main</code> dispara la integración continua.</p>
+    </div>
+    <div class="card">
+      <span class="pill">2 · GitHub Actions</span>
+      <h3 style="margin-top:10px">Calidad</h3>
+      <p>Lint, tipado, 97 pruebas, build y <b>DepScan se escanea a sí mismo</b>: falla si hay vulnerabilidades altas. Otro workflow regenera el diccionario de datos.</p>
+    </div>
+    <div class="card">
+      <span class="pill">3 · Railway</span>
+      <h3 style="margin-top:10px">Producción</h3>
+      <p>Imagen Docker multi-etapa, un servicio, SQLite en volumen <code>/data</code>, healthcheck en <code>/api/health</code> y reinicio automático.</p>
+    </div>
+    <div class="card" style="grid-column:1/-1; display:flex; align-items:center; gap:18px">
+      <div class="big green" style="font-size:34px">En línea</div>
+      <p class="mono" style="font-size:18px">deptest-production-7f98.up.railway.app</p>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <div class="kicker">La aplicación</div>
+  <h2>Escanear es arrastrar una carpeta o pegar un repo</h2>
+  <div class="body" style="display:grid; grid-template-columns: 1.55fr 1fr; gap:28px; align-items:start">
+    <img class="shot" src="{{IMG:inicio}}" alt="Pantalla de nuevo escaneo de DepScan">
+    <ul class="list small">
+      <li><b>Subir archivos o carpeta:</b> el navegador filtra solo los manifiestos e ignora <code>node_modules</code>.</li>
+      <li><b>Repositorio de GitHub:</b> se analiza un commit exacto, así el resultado es reproducible.</li>
+      <li><b>Mis repos de GitHub:</b> con la cuenta conectada, se listan también los privados.</li>
+      <li><b>Opciones:</b> incluir dependencias de desarrollo, estimar sin lockfile y CVSS oficial de NVD.</li>
+      <li><b>Login</b> con Google o GitHub; el escaneo anónimo pasa a la cuenta al iniciar sesión.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <div class="kicker">La aplicación</div>
+  <h2>El resultado: semáforo, severidades y cada hallazgo</h2>
+  <div class="body" style="display:grid; grid-template-columns: 1.55fr 1fr; gap:28px; align-items:start">
+    <img class="shot" src="{{IMG:resultado}}" alt="Resultado del escaneo de OWASP NodeGoat">
+    <ul class="list small">
+      <li><b>Semáforo</b> de riesgo global y conteo por severidad.</li>
+      <li>Rama y <b>commit</b> analizados, versión del escáner y duración (7,2 s para 1091 dependencias).</li>
+      <li>Tabla filtrable por severidad, directa/transitiva, ecosistema y desarrollo.</li>
+      <li>Cada paquete muestra sus CVE ya <b>deduplicados</b> y la versión recomendada.</li>
+      <li>Reporte en pantalla y descarga en <b>HTML</b> y <b>PDF</b>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <div class="kicker">La aplicación</div>
+  <h2>No solo dice qué está mal: dice cómo arreglarlo</h2>
+  <div class="body" style="display:grid; grid-template-columns: 1.55fr 1fr; gap:28px; align-items:start">
+    <img class="shot" src="{{IMG:solucion}}" alt="Panel de solución con versión recomendada y comandos">
+    <ul class="list small">
+      <li><b>Versión recomendada</b> dentro de la misma versión mayor, con aviso si exige un salto mayor.</li>
+      <li><b>Todas las versiones seguras</b>, verificadas contra todos los avisos del paquete, no solo el actual.</li>
+      <li><b>Comandos listos</b> para copiar: <code>npm install</code>, <code>overrides</code> para transitivas, <code>pip install</code>.</li>
+      <li><b>Si no se puede actualizar:</b> mitigaciones del aviso y por tipo de falla (CWE), con enlaces a los parches.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide">
+  <div class="kicker">Resultados</div>
+  <h2>Benchmark: DepScan frente a <code style="font-size:.85em">npm audit</code></h2>
+  <div class="body">
+    <table class="small">
+      <tr><th>Repositorio</th><th>Dependencias</th><th>DepScan</th><th>npm audit</th><th>En común</th><th>Solo DepScan</th><th>Solo audit</th></tr>
+      <tr><td>OWASP/NodeGoat</td><td>1091</td><td>193</td><td>197</td><td>193</td><td>0</td><td>0</td></tr>
+      <tr><td>snyk-labs/nodejs-goof</td><td>980</td><td>228</td><td>232</td><td>228</td><td>0</td><td>0</td></tr>
+      <tr><td>cr0hn/vulnerable-node</td><td>124</td><td>5</td><td>5</td><td>5</td><td>0</td><td>0</td></tr>
+      <tr><td>adeyosemanputra/pygoat <span class="pill">PyPI</span></td><td>46</td><td>147</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>anxolerd/dvpwa <span class="pill">PyPI</span></td><td>18</td><td>55</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    </table>
+    <div class="grid3" style="margin-top:20px">
+      <div class="card"><div class="big green">0</div><p class="muted">fallas que encuentra <code>npm audit</code> y DepScan no</p></div>
+      <div class="card"><div class="big acc">4</div><p class="muted">avisos GHSA que comparten CVE: <code>npm audit</code> los repite y DepScan los une (por confirmar a mano)</p></div>
+      <div class="card"><div class="big">97</div><p class="muted">pruebas automatizadas en verde (motor, API y CLI)</p></div>
+    </div>
+    <p class="small muted" style="margin-top:12px">Repos fijados por commit, corrida del 13/10/2026. Las bases cambian a diario: los números valen para esa fecha. <code>npm audit</code> no analiza PyPI.</p>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide">
+  <div class="kicker">Comparación</div>
+  <h2>Frente a herramientas similares</h2>
+  <div class="body">
+    <table class="small">
+      <tr><th>Característica</th><th>npm audit</th><th>pip-audit</th><th>OSV-Scanner</th><th>Snyk</th><th class="us">DepScan</th></tr>
+      <tr><td>npm y PyPI en un solo análisis</td><td class="n">No</td><td class="n">No</td><td class="y">Sí</td><td class="y">Sí</td><td class="y">Sí</td></tr>
+      <tr><td>Interfaz web</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="y">Sí</td><td class="y">Sí</td></tr>
+      <tr><td>En español</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="y">Sí</td></tr>
+      <tr><td>Deduplica CVE / GHSA / PYSEC</td><td class="p">Parcial</td><td class="p">Parcial</td><td class="y">Sí</td><td class="y">Sí</td><td class="y">Sí</td></tr>
+      <tr><td>Verifica que la versión recomendada no tenga otras fallas</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="y">Sí</td><td class="y">Sí</td></tr>
+      <tr><td>Lista todas las versiones seguras</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="p">Parcial</td><td class="y">Sí</td></tr>
+      <tr><td>Mitigaciones si no se puede actualizar</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="p">Parcial</td><td class="y">Sí</td></tr>
+      <tr><td>Reporte PDF</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="p">De pago</td><td class="y">Sí</td></tr>
+      <tr><td>Costo para el estudiante</td><td class="y">Gratis</td><td class="y">Gratis</td><td class="y">Gratis</td><td class="p">Plan limitado</td><td class="y">Gratis</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+  <div class="kicker">Nuestra diferencia</div>
+  <h2>Lo que DepScan hace distinto</h2>
+  <div class="body grid2">
+    <div class="card"><h3>Remediación verificada</h3><p>Otras herramientas sugieren la "versión corregida" de un aviso, que puede tener otra falla. DepScan evalúa cada versión candidata contra <b>todos</b> los avisos del paquete.</p></div>
+    <div class="card"><h3>Pensado para quien aprende</h3><p>Web en español, explicación de cada falla, comandos listos para copiar y mitigaciones cuando actualizar no es posible.</p></div>
+    <div class="card"><h3>Honesto con sus límites</h3><p>Sin lockfile no inventa versiones: las marca como no determinables o como estimación. Las limitaciones se muestran en la propia app.</p></div>
+    <div class="card"><h3>Evidencia reproducible</h3><p>Cada escaneo registra commit, fecha y versión del escáner, con reporte PDF. El benchmark se puede repetir con un comando.</p></div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="slide">
+  <div class="kicker">Calidad y seguridad</div>
+  <h2>La propia aplicación cumple lo que predica</h2>
+  <div class="body grid2">
+    <ul class="list">
+      <li><b>97 pruebas</b> automatizadas sin internet: las fuentes externas se simulan gracias a los puertos.</li>
+      <li>El CI ejecuta DepScan <b>sobre su propio código</b> y bloquea el build si aparece una falla alta.</li>
+      <li><b>Diccionario de datos</b> generado automáticamente desde el esquema real de la base.</li>
+      <li>Documentación RUP completa (FD01 a FD06) con decisiones de arquitectura (ADR).</li>
+    </ul>
+    <ul class="list">
+      <li>Login OAuth con Google y GitHub; <b>tokens cifrados</b> con AES-256-GCM.</li>
+      <li>Cookies <code>HttpOnly</code>, <code>Secure</code> y <code>SameSite</code>; sesión nueva tras autenticarse.</li>
+      <li><b>Límite de peticiones</b> por minuto en el escaneo.</li>
+      <li>Repos privados visibles <b>solo para su dueño</b>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide">
+  <div class="kicker">Trabajo futuro</div>
+  <h2>Hacia dónde puede crecer</h2>
+  <div class="body grid3">
+    <div class="card"><h3>Más ecosistemas</h3><p>Maven, Go, Cargo, Composer y NuGet: la arquitectura solo pide nuevos parsers y comparadores.</p></div>
+    <div class="card"><h3>Alcanzabilidad</h3><p>Analizar si el código realmente llama a la función vulnerable para reducir alertas no explotables.</p></div>
+    <div class="card"><h3>Correcciones automáticas</h3><p>Abrir un pull request con la actualización recomendada, previa revisión humana.</p></div>
+    <div class="card"><h3>Benchmark ampliado</h3><p>Sumar OSV-Scanner para PyPI y repos reales no vulnerables a propósito.</p></div>
+    <div class="card"><h3>Alertas</h3><p>Volver a escanear periódicamente y avisar cuando se publique una falla nueva.</p></div>
+    <div class="card"><h3>SBOM</h3><p>Exportar el inventario en CycloneDX o SPDX.</p></div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="slide">
+  <div class="kicker">Conclusiones</div>
+  <h2>Conclusiones</h2>
+  <div class="body">
+    <ul class="list">
+      <li>Se construyó y desplegó un sistema web que detecta dependencias vulnerables en npm y PyPI a partir de <b>versiones exactas</b>, incluidas las transitivas.</li>
+      <li>En el benchmark, DepScan encontró <b>todas</b> las fallas que reporta <code>npm audit</code> y unió los avisos duplicados, sin hallazgos perdidos.</li>
+      <li>El aporte principal es la <b>remediación verificada</b>: una versión segura contra todos los avisos, los comandos para aplicarla y mitigaciones si no se puede actualizar.</li>
+      <li>La arquitectura hexagonal permitió reutilizar el mismo motor en web, API y CLI, y probarlo sin depender de internet.</li>
+      <li>Las limitaciones se declaran: el sistema informa fallas <b>conocidas</b>, no la explotabilidad real.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="slide cover" style="align-items:center; text-align:center">
+  <div class="biglogo"><i></i><i></i><i></i></div>
+  <h1>Gracias</h1>
+  <p class="sub" style="margin-inline:auto">¿Preguntas?</p>
+  <div class="meta" style="justify-items:center">
+    <div><b>Demo:</b> <span class="mono">deptest-production-7f98.up.railway.app</span></div>
+    <div><b>Código:</b> <span class="mono">github.com/Angelhc123/Dep_Test</span></div>
+  </div>
+</section>
+
+</div>
+
+<div id="bar">
+  <button id="prev" aria-label="Anterior">←</button>
+  <button id="next" aria-label="Siguiente">→</button>
+  <span id="count">1 / 1</span>
+  <div id="prog"><i></i></div>
+  <span class="hide-sm">← → para avanzar · F pantalla completa</span>
+  <button id="theme" aria-label="Cambiar tema">◐</button>
+  <button id="full" aria-label="Pantalla completa">⛶</button>
+</div>
+
+<script>
+(() => {
+  const slides = [...document.querySelectorAll(".slide")];
+  const total = slides.length;
+  slides.forEach((s, i) => {
+    if (i > 0) s.insertAdjacentHTML("beforeend", `<div class="brand"><span class="dots"><i></i><i></i><i></i></span>DepScan</div>`);
+    s.insertAdjacentHTML("beforeend", `<div class="num">${i + 1} / ${total}</div>`);
+  });
+  let cur = Math.min(Math.max(parseInt(location.hash.slice(1)) || 1, 1), total) - 1;
+
+  const fit = () => {
+    const st = document.getElementById("stage");
+    const k = Math.min((st.clientWidth - 24) / 1280, (st.clientHeight - 24) / 720);
+    slides.forEach((s) => (s.style.transform = `scale(${k})`));
+  };
+  const show = (i) => {
+    cur = Math.min(Math.max(i, 0), total - 1);
+    slides.forEach((s, j) => s.classList.toggle("on", j === cur));
+    document.getElementById("count").textContent = `${cur + 1} / ${total}`;
+    document.querySelector("#prog i").style.width = `${((cur + 1) / total) * 100}%`;
+    history.replaceState(null, "", `#${cur + 1}`);
+  };
+  const full = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.());
+
+  document.addEventListener("keydown", (e) => {
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+    else if (e.key === "Home") show(0);
+    else if (e.key === "End") show(total - 1);
+    else if (e.key === "f" || e.key === "F") full();
+  });
+  document.getElementById("prev").onclick = () => show(cur - 1);
+  document.getElementById("next").onclick = () => show(cur + 1);
+  document.getElementById("full").onclick = full;
+  document.getElementById("theme").onclick = () => {
+    const dark = getComputedStyle(document.body).backgroundColor === "rgb(5, 6, 8)";
+    document.documentElement.dataset.theme = dark ? "light" : "dark";
+  };
+  let x0 = null;
+  document.addEventListener("touchstart", (e) => (x0 = e.touches[0].clientX), { passive: true });
+  document.addEventListener("touchend", (e) => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1));
+    x0 = null;
+  });
+  addEventListener("resize", fit);
+  fit();
+  show(cur);
+})();
+</script>
+</body>
+</html>
