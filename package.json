@@ -1,0 +1,39 @@
+{
+  "name": "depscan",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Escáner de dependencias vulnerables (npm y PyPI) basado en OSV y NVD",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "tsc -b packages/core apps/cli apps/api && npm run build -w @depscan/web",
+    "typecheck": "tsc -b packages/core apps/cli apps/api && tsc -p apps/web --noEmit",
+    "dev": "npm run build:server && concurrently -n tsc,api,web -c blue,green,magenta \"tsc -b apps/api --watch --preserveWatchOutput\" \"npm run dev -w @depscan/api\" \"npm run dev -w @depscan/web\"",
+    "build:server": "tsc -b apps/api",
+    "start": "node --disable-warning=ExperimentalWarning apps/api/dist/server.js",
+    "scan": "node apps/cli/dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "benchmark": "node --disable-warning=ExperimentalWarning benchmark/run.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.0",
+    "@types/node": "^24.0.0",
+    "concurrently": "^9.2.0",
+    "eslint": "^9.30.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.0",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "^8.38.0",
+    "vitest": "^4.1.11"
+  }
+}

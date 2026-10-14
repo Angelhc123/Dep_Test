@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "vitest.explorer",
+    "bradlc.vscode-tailwindcss",
+    "humao.rest-client",
+    "qwtel.sqlite-viewer",
+    "github.vscode-github-actions"
+  ]
+}

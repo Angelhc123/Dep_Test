@@ -1,0 +1,178 @@
+{
+  "entry": {
+    "repo": "fportantier/vulpy",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "ecosystem": "PyPI"
+  },
+  "scannedAt": "2026-10-13T22:29:19.245Z",
+  "report": {
+    "scannedAt": "2026-10-13T22:29:19.245Z",
+    "scannerVersion": "0.1.0",
+    "target": {
+      "name": "fportantier/vulpy",
+      "source": "github",
+      "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122"
+    },
+    "manifests": [
+      "requirements.txt"
+    ],
+    "summary": {
+      "dependencies": 9,
+      "direct": 9,
+      "transitive": 0,
+      "unresolved": 9,
+      "vulnerableDependencies": 0,
+      "bySeverity": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "unknown": 0
+      },
+      "risk": "green"
+    },
+    "findings": [],
+    "dependencies": [
+      {
+        "name": "click",
+        "ecosystem": "PyPI",
+        "declared": "",
+        "direct": true,
+        "dev": false,
+        "path": [
+          "click"
+        ],
+        "sourceFile": "requirements.txt",
+        "resolved": null,
+        "resolution": "unknown",
+        "note": "versión no determinable: rango \"*\" sin lockfile"
+      },
+      {
+        "name": "cryptography",
+        "ecosystem": "PyPI",
+        "declared": "",
+        "direct": true,
+        "dev": false,
+        "path": [
+          "cryptography"
+        ],
+        "sourceFile": "requirements.txt",
+        "resolved": null,
+        "resolution": "unknown",
+        "note": "versión no determinable: rango \"*\" sin lockfile"
+      },
+      {
+        "name": "flask",
+        "ecosystem": "PyPI",
+        "declared": "",
+        "direct": true,
+        "dev": false,
+        "path": [
+          "flask"
+        ],
+        "sourceFile": "requirements.txt",
+        "resolved": null,
+        "resolution": "unknown",
+        "note": "versión no determinable: rango \"*\" sin lockfile"
+      },
+      {
+        "name": "geoip2",
+        "ecosystem": "PyPI",
+        "declared": "",
+        "direct": true,
+        "dev": false,
+        "path": [
+          "geoip2"
+        ],
+        "sourceFile": "requirements.txt",
+        "resolved": null,
+        "resolution": "unknown",
+        "note": "versión no determinable: rango \"*\" sin lockfile"
+      },
+      {
+        "name": "jsonschema",
+        "ecosystem": "PyPI",
+        "declared": "",
+        "direct": true,
+        "dev": false,
+        "path": [
+          "jsonschema"
+        ],
+        "sourceFile": "requirements.txt",
+        "resolved": null,
+        "resolution": "unknown",
+        "note": "versión no determinable: rango \"*\" sin lockfile"
+      },
+      {
+        "name": "pyjwt",
+        "ecosystem": "PyPI",
+        "declared": "",
+        "direct": true,
+        "dev": false,
+        "path": [
+          "pyjwt"
+        ],
+        "sourceFile": "requirements.txt",
+        "resolved": null,
+        "resolution": "unknown",
+        "note": "versión no determinable: rango \"*\" sin lockfile"
+      },
+      {
+        "name": "pyotp",
+        "ecosystem": "PyPI",
+        "declared": "",
+        "direct": true,
+        "dev": false,
+        "path": [
+          "pyotp"
+        ],
+        "sourceFile": "requirements.txt",
+        "resolved": null,
+        "resolution": "unknown",
+        "note": "versión no determinable: rango \"*\" sin lockfile"
+      },
+      {
+        "name": "qrcode",
+        "ecosystem": "PyPI",
+        "declared": "",
+        "direct": true,
+        "dev": false,
+        "path": [
+          "qrcode"
+        ],
+        "sourceFile": "requirements.txt",
+        "resolved": null,
+        "resolution": "unknown",
+        "note": "versión no determinable: rango \"*\" sin lockfile"
+      },
+      {
+        "name": "requests",
+        "ecosystem": "PyPI",
+        "declared": "",
+        "direct": true,
+        "dev": false,
+        "path": [
+          "requests"
+        ],
+        "sourceFile": "requirements.txt",
+        "resolved": null,
+        "resolution": "unknown",
+        "note": "versión no determinable: rango \"*\" sin lockfile"
+      }
+    ],
+    "warnings": [
+      "9 dependencia(s) sin versión determinable no se pudieron verificar"
+    ],
+    "durationMs": 0
+  },
+  "npmAudit": {
+    "available": false,
+    "hits": []
+  },
+  "osvScanner": {
+    "available": false,
+    "hits": []
+  },
+  "vsAudit": null,
+  "vsOsv": null
+}

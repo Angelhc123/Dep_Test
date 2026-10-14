@@ -1,0 +1,23 @@
+{
+  "$comment": "Repos open source fijados en un commit exacto para que cualquiera pueda repetir el experimento. Commits verificados el 2026-10-13.",
+  "repos": [
+    { "repo": "OWASP/NodeGoat", "commit": "c5cb68a7084e4ae7dcc60e6a98768720a81841e8", "ecosystem": "npm" },
+    {
+      "repo": "snyk-labs/nodejs-goof",
+      "commit": "add14ba59e98240d9e00a235dd7d42cd61ae9912",
+      "ecosystem": "npm"
+    },
+    {
+      "repo": "cr0hn/vulnerable-node",
+      "commit": "d68f2a3c9277ece2c2feb9976052033bdecd7fbe",
+      "ecosystem": "npm"
+    },
+    {
+      "repo": "adeyosemanputra/pygoat",
+      "commit": "19d17cc8874861142b330636d068bbde54e86b85",
+      "ecosystem": "PyPI"
+    },
+    { "repo": "anxolerd/dvpwa", "commit": "a1d8f89fac2e57093189853c6527c2b01fc1d9c1", "ecosystem": "PyPI" },
+    { "repo": "fportantier/vulpy", "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122", "ecosystem": "PyPI" }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API (Fastify)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/apps/api/dist/server.js",
+      "preLaunchTask": "build",
+      "envFile": "${workspaceFolder}/.env",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/**/dist/**/*.js"]
+    },
+    {
+      "name": "CLI: escanear esta carpeta",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/apps/cli/dist/index.js",
+      "args": ["${workspaceFolder}", "--format", "table"],
+      "preLaunchTask": "build",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/**/dist/**/*.js"]
+    },
+    {
+      "name": "Web (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/apps/web/src"
+    }
+  ]
+}
