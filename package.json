@@ -22,6 +22,7 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "format": "prettier --write .",
+    "docs:datos": "tsc -b apps/api && node --disable-warning=ExperimentalWarning scripts/diccionario-datos.js",
     "benchmark": "node --disable-warning=ExperimentalWarning benchmark/run.ts"
   },
   "devDependencies": {

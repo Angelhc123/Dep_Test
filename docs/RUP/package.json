@@ -1,0 +1,11 @@
+{
+  "name": "depscan-docs-rup",
+  "private": true,
+  "description": "Generadores de los documentos RUP (FD01-FD06) en formato .docx",
+  "scripts": {
+    "docs": "node fd01.js && node fd02.js && node fd03.js && node fd04.js && node fd05.js && node fd06.js"
+  },
+  "dependencies": {
+    "docx": "^9.11.0"
+  }
+}

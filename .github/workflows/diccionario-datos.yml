@@ -1,0 +1,47 @@
+name: Diccionario de datos
+
+# Regenera docs/DICCIONARIO_DATOS.md desde el esquema real de SQLite y lo commitea si cambió.
+on:
+  push:
+    branches: [main]
+    paths:
+      - apps/api/src/db.ts
+      - scripts/diccionario-datos.js
+      - .github/workflows/diccionario-datos.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: diccionario-datos
+  cancel-in-progress: true
+
+jobs:
+  generar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Generar diccionario
+        run: npm run docs:datos
+      - name: Publicar como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: diccionario-datos
+          path: docs/DICCIONARIO_DATOS.md
+      - name: Commitear si cambió
+        run: |
+          if git diff --quiet -- docs/DICCIONARIO_DATOS.md && git ls-files --error-unmatch docs/DICCIONARIO_DATOS.md >/dev/null 2>&1; then
+            echo "Sin cambios en el diccionario."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add docs/DICCIONARIO_DATOS.md
+          git commit -m "docs: actualizar diccionario de datos"
+          git push
