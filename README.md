@@ -50,11 +50,15 @@ npm run scan -- --help
 ## Pruebas y calidad
 
 ```bash
-npm test           # Vitest: core, API y CLI, sin internet
+npm test             # Vitest: core, API y CLI, sin internet
+npm run test:coverage  # + reporte de cobertura (gate interno ≥80%)
 npm run typecheck
 npm run lint
-npm run benchmark  # depscan vs npm audit vs osv-scanner en repos fijados por commit
+npm run benchmark    # depscan vs npm audit vs osv-scanner en repos fijados por commit
 ```
+
+CI aplica además SonarCloud, Snyk, Semgrep y análisis estático del `Dockerfile`, y publica un panel
+de cobertura/calidad en GitHub Pages. Ver [docs/CALIDAD.md](docs/CALIDAD.md).
 
 ## Estructura
 

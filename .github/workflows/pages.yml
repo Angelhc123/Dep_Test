@@ -1,0 +1,53 @@
+name: GitHub Pages
+
+# Publica un panel de calidad de DepScan: cobertura de tests (vitest) y el
+# reporte del propio escaneo de dependencias, con enlaces a los resultados de
+# SonarCloud / Snyk / Semgrep / Hadolint (pestaña Security del repo).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Tests con cobertura
+        run: npm run test:coverage
+      - name: Reporte de depscan sobre este repo
+        run: node apps/cli/dist/index.js . --format html --output site/depscan-report.html
+        continue-on-error: true
+      - name: Ensamblar sitio
+        run: |
+          mkdir -p site/coverage
+          cp -r coverage/* site/coverage/ 2>/dev/null || true
+          node scripts/pages-index.js > site/index.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

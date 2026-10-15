@@ -20,6 +20,7 @@
     "scan": "node apps/cli/dist/index.js",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint .",
     "format": "prettier --write .",
     "docs:datos": "tsc -b apps/api && node --disable-warning=ExperimentalWarning scripts/diccionario-datos.js",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@eslint/js": "^9.30.0",
     "@types/node": "^24.0.0",
+    "@vitest/coverage-v8": "^4.1.11",
     "concurrently": "^9.2.0",
     "eslint": "^9.30.0",
     "eslint-plugin-react-hooks": "^5.2.0",
