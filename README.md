@@ -50,7 +50,7 @@ npm run scan -- --help
 ## Pruebas y calidad
 
 ```bash
-npm test             # Vitest: core, API y CLI, sin internet
+npm test             # Vitest: core y API, sin internet
 npm run test:coverage  # + reporte de cobertura (gate interno ≥80%)
 npm run typecheck
 npm run lint
