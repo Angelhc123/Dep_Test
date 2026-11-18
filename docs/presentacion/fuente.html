@@ -114,6 +114,44 @@ th.us { color: var(--accent); }
 .hide-sm { }
 @media (max-width: 600px) { .hide-sm { display: none; } }
 
+/* diagramas SVG */
+.dg { width: 100%; height: 100%; display: block; overflow: visible; }
+.dg text { font-family: Inter, system-ui, sans-serif; fill: var(--ink); }
+.dg .t { font-size: 16px; font-weight: 700; }
+.dg .s { font-size: 13px; fill: var(--muted); }
+.dg .m { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11.5px; fill: var(--accent); }
+.dg .k { font-size: 11px; font-weight: 700; letter-spacing: .12em; fill: var(--muted); }
+.dg .ka { font-size: 11px; font-weight: 700; letter-spacing: .12em; fill: var(--accent); }
+.dg .lb { font-size: 12px; fill: var(--muted); paint-order: stroke; stroke: var(--slide); stroke-width: 5px; stroke-linejoin: round; }
+.dg .bx { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.dg .bxa { fill: color-mix(in srgb, var(--accent) 9%, var(--slide)); stroke: var(--accent); stroke-width: 2; }
+.dg .ctr { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 7 5; }
+.dg .ln { fill: none; stroke: var(--muted); stroke-width: 1.6; }
+.dg .lna { fill: none; stroke: var(--accent); stroke-width: 1.8; }
+.dg .dash { stroke-dasharray: 5 4; }
+.dg .life { stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.dg .ah { fill: var(--muted); }
+.dg .aha { fill: var(--accent); }
+.dg .ahopen { fill: none; stroke: var(--muted); stroke-width: 1.4; }
+.dg .gen { fill: var(--slide); stroke: var(--muted); stroke-width: 1.4; }
+.dg .actor { fill: none; stroke: var(--ink); stroke-width: 1.8; }
+.dg .uc { fill: var(--card); stroke: var(--accent); stroke-width: 1.5; }
+.dg .num { font-size: 11px; font-weight: 700; fill: var(--slide); }
+.dg .numbg { fill: var(--accent); }
+
+/* semáforo de pilares */
+.pillar { border-top: 6px solid; }
+.pillar.r { border-top-color: var(--red); } .pillar.a { border-top-color: var(--amber); } .pillar.g { border-top-color: var(--green); }
+.strip { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.strip span { background: var(--code); border-radius: 999px; padding: 6px 14px; font-size: 15px; font-weight: 600; }
+
+/* matriz de versiones */
+table.vm td, table.vm th { text-align: center; }
+table.vm td:first-child, table.vm th:first-child { text-align: left; }
+.cell-r { background: color-mix(in srgb, var(--red) 16%, transparent); color: var(--red); font-weight: 700; }
+.cell-g { background: color-mix(in srgb, var(--green) 16%, transparent); color: var(--green); font-weight: 700; }
+.ok { color: var(--green); font-weight: 700; }
+
 @media print {
   @page { size: 1280px 720px; margin: 0; }
   body { overflow: visible; background: none; }
@@ -126,19 +164,21 @@ th.us { color: var(--accent); }
 <body>
 <div id="stage">
 
-<!-- 1 -->
+<!-- 1 · Portada -->
 <section class="slide cover">
   <div class="biglogo"><i></i><i></i><i></i></div>
   <h1>DepScan</h1>
   <p class="sub">Sistema web de detección y remediación de dependencias vulnerables para proyectos npm y PyPI</p>
   <div class="meta">
-    <div><b>Autor:</b> Angel Gadiel Hernández Cruz</div>
-    <div><b>Universidad Privada de Tacna</b> · Escuela Profesional de Ingeniería de Sistemas</div>
-    <div>Tacna – Perú · 2026</div>
+    <div><b>Autores:</b></div>
+    <div>Angel Gadiel Hernández Cruz</div>
+    <div>Richard Alexis Podestá Condori</div>
+    <div>Gustavo Alonso Sagua Ramos</div>
+    <div style="margin-top:10px"><b>Universidad Privada de Tacna</b> · Escuela Profesional de Ingeniería de Sistemas · Tacna – Perú · 2026</div>
   </div>
 </section>
 
-<!-- 2 -->
+<!-- 2 · Problema -->
 <section class="slide">
   <div class="kicker">El problema</div>
   <h2>El código que no escribimos también nos puede atacar</h2>
@@ -153,14 +193,14 @@ th.us { color: var(--accent); }
     <div class="grid2" style="align-content:start">
       <div class="card"><div class="big">1091</div><p class="muted">dependencias en OWASP NodeGoat</p></div>
       <div class="card"><div class="big amber">97 %</div><p class="muted">son transitivas (1055)<br>no aparecen en <code>package.json</code></p></div>
-      <div class="card"><div class="big red">133</div><p class="muted">de ellas son vulnerables</p></div>
+      <div class="card"><div class="big red">133</div><p class="muted">paquetes vulnerables</p></div>
       <div class="card"><div class="big red">20</div><p class="muted">fallas críticas</p></div>
       <p class="small muted" style="grid-column:1/-1">Fuente: escaneo propio con DepScan en producción, commit <code>c5cb68a7</code>, 14/10/2026.</p>
     </div>
   </div>
 </section>
 
-<!-- 3 -->
+<!-- 3 · Antecedentes -->
 <section class="slide">
   <div class="kicker">Antecedentes</div>
   <h2>No es un riesgo teórico</h2>
@@ -187,7 +227,26 @@ th.us { color: var(--accent); }
   </div>
 </section>
 
-<!-- 4 -->
+<!-- 4 · Nuestra solución -->
+<section class="slide">
+  <div class="kicker">Nuestra solución</div>
+  <h2>DepScan: de la lista de librerías a la solución</h2>
+  <div class="body">
+    <div class="card" style="border-left:4px solid var(--accent); margin-bottom:22px">
+      <p>Le das tu proyecto —archivos, una carpeta o un repositorio de GitHub— y en segundos te dice <b>qué librerías tienen fallas conocidas</b>, <b>cuáles atender primero</b> y <b>exactamente qué versión instalar</b>.</p>
+    </div>
+    <div class="grid3">
+      <div class="card pillar r"><h3>1 · Detectar</h3><p>Lee los manifiestos, resuelve la <b>versión exacta</b> de cada dependencia —también las transitivas— y la cruza con OSV y NVD.</p></div>
+      <div class="card pillar a"><h3>2 · Priorizar</h3><p>Une los avisos repetidos (CVE, GHSA, PYSEC), ordena por severidad y resume el proyecto en un <b>semáforo</b>.</p></div>
+      <div class="card pillar g"><h3>3 · Corregir</h3><p>Recomienda una versión <b>verificada contra todos los avisos</b>, con comandos listos y mitigaciones si no se puede actualizar.</p></div>
+    </div>
+    <div class="strip">
+      <span>Web en español</span><span>npm y PyPI en un solo análisis</span><span>Repos de GitHub por commit</span><span>Reportes HTML y PDF</span><span>Historial y comparación</span><span>CLI para CI</span><span>Gratis y en línea</span>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · Objetivo -->
 <section class="slide">
   <div class="kicker">Objetivo</div>
   <h2>Detectar, priorizar y decir cómo corregir</h2>
@@ -197,20 +256,20 @@ th.us { color: var(--accent); }
     </div>
     <div class="grid2">
       <ul class="list">
-        <li>Leer <code>package.json</code>, <code>package-lock.json</code> y <code>requirements.txt</code> y obtener la <b>versión exacta</b> de cada dependencia directa y transitiva.</li>
-        <li>Consultar <b>OSV</b> en lote y enriquecer con <b>NVD</b> (CVSS oficial).</li>
-        <li>Aplicar <b>lógica propia</b>: deduplicación CVE/GHSA/PYSEC, prioridad y semáforo de riesgo.</li>
+        <li><b>OE1.</b> Leer <code>package.json</code>, <code>package-lock.json</code> y <code>requirements.txt</code> y obtener la <b>versión exacta</b> de cada dependencia directa y transitiva.</li>
+        <li><b>OE2.</b> Consultar <b>OSV</b> en lote y enriquecer con <b>NVD</b> (CVSS oficial).</li>
+        <li><b>OE3.</b> Aplicar <b>lógica propia</b>: deduplicación CVE/GHSA/PYSEC, prioridad y semáforo de riesgo.</li>
       </ul>
       <ul class="list">
-        <li>Recomendar la <b>versión segura</b> verificada contra todos los avisos del paquete.</li>
-        <li>Ofrecer web, reportes <b>HTML/PDF</b>, historial, login y <b>CLI para CI</b>.</li>
-        <li><b>Medir</b> los resultados contra herramientas existentes con un benchmark reproducible.</li>
+        <li><b>OE4.</b> Recomendar la <b>versión segura</b> verificada contra todos los avisos del paquete.</li>
+        <li><b>OE5.</b> Ofrecer web, reportes <b>HTML/PDF</b>, historial, inicio de sesión y <b>CLI para CI</b>.</li>
+        <li><b>OE6.</b> <b>Medir</b> los resultados contra herramientas existentes con un benchmark reproducible.</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- 5 -->
+<!-- 6 · Alcance -->
 <section class="slide">
   <div class="kicker">Alcance</div>
   <h2>Qué hace y qué no hace</h2>
@@ -239,9 +298,201 @@ th.us { color: var(--accent); }
   </div>
 </section>
 
-<!-- 6 -->
+<!-- 7 · Casos de uso -->
 <section class="slide">
-  <div class="kicker">Cómo funciona</div>
+  <div class="kicker">Casos de uso · FD03</div>
+  <h2 style="margin-bottom:12px">Quién usa DepScan y para qué</h2>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1136 500" role="img" aria-label="Diagrama de casos de uso de DepScan">
+      <defs>
+        <marker id="uc-open" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path class="ahopen" d="M0,0 L10,5 L0,10"/></marker>
+        <marker id="uc-gen" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="14" markerHeight="14" orient="auto"><path class="gen" d="M0,0 L12,6 L0,12 z"/></marker>
+      </defs>
+      <!-- frontera del sistema -->
+      <rect x="200" y="6" width="740" height="488" rx="18" class="ctr" style="stroke-dasharray:none"/>
+      <text x="222" y="32" class="ka">SISTEMA DEPSCAN</text>
+
+      <!-- actores izquierda -->
+      <g transform="translate(80,130)">
+        <circle cx="0" cy="-34" r="12" class="actor"/><path class="actor" d="M0,-22 V8 M-20,-10 H20 M0,8 L-16,34 M0,8 L16,34"/>
+        <text y="56" text-anchor="middle" class="t" style="font-size:15px">Visitante</text>
+      </g>
+      <g transform="translate(80,390)">
+        <circle cx="0" cy="-34" r="12" class="actor"/><path class="actor" d="M0,-22 V8 M-20,-10 H20 M0,8 L-16,34 M0,8 L16,34"/>
+        <text y="56" text-anchor="middle" class="t" style="font-size:15px">Usuario</text>
+        <text y="74" text-anchor="middle" class="t" style="font-size:15px">registrado</text>
+      </g>
+      <path class="ln" d="M80,340 V200" marker-end="url(#uc-gen)"/>
+      <text x="90" y="275" class="lb">hereda</text>
+
+      <!-- actores derecha -->
+      <g transform="translate(1050,90)">
+        <circle cx="0" cy="-34" r="12" class="actor"/><path class="actor" d="M0,-22 V8 M-20,-10 H20 M0,8 L-16,34 M0,8 L16,34"/>
+        <text y="56" text-anchor="middle" class="t" style="font-size:15px">Docente</text>
+      </g>
+      <g transform="translate(1050,370)">
+        <circle cx="0" cy="-34" r="12" class="actor"/><path class="actor" d="M0,-22 V8 M-20,-10 H20 M0,8 L-16,34 M0,8 L16,34"/>
+        <text y="56" text-anchor="middle" class="t" style="font-size:15px">Revisión</text>
+        <text y="74" text-anchor="middle" class="t" style="font-size:15px">automática (CI)</text>
+      </g>
+
+      <!-- asociaciones -->
+      <path class="ln" d="M104,112 L270,64"/>
+      <path class="ln" d="M104,124 L270,140"/>
+      <path class="ln" d="M104,138 L276,300"/>
+      <path class="ln" d="M104,150 L282,372"/>
+      <path class="ln" d="M104,376 L278,224"/>
+      <path class="ln" d="M104,394 L276,456"/>
+      <path class="ln" d="M1026,70 L880,60"/>
+      <path class="ln" d="M1026,350 L880,386"/>
+
+      <!-- columna A -->
+      <ellipse cx="390" cy="60" rx="120" ry="26" class="uc"/><text x="390" y="65" text-anchor="middle" style="font-size:14px">CU-01 · Subir archivos</text>
+      <ellipse cx="390" cy="140" rx="120" ry="26" class="uc"/><text x="390" y="145" text-anchor="middle" style="font-size:14px">CU-02 · Repo de GitHub</text>
+      <ellipse cx="390" cy="220" rx="120" ry="26" class="uc"/><text x="390" y="225" text-anchor="middle" style="font-size:14px">CU-07 · Mis repositorios</text>
+      <ellipse cx="390" cy="300" rx="120" ry="26" class="uc"/><text x="390" y="305" text-anchor="middle" style="font-size:14px">CU-06 · Iniciar sesión</text>
+      <ellipse cx="390" cy="380" rx="120" ry="26" class="uc"/><text x="390" y="385" text-anchor="middle" style="font-size:14px">CU-08 · Historial y comparar</text>
+      <ellipse cx="390" cy="458" rx="120" ry="26" class="uc"/><text x="390" y="463" text-anchor="middle" style="font-size:14px">CU-10 · Cerrar sesión</text>
+
+      <!-- columna B -->
+      <ellipse cx="760" cy="60" rx="120" ry="26" class="uc"/><text x="760" y="65" text-anchor="middle" style="font-size:14px">CU-05 · Descargar informe</text>
+      <ellipse cx="760" cy="150" rx="120" ry="26" class="uc" style="stroke-width:2.5"/><text x="760" y="155" text-anchor="middle" style="font-size:14px; font-weight:700">CU-03 · Consultar resultado</text>
+      <ellipse cx="760" cy="240" rx="120" ry="26" class="uc"/><text x="760" y="245" text-anchor="middle" style="font-size:14px">CU-04 · Ver la solución</text>
+      <ellipse cx="760" cy="386" rx="120" ry="26" class="uc"/><text x="760" y="391" text-anchor="middle" style="font-size:14px">CU-09 · Revisión automática</text>
+
+      <!-- include / extend -->
+      <path class="ln dash" d="M505,70 L646,138" marker-end="url(#uc-open)"/>
+      <text x="575" y="92" text-anchor="middle" class="lb">«include»</text>
+      <path class="ln dash" d="M510,142 L640,148" marker-end="url(#uc-open)"/>
+      <text x="575" y="136" text-anchor="middle" class="lb">«include»</text>
+      <path class="ln dash" d="M390,194 V168" marker-end="url(#uc-open)"/>
+      <text x="400" y="186" class="lb">«include»</text>
+      <path class="ln dash" d="M760,214 V178" marker-end="url(#uc-open)"/>
+      <text x="770" y="200" class="lb">«extend»</text>
+      <path class="ln dash" d="M760,86 V122" marker-end="url(#uc-open)"/>
+      <text x="770" y="108" class="lb">«extend»</text>
+    </svg>
+  </div>
+  <p class="small muted" style="margin-top:6px">10 casos de uso, 20 requerimientos funcionales. Servicios de apoyo: bases de avisos (OSV/NVD), registros npm/PyPI, GitHub y Google.</p>
+</section>
+
+<!-- 8 · Caso de uso destacado -->
+<section class="slide">
+  <div class="kicker">Caso de uso destacado · CU-02</div>
+  <h2 style="margin-bottom:12px">Revisar un repositorio de GitHub, paso a paso</h2>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1136 500" role="img" aria-label="Diagrama de secuencia del caso de uso CU-02">
+      <defs>
+        <marker id="sq-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+        <marker id="sq-aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path class="aha" d="M0,0 L10,5 L0,10 z"/></marker>
+        <marker id="sq-o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path class="ahopen" d="M0,0 L10,5 L0,10"/></marker>
+      </defs>
+      <!-- participantes -->
+      <rect x="10" y="0" width="140" height="40" rx="8" class="bx"/><text x="80" y="25" text-anchor="middle" class="t" style="font-size:14px">Usuario</text>
+      <rect x="195" y="0" width="140" height="40" rx="8" class="bx"/><text x="265" y="25" text-anchor="middle" class="t" style="font-size:14px">Web (React)</text>
+      <rect x="380" y="0" width="140" height="40" rx="8" class="bx"/><text x="450" y="25" text-anchor="middle" class="t" style="font-size:14px">API (Fastify)</text>
+      <rect x="565" y="0" width="150" height="40" rx="8" class="bxa"/><text x="640" y="25" text-anchor="middle" class="t" style="font-size:14px">Motor (core)</text>
+      <rect x="770" y="0" width="140" height="40" rx="8" class="bx"/><text x="840" y="25" text-anchor="middle" class="t" style="font-size:14px">GitHub</text>
+      <rect x="976" y="0" width="140" height="40" rx="8" class="bx"/><text x="1046" y="25" text-anchor="middle" class="t" style="font-size:14px">OSV</text>
+      <path class="life" d="M80,40 V500 M265,40 V500 M450,40 V500 M640,40 V500 M840,40 V500 M1046,40 V500"/>
+
+      <!-- mensajes -->
+      <path class="ln" d="M80,76 H263" marker-end="url(#sq-a)"/><text x="172" y="69" text-anchor="middle" class="lb">1 · pega owner/repo</text>
+      <path class="ln" d="M265,110 H448" marker-end="url(#sq-a)"/><text x="357" y="103" text-anchor="middle" class="lb">2 · POST /api/scans</text>
+      <path class="ln" d="M450,144 H838" marker-end="url(#sq-a)"/><text x="645" y="137" text-anchor="middle" class="lb">3 · rama → commit exacto (SHA)</text>
+      <path class="ln dash" d="M840,178 H452" marker-end="url(#sq-o)"/><text x="645" y="171" text-anchor="middle" class="lb">4 · SHA + solo los manifiestos (máx. 100)</text>
+      <path class="lna" d="M450,212 H638" marker-end="url(#sq-aa)"/><text x="545" y="205" text-anchor="middle" class="lb">5 · scanProject()</text>
+      <path class="lna" d="M640,238 h44 v22 h-42" marker-end="url(#sq-aa)"/><text x="694" y="254" class="lb">6 · parsea y resuelve versión exacta</text>
+      <path class="lna" d="M640,292 H1044" marker-end="url(#sq-aa)"/><text x="843" y="285" text-anchor="middle" class="lb">7 · querybatch (hasta 1000 paquetes por lote)</text>
+      <path class="ln dash" d="M1046,326 H642" marker-end="url(#sq-o)"/><text x="843" y="319" text-anchor="middle" class="lb">8 · avisos de cada versión</text>
+      <path class="lna" d="M640,352 h44 v22 h-42" marker-end="url(#sq-aa)"/><text x="694" y="368" class="lb">9 · deduplica, prioriza, calcula versión segura</text>
+      <path class="ln dash" d="M640,408 H452" marker-end="url(#sq-o)"/><text x="545" y="401" text-anchor="middle" class="lb">10 · ScanReport</text>
+      <path class="ln dash" d="M450,442 H267" marker-end="url(#sq-o)"/><text x="357" y="435" text-anchor="middle" class="lb">11 · 201 + reporte guardado</text>
+      <path class="ln dash" d="M265,476 H82" marker-end="url(#sq-o)"/><text x="172" y="469" text-anchor="middle" class="lb">12 · semáforo + solución</text>
+    </svg>
+  </div>
+  <p class="small muted" style="margin-top:6px">Analizar un <b>commit exacto</b> hace que el resultado sea reproducible: el mismo repo da el mismo reporte aunque luego cambie.</p>
+</section>
+
+<!-- 9 · Mapa de arquitectura -->
+<section class="slide">
+  <div class="kicker">Arquitectura · FD04</div>
+  <h2 style="margin-bottom:12px">Mapa del sistema: cómo encaja cada pieza</h2>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1136 520" role="img" aria-label="Mapa de arquitectura de DepScan">
+      <defs>
+        <marker id="ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+        <marker id="ar-aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path class="aha" d="M0,0 L10,5 L0,10 z"/></marker>
+      </defs>
+
+      <!-- clientes -->
+      <rect x="40" y="0" width="220" height="58" rx="10" class="bx"/>
+      <text x="150" y="25" text-anchor="middle" class="t">Desarrollador</text>
+      <text x="150" y="44" text-anchor="middle" class="s">navegador web</text>
+      <rect x="440" y="0" width="240" height="58" rx="10" class="bx"/>
+      <text x="560" y="25" text-anchor="middle" class="t">Pipeline de CI</text>
+      <text x="560" y="44" text-anchor="middle" class="s">GitHub Actions + CLI depscan</text>
+
+      <!-- contenedor Railway -->
+      <rect x="0" y="92" width="790" height="426" rx="18" class="ctr"/>
+      <text x="22" y="118" class="k">RAILWAY · CONTENEDOR DOCKER · NODE 24 · UN SOLO SERVICIO</text>
+
+      <rect x="40" y="140" width="220" height="62" rx="10" class="bx"/>
+      <text x="150" y="166" text-anchor="middle" class="t">Web · React 19</text>
+      <text x="150" y="186" text-anchor="middle" class="m">apps/web</text>
+
+      <rect x="40" y="270" width="220" height="62" rx="10" class="bx"/>
+      <text x="150" y="296" text-anchor="middle" class="t">API REST · Fastify 5</text>
+      <text x="150" y="316" text-anchor="middle" class="m">apps/api · sesiones · PDF</text>
+
+      <!-- SQLite (cilindro) -->
+      <path class="bx" d="M40,420 v62 a110,14 0 0 0 220,0 v-62"/>
+      <ellipse cx="150" cy="420" rx="110" ry="14" class="bx"/>
+      <text x="150" y="456" text-anchor="middle" class="t">SQLite · volumen /data</text>
+      <text x="150" y="476" text-anchor="middle" class="s">historial · usuarios · caché 24 h</text>
+
+      <!-- núcleo hexagonal -->
+      <polygon points="470,170 650,170 740,300 650,430 470,430 380,300" class="bxa"/>
+      <text x="560" y="210" text-anchor="middle" class="ka">NÚCLEO HEXAGONAL</text>
+      <text x="560" y="236" text-anchor="middle" class="t" style="font-size:19px">@depscan/core</text>
+      <text x="560" y="266" text-anchor="middle" style="font-size:14px">Parsers npm · PyPI</text>
+      <text x="560" y="290" text-anchor="middle" style="font-size:14px">Resolver de versión exacta</text>
+      <text x="560" y="314" text-anchor="middle" style="font-size:14px">Comparadores semver · PEP 440</text>
+      <text x="560" y="338" text-anchor="middle" style="font-size:14px">Deduplicación y prioridad</text>
+      <text x="560" y="362" text-anchor="middle" style="font-size:14px">Remediación verificada</text>
+      <text x="560" y="392" text-anchor="middle" class="s">sin dependencias de runtime</text>
+
+      <!-- flechas internas -->
+      <path class="ln" d="M150,58 V138" marker-end="url(#ar-a)"/><text x="160" y="80" class="lb">HTTPS</text>
+      <path class="ln" d="M150,202 V268" marker-end="url(#ar-a)"/><text x="160" y="240" class="lb">JSON</text>
+      <path class="lna" d="M260,300 H378" marker-end="url(#ar-aa)"/><text x="319" y="292" text-anchor="middle" class="lb">scanProject()</text>
+      <path class="ln" d="M150,332 V404" marker-end="url(#ar-a)"/><text x="160" y="372" class="lb">escaneos y sesiones</text>
+      <path class="ln" d="M443,391 L262,448" marker-end="url(#ar-a)"/><text x="352" y="408" text-anchor="middle" class="lb">puerto Cache</text>
+      <path class="lna" d="M560,58 V168" marker-end="url(#ar-aa)"/><text x="572" y="130" class="lb">mismo motor, como librería</text>
+
+      <!-- servicios externos -->
+      <text x="850" y="118" class="k">SERVICIOS EXTERNOS · HTTPS</text>
+      <rect x="850" y="130" width="286" height="76" rx="10" class="bx"/>
+      <text x="866" y="156" class="t">OSV · Google</text><text x="866" y="175" class="s">avisos de vulnerabilidades</text><text x="866" y="194" class="m">OsvClient → VulnSource</text>
+      <rect x="850" y="226" width="286" height="76" rx="10" class="bx"/>
+      <text x="866" y="252" class="t">NVD · NIST</text><text x="866" y="271" class="s">CVSS oficial por CVE</text><text x="866" y="290" class="m">NvdClient → CveEnricher</text>
+      <rect x="850" y="322" width="286" height="76" rx="10" class="bx"/>
+      <text x="866" y="348" class="t">Registros npm y PyPI</text><text x="866" y="367" class="s">versiones publicadas</text><text x="866" y="386" class="m">RegistryClient → RegistrySource</text>
+      <rect x="850" y="418" width="286" height="76" rx="10" class="bx"/>
+      <text x="866" y="444" class="t">GitHub</text><text x="866" y="463" class="s">repos por commit · inicio de sesión</text><text x="866" y="482" class="m">github-source</text>
+
+      <path class="ln" d="M740,300 L848,168" marker-end="url(#ar-a)"/>
+      <path class="ln" d="M740,300 L848,264" marker-end="url(#ar-a)"/>
+      <path class="ln" d="M740,300 L848,360" marker-end="url(#ar-a)"/>
+      <path class="ln" d="M740,300 L848,456" marker-end="url(#ar-a)"/>
+    </svg>
+  </div>
+  <p class="small muted" style="margin-top:6px">El núcleo define <b>puertos</b> (interfaces) y los <b>adaptadores</b> los cumplen: se puede cambiar la fuente de datos sin tocar la lógica. Web, API y CLI usan el mismo motor.</p>
+</section>
+
+<!-- 10 · Pipeline -->
+<section class="slide">
+  <div class="kicker">Dentro del motor</div>
   <h2>Un escaneo en 7 pasos</h2>
   <div class="body">
     <div class="pipe">
@@ -260,7 +511,30 @@ th.us { color: var(--accent); }
   </div>
 </section>
 
-<!-- 7 -->
+<!-- 11 · Remediación verificada -->
+<section class="slide">
+  <div class="kicker">Nuestra diferencia</div>
+  <h2>Remediación verificada: la "versión corregida" no siempre es segura</h2>
+  <div class="body" style="display:grid; grid-template-columns: 1.5fr 1fr; gap:28px; align-items:start">
+    <div>
+      <table class="vm small">
+        <tr><th>Aviso de Log4j</th><th>2.14.1<br><span style="text-transform:none">actual</span></th><th>2.15.0</th><th>2.16.0</th><th>2.17.0</th><th>2.17.1</th></tr>
+        <tr><td><code>CVE-2021-44228</code></td><td class="cell-r">✕</td><td class="cell-g">✓</td><td class="cell-g">✓</td><td class="cell-g">✓</td><td class="cell-g">✓</td></tr>
+        <tr><td><code>CVE-2021-45046</code></td><td class="cell-r">✕</td><td class="cell-r">✕</td><td class="cell-g">✓</td><td class="cell-g">✓</td><td class="cell-g">✓</td></tr>
+        <tr><td><code>CVE-2021-45105</code></td><td class="cell-r">✕</td><td class="cell-r">✕</td><td class="cell-r">✕</td><td class="cell-g">✓</td><td class="cell-g">✓</td></tr>
+        <tr><td><code>CVE-2021-44832</code></td><td class="cell-r">✕</td><td class="cell-r">✕</td><td class="cell-r">✕</td><td class="cell-r">✕</td><td class="cell-g">✓</td></tr>
+        <tr><td><b>¿Segura?</b></td><td>No</td><td>No</td><td>No</td><td>No</td><td class="ok">Sí</td></tr>
+      </table>
+      <p class="small muted" style="margin-top:10px">Ejemplo ilustrativo con Log4j (Java). DepScan aplica la misma regla en npm y PyPI.</p>
+    </div>
+    <div style="display:grid; gap:16px">
+      <div class="card"><h3>Enfoque habitual</h3><p>"Actualiza a la versión corregida del aviso": <b>2.15.0</b>… que sigue siendo vulnerable a otras tres fallas.</p></div>
+      <div class="card" style="border-left:4px solid var(--accent)"><h3>DepScan</h3><p>Evalúa cada versión candidata contra <b>todos</b> los avisos del paquete y recomienda <b class="green">2.17.1</b>, con comandos y mitigaciones.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · Tecnología -->
 <section class="slide">
   <div class="kicker">Tecnología</div>
   <h2>Un solo lenguaje de punta a punta: TypeScript</h2>
@@ -268,18 +542,17 @@ th.us { color: var(--accent); }
     <table>
       <tr><th>Capa</th><th>Tecnología</th><th>Para qué</th></tr>
       <tr><td><b>Frontend</b></td><td>React 19 + Vite + Tailwind CSS</td><td>Interfaz web, TanStack Query para datos y Recharts para gráficas.</td></tr>
-      <tr><td><b>Backend</b></td><td>Node.js 24 + Fastify 5</td><td>API REST con validación por esquemas, rate limit y cookies seguras.</td></tr>
+      <tr><td><b>Backend</b></td><td>Node.js 24 + Fastify 5</td><td>API REST con validación por esquemas.</td></tr>
       <tr><td><b>Motor</b></td><td>Librería propia <code>@depscan/core</code></td><td>Toda la lógica del escáner, sin dependencias de runtime.</td></tr>
       <tr><td><b>Base de datos</b></td><td>SQLite nativo (<code>node:sqlite</code>)</td><td>Historial, usuarios, sesiones y caché de consultas.</td></tr>
       <tr><td><b>Reportes</b></td><td>HTML propio + pdfkit</td><td>Reportes descargables generados en el servidor.</td></tr>
       <tr><td><b>CLI</b></td><td><code>node:util parseArgs</code></td><td>Uso en terminal y en pipelines de CI.</td></tr>
-      <tr><td><b>Calidad</b></td><td>Vitest 4 · ESLint · Prettier · GitHub Actions</td><td>97 pruebas automatizadas, lint y tipado en cada push.</td></tr>
       <tr><td><b>Despliegue</b></td><td>Docker + Railway (volumen persistente)</td><td>Un solo servicio que sirve la API y la web.</td></tr>
     </table>
   </div>
 </section>
 
-<!-- 8 -->
+<!-- 13 · Decisiones -->
 <section class="slide">
   <div class="kicker">Decisiones</div>
   <h2>¿Por qué esta tecnología y no otra?</h2>
@@ -287,80 +560,18 @@ th.us { color: var(--accent); }
     <table class="small">
       <tr><th style="width:22%">Elegido</th><th style="width:24%">Descartado</th><th>Razón</th></tr>
       <tr><td><b>TypeScript en todo</b></td><td>Python / Java / .NET</td><td>Tipos compartidos entre web, API y motor sin duplicar modelos. Java y .NET dependen de IDEs pesados; la restricción era solo VS Code.</td></tr>
+      <tr><td><b>Arquitectura hexagonal</b></td><td>Capas tradicionales (MVC)</td><td>El motor no depende de la web ni de la base de datos: se reutiliza en web, API y CLI.</td></tr>
       <tr><td><b>Fastify</b></td><td>Express / NestJS</td><td>Más moderno y con validación por esquemas que Express; mucho más ligero que NestJS.</td></tr>
       <tr><td><b>SQLite nativo</b></td><td>PostgreSQL</td><td>Sin servidor de BD que instalar ni pagar; suficiente para historial y caché con una réplica.</td></tr>
       <tr><td><b>OSV como fuente principal</b></td><td>NVD por nombre</td><td>NVD tiene mala cobertura de paquetes npm y limita a 5 consultas cada 30 s; OSV acepta lotes de 1000.</td></tr>
-      <tr><td><b>Comparadores propios</b></td><td>Librería <code>semver</code></td><td>Es la parte evaluable del proyecto; se valida con pruebas y cubre también PEP 440 (Python).</td></tr>
-      <tr><td><b>OAuth propio</b></td><td>Passport / Auth.js</td><td>Dos proveedores no justifican otra dependencia; control total de la seguridad.</td></tr>
+      <tr><td><b>Comparadores propios</b></td><td>Librería <code>semver</code></td><td>Es la parte evaluable del proyecto y cubre también PEP 440 (Python).</td></tr>
       <tr><td><b>Un servicio en Railway</b></td><td>Web y API separadas</td><td>Un dominio, sin CORS, un solo despliegue y menor costo.</td></tr>
       <tr><td><b>pdfkit</b></td><td>Chrome headless</td><td>Sin navegador dentro del contenedor: imagen más liviana.</td></tr>
     </table>
   </div>
 </section>
 
-<!-- 9 -->
-<section class="slide">
-  <div class="kicker">Arquitectura</div>
-  <h2>Monorepo con arquitectura hexagonal en el motor</h2>
-  <div class="body arch">
-    <div class="layer">
-      <span>Entradas</span>
-      <div class="box"><b>Web</b><small>React 19 · <code>apps/web</code></small></div>
-      <div class="box"><b>API REST</b><small>Fastify · <code>apps/api</code></small></div>
-      <div class="box"><b>CLI</b><small>Para CI · <code>apps/cli</code></small></div>
-      <div class="box"><b>SQLite</b><small>Historial, usuarios, caché</small></div>
-    </div>
-    <div class="layer core">
-      <span class="acc">Núcleo · packages/core (no conoce HTTP, BD ni React)</span>
-      <div class="grid2" style="gap:10px">
-        <div class="box"><b>Parsers</b><small>npm y PyPI</small></div>
-        <div class="box"><b>Resolver</b><small>versión exacta</small></div>
-        <div class="box"><b>Analizador</b><small>dedupe · prioridad</small></div>
-        <div class="box"><b>Remediación</b><small>versiones seguras · CWE</small></div>
-        <div class="box"><b>Comparadores</b><small>semver · PEP 440</small></div>
-        <div class="box"><b>Reportes</b><small>JSON · HTML</small></div>
-      </div>
-      <div class="box" style="border-left-style:dashed"><b>Puertos (interfaces)</b><small>VulnSource · CveEnricher · RegistrySource · Cache — se simulan en las pruebas</small></div>
-    </div>
-    <div class="layer">
-      <span>Adaptadores externos</span>
-      <div class="box"><b>OSV</b><small>api.osv.dev</small></div>
-      <div class="box"><b>NVD</b><small>services.nvd.nist.gov</small></div>
-      <div class="box"><b>Registros</b><small>npmjs.org · pypi.org</small></div>
-      <div class="box"><b>GitHub</b><small>repos y OAuth</small></div>
-    </div>
-  </div>
-  <p class="small muted" style="margin-top:14px">Patrones: puertos y adaptadores, repositorio, estrategia (por ecosistema), fachada (<code>scanProject</code>) y pipeline. Web, API y CLI usan el mismo núcleo.</p>
-</section>
-
-<!-- 10 -->
-<section class="slide">
-  <div class="kicker">Despliegue</div>
-  <h2>De un push a producción</h2>
-  <div class="body grid3">
-    <div class="card">
-      <span class="pill">1 · GitHub</span>
-      <h3 style="margin-top:10px">Código</h3>
-      <p>Monorepo con npm workspaces. Cada push a <code>main</code> dispara la integración continua.</p>
-    </div>
-    <div class="card">
-      <span class="pill">2 · GitHub Actions</span>
-      <h3 style="margin-top:10px">Calidad</h3>
-      <p>Lint, tipado, 97 pruebas, build y <b>DepScan se escanea a sí mismo</b>: falla si hay vulnerabilidades altas. Otro workflow regenera el diccionario de datos.</p>
-    </div>
-    <div class="card">
-      <span class="pill">3 · Railway</span>
-      <h3 style="margin-top:10px">Producción</h3>
-      <p>Imagen Docker multi-etapa, un servicio, SQLite en volumen <code>/data</code>, healthcheck en <code>/api/health</code> y reinicio automático.</p>
-    </div>
-    <div class="card" style="grid-column:1/-1; display:flex; align-items:center; gap:18px">
-      <div class="big green" style="font-size:34px">En línea</div>
-      <p class="mono" style="font-size:18px">deptest-production-7f98.up.railway.app</p>
-    </div>
-  </div>
-</section>
-
-<!-- 11 -->
+<!-- 14 · App: inicio -->
 <section class="slide">
   <div class="kicker">La aplicación</div>
   <h2>Escanear es arrastrar una carpeta o pegar un repo</h2>
@@ -371,12 +582,12 @@ th.us { color: var(--accent); }
       <li><b>Repositorio de GitHub:</b> se analiza un commit exacto, así el resultado es reproducible.</li>
       <li><b>Mis repos de GitHub:</b> con la cuenta conectada, se listan también los privados.</li>
       <li><b>Opciones:</b> incluir dependencias de desarrollo, estimar sin lockfile y CVSS oficial de NVD.</li>
-      <li><b>Login</b> con Google o GitHub; el escaneo anónimo pasa a la cuenta al iniciar sesión.</li>
+      <li><b>Inicio de sesión</b> con Google o GitHub; el escaneo anónimo pasa a la cuenta al iniciar sesión.</li>
     </ul>
   </div>
 </section>
 
-<!-- 12 -->
+<!-- 15 · App: resultado -->
 <section class="slide">
   <div class="kicker">La aplicación</div>
   <h2>El resultado: semáforo, severidades y cada hallazgo</h2>
@@ -392,7 +603,7 @@ th.us { color: var(--accent); }
   </div>
 </section>
 
-<!-- 13 -->
+<!-- 16 · App: solución -->
 <section class="slide">
   <div class="kicker">La aplicación</div>
   <h2>No solo dice qué está mal: dice cómo arreglarlo</h2>
@@ -407,29 +618,30 @@ th.us { color: var(--accent); }
   </div>
 </section>
 
-<!-- 14 -->
+<!-- 17 · Benchmark -->
 <section class="slide">
-  <div class="kicker">Resultados</div>
-  <h2>Benchmark: DepScan frente a <code style="font-size:.85em">npm audit</code></h2>
+  <div class="kicker">Validación</div>
+  <h2>Benchmark: ¿encuentra lo mismo que <code style="font-size:.85em">npm audit</code>?</h2>
   <div class="body">
+    <p class="small muted" style="margin-bottom:12px">Pasamos DepScan y <code>npm audit</code> sobre los mismos proyectos vulnerables a propósito, congelados en un commit, y cruzamos los resultados aviso por aviso. Se repite con <code>npm run benchmark</code>.</p>
     <table class="small">
-      <tr><th>Repositorio</th><th>Dependencias</th><th>DepScan</th><th>npm audit</th><th>En común</th><th>Solo DepScan</th><th>Solo audit</th></tr>
+      <tr><th>Repositorio</th><th>Dependencias</th><th>Avisos DepScan</th><th>Avisos npm audit</th><th>En común</th><th>Solo DepScan</th><th>Solo audit</th></tr>
       <tr><td>OWASP/NodeGoat</td><td>1091</td><td>193</td><td>197</td><td>193</td><td>0</td><td>0</td></tr>
       <tr><td>snyk-labs/nodejs-goof</td><td>980</td><td>228</td><td>232</td><td>228</td><td>0</td><td>0</td></tr>
       <tr><td>cr0hn/vulnerable-node</td><td>124</td><td>5</td><td>5</td><td>5</td><td>0</td><td>0</td></tr>
       <tr><td>adeyosemanputra/pygoat <span class="pill">PyPI</span></td><td>46</td><td>147</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
       <tr><td>anxolerd/dvpwa <span class="pill">PyPI</span></td><td>18</td><td>55</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
     </table>
-    <div class="grid3" style="margin-top:20px">
+    <div class="grid3" style="margin-top:18px">
       <div class="card"><div class="big green">0</div><p class="muted">fallas que encuentra <code>npm audit</code> y DepScan no</p></div>
-      <div class="card"><div class="big acc">4</div><p class="muted">avisos GHSA que comparten CVE: <code>npm audit</code> los repite y DepScan los une (por confirmar a mano)</p></div>
-      <div class="card"><div class="big">97</div><p class="muted">pruebas automatizadas en verde (motor y API)</p></div>
+      <div class="card"><div class="big acc">4</div><p class="muted">avisos GHSA que comparten CVE: <code>npm audit</code> los cuenta dos veces y DepScan los une</p></div>
+      <div class="card"><div class="big">7,2 s</div><p class="muted">para analizar las 1091 dependencias de NodeGoat</p></div>
     </div>
-    <p class="small muted" style="margin-top:12px">Repos fijados por commit, corrida del 13/10/2026. Las bases cambian a diario: los números valen para esa fecha. <code>npm audit</code> no analiza PyPI.</p>
+    <p class="small muted" style="margin-top:10px">Corrida del 13/10/2026; las bases cambian a diario. Un paquete puede tener varios avisos. <code>npm audit</code> no analiza PyPI.</p>
   </div>
 </section>
 
-<!-- 15 -->
+<!-- 18 · Comparación -->
 <section class="slide">
   <div class="kicker">Comparación</div>
   <h2>Frente a herramientas similares</h2>
@@ -440,48 +652,17 @@ th.us { color: var(--accent); }
       <tr><td>Interfaz web</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="y">Sí</td><td class="y">Sí</td></tr>
       <tr><td>En español</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="y">Sí</td></tr>
       <tr><td>Deduplica CVE / GHSA / PYSEC</td><td class="p">Parcial</td><td class="p">Parcial</td><td class="y">Sí</td><td class="y">Sí</td><td class="y">Sí</td></tr>
-      <tr><td>Verifica que la versión recomendada no tenga otras fallas</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="y">Sí</td><td class="y">Sí</td></tr>
+      <tr><td>Verifica que la versión recomendada no tenga otras fallas</td><td class="n">No</td><td class="n">No</td><td class="p">Parcial</td><td class="y">Sí</td><td class="y">Sí</td></tr>
       <tr><td>Lista todas las versiones seguras</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="p">Parcial</td><td class="y">Sí</td></tr>
       <tr><td>Mitigaciones si no se puede actualizar</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="p">Parcial</td><td class="y">Sí</td></tr>
       <tr><td>Reporte PDF</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="p">De pago</td><td class="y">Sí</td></tr>
       <tr><td>Costo para el estudiante</td><td class="y">Gratis</td><td class="y">Gratis</td><td class="y">Gratis</td><td class="p">Plan limitado</td><td class="y">Gratis</td></tr>
     </table>
+    <p class="small muted" style="margin-top:10px">Según la documentación pública de cada herramienta al momento del estudio.</p>
   </div>
 </section>
 
-<!-- 16 -->
-<section class="slide">
-  <div class="kicker">Nuestra diferencia</div>
-  <h2>Lo que DepScan hace distinto</h2>
-  <div class="body grid2">
-    <div class="card"><h3>Remediación verificada</h3><p>Otras herramientas sugieren la "versión corregida" de un aviso, que puede tener otra falla. DepScan evalúa cada versión candidata contra <b>todos</b> los avisos del paquete.</p></div>
-    <div class="card"><h3>Pensado para quien aprende</h3><p>Web en español, explicación de cada falla, comandos listos para copiar y mitigaciones cuando actualizar no es posible.</p></div>
-    <div class="card"><h3>Honesto con sus límites</h3><p>Sin lockfile no inventa versiones: las marca como no determinables o como estimación. Las limitaciones se muestran en la propia app.</p></div>
-    <div class="card"><h3>Evidencia reproducible</h3><p>Cada escaneo registra commit, fecha y versión del escáner, con reporte PDF. El benchmark se puede repetir con un comando.</p></div>
-  </div>
-</section>
-
-<!-- 17 -->
-<section class="slide">
-  <div class="kicker">Calidad y seguridad</div>
-  <h2>La propia aplicación cumple lo que predica</h2>
-  <div class="body grid2">
-    <ul class="list">
-      <li><b>97 pruebas</b> automatizadas sin internet: las fuentes externas se simulan gracias a los puertos.</li>
-      <li>El CI ejecuta DepScan <b>sobre su propio código</b> y bloquea el build si aparece una falla alta.</li>
-      <li><b>Diccionario de datos</b> generado automáticamente desde el esquema real de la base.</li>
-      <li>Documentación RUP completa (FD01 a FD06) con decisiones de arquitectura (ADR).</li>
-    </ul>
-    <ul class="list">
-      <li>Login OAuth con Google y GitHub; <b>tokens cifrados</b> con AES-256-GCM.</li>
-      <li>Cookies <code>HttpOnly</code>, <code>Secure</code> y <code>SameSite</code>; sesión nueva tras autenticarse.</li>
-      <li><b>Límite de peticiones</b> por minuto en el escaneo.</li>
-      <li>Repos privados visibles <b>solo para su dueño</b>.</li>
-    </ul>
-  </div>
-</section>
-
-<!-- 18 -->
+<!-- 19 · Trabajo futuro -->
 <section class="slide">
   <div class="kicker">Trabajo futuro</div>
   <h2>Hacia dónde puede crecer</h2>
@@ -489,28 +670,31 @@ th.us { color: var(--accent); }
     <div class="card"><h3>Más ecosistemas</h3><p>Maven, Go, Cargo, Composer y NuGet: la arquitectura solo pide nuevos parsers y comparadores.</p></div>
     <div class="card"><h3>Alcanzabilidad</h3><p>Analizar si el código realmente llama a la función vulnerable para reducir alertas no explotables.</p></div>
     <div class="card"><h3>Correcciones automáticas</h3><p>Abrir un pull request con la actualización recomendada, previa revisión humana.</p></div>
-    <div class="card"><h3>Benchmark ampliado</h3><p>Sumar OSV-Scanner para PyPI y repos reales no vulnerables a propósito.</p></div>
+    <div class="card"><h3>Benchmark ampliado</h3><p>Sumar OSV-Scanner y <code>pip-audit</code> para PyPI, y repos reales no vulnerables a propósito.</p></div>
     <div class="card"><h3>Alertas</h3><p>Volver a escanear periódicamente y avisar cuando se publique una falla nueva.</p></div>
     <div class="card"><h3>SBOM</h3><p>Exportar el inventario en CycloneDX o SPDX.</p></div>
   </div>
 </section>
 
-<!-- 19 -->
+<!-- 20 · Conclusiones -->
 <section class="slide">
   <div class="kicker">Conclusiones</div>
-  <h2>Conclusiones</h2>
+  <h2>Cada objetivo, con su evidencia</h2>
   <div class="body">
-    <ul class="list">
-      <li>Se construyó y desplegó un sistema web que detecta dependencias vulnerables en npm y PyPI a partir de <b>versiones exactas</b>, incluidas las transitivas.</li>
-      <li>En el benchmark, DepScan encontró <b>todas</b> las fallas que reporta <code>npm audit</code> y unió los avisos duplicados, sin hallazgos perdidos.</li>
-      <li>El aporte principal es la <b>remediación verificada</b>: una versión segura contra todos los avisos, los comandos para aplicarla y mitigaciones si no se puede actualizar.</li>
-      <li>La arquitectura hexagonal permitió reutilizar el mismo motor en web, API y CLI, y probarlo sin depender de internet.</li>
-      <li>Las limitaciones se declaran: el sistema informa fallas <b>conocidas</b>, no la explotabilidad real.</li>
-    </ul>
+    <table class="small">
+      <tr><th style="width:30%">Objetivo</th><th style="width:12%">Estado</th><th>Evidencia</th></tr>
+      <tr><td><b>OE1</b> · Versión exacta de cada dependencia</td><td class="y">Cumplido</td><td>Lee <code>package-lock</code> v1–v3 y <code>requirements*.txt</code>; resolvió las 1091 dependencias de NodeGoat.</td></tr>
+      <tr><td><b>OE2</b> · Consultar OSV y NVD</td><td class="y">Cumplido</td><td>Consulta en lotes de hasta 1000 paquetes; CVSS oficial de NVD opcional.</td></tr>
+      <tr><td><b>OE3</b> · Lógica propia de análisis</td><td class="y">Cumplido</td><td>Une avisos CVE/GHSA/PYSEC, prioriza por severidad y muestra el semáforo.</td></tr>
+      <tr><td><b>OE4</b> · Versión segura verificada</td><td class="y">Cumplido</td><td>Cada candidata se evalúa contra todos los avisos del paquete.</td></tr>
+      <tr><td><b>OE5</b> · Web, reportes, historial y CLI</td><td class="y">Cumplido</td><td>En producción en Railway, con reportes HTML/PDF y CLI para CI.</td></tr>
+      <tr><td><b>OE6</b> · Medir contra herramientas existentes</td><td class="y">Cumplido</td><td>0 fallas perdidas frente a <code>npm audit</code> en 3 repos fijados por commit.</td></tr>
+    </table>
+    <p style="margin-top:18px">DepScan informa fallas <b>conocidas</b>, no la explotabilidad real; su aporte es convertir esos datos en <b>una decisión clara</b>: qué actualizar, a qué versión y cómo.</p>
   </div>
 </section>
 
-<!-- 20 -->
+<!-- 21 · Gracias -->
 <section class="slide cover" style="align-items:center; text-align:center">
   <div class="biglogo"><i></i><i></i><i></i></div>
   <h1>Gracias</h1>
@@ -518,6 +702,7 @@ th.us { color: var(--accent); }
   <div class="meta" style="justify-items:center">
     <div><b>Demo:</b> <span class="mono">deptest-production-7f98.up.railway.app</span></div>
     <div><b>Código:</b> <span class="mono">github.com/Angelhc123/Dep_Test</span></div>
+    <div style="margin-top:10px">Angel Gadiel Hernández Cruz · Richard Alexis Podestá Condori · Gustavo Alonso Sagua Ramos</div>
   </div>
 </section>
 
