@@ -14,7 +14,11 @@ const {
 const PROYECTO = "DepScan: Sistema Web de Detección y Remediación de Dependencias Vulnerables";
 const CURSO = "{Nombre del Curso}";
 const DOCENTE = "{Nombre del Docente}";
-const INTEGRANTES = [["Hernández Cruz, Angel Gadiel", "(2021070017)"]];
+const INTEGRANTES = [
+  ["Hernández Cruz, Angel Gadiel", "(2021070017)"],
+  ["Sagua Ramos, Gustavo Alonso", "(2018062254)"],
+  ["Podestá Condori, Richard Alexis", "(2022075743)"],
+];
 const INFORME = "Informe Final del Proyecto";
 const VERSION = "Versión 1.0";
 const FECHA = "14/10/2026";

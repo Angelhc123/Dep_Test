@@ -8,7 +8,11 @@ Escuela Profesional de Ingeniería de Sistemas
 
 **Integrante:**
 
-Angel Gadiel Hernandez Cruz
+
+Hernández Cruz, Angel Gadiel		(2021070017)
+Sagua Ramos Gustavo Alonso		(2018062254)
+Podestá Condori Richard Alexis		(2022075743)
+
 
 Tacna – Perú
 

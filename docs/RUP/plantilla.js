@@ -13,7 +13,11 @@ const {
 const PROYECTO = "{Nombre del Proyecto}";
 const CURSO = "{Nombre del Curso}";
 const DOCENTE = "{Nombre del Docente}";
-const INTEGRANTES = [["Hernández Cruz, Angel Gadiel", "(2021070017)"]];
+const INTEGRANTES = [
+  ["Hernández Cruz, Angel Gadiel", "(2021070017)"],
+  ["Sagua Ramos, Gustavo Alonso", "(2018062254)"],
+  ["Podestá Condori, Richard Alexis", "(2022075743)"],
+];
 const INFORME = "Informe de SAD";
 const VERSION = "Versión 1.0";
 const ANIO = "2026";
