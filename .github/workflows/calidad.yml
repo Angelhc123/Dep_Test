@@ -125,6 +125,11 @@ jobs:
         with:
           sarif_file: semgrep.sarif
           category: semgrep
+      - name: Publicar hallazgos en Semgrep AppSec Platform
+        if: ${{ !cancelled() && github.event_name == 'push' && env.SEMGREP_APP_TOKEN != '' }}
+        run: semgrep ci --code --no-suppress-errors
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
   iac:
     name: Análisis estático de infraestructura (Dockerfile)
