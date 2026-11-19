@@ -48,9 +48,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:coverage
+      - name: Configurar Java para SonarScanner
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
       - name: Analisis SonarCloud
         if: ${{ env.SONAR_TOKEN != '' }}
         uses: SonarSource/sonarqube-scan-action@v4
+        with:
+          args: -Dsonar.scanner.skipJreProvisioning=true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
