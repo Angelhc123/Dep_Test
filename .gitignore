@@ -9,3 +9,11 @@ benchmark/repos/
 coverage/
 site/
 ~$*
+# Reportes de pruebas (se publican en GitHub Pages desde CI)
+reports/
+.features-gen/
+.stryker-tmp/
+test-results/
+playwright-report/
+# Laboratorios de la unidad 2 (repos independientes, solo referencia local)
+labssegundaUNidad/
