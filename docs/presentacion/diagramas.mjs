@@ -238,7 +238,7 @@ const etiqueta = (x, y, s, anchor = "middle") => t(x, y, s, "lb", anchor);
   s += etiqueta(470, 488, "«usa» Cache: se inyecta en el constructor de OsvClient, NvdClient y RegistryClient");
   s += etiqueta(152, 318, "implementa") + etiqueta(422, 318, "implementa") + etiqueta(682, 318, "implementa");
   s += t(10, 512, "Arquitectura hexagonal: el núcleo define los puertos (packages/core/src/sources/ports.ts) y cada adaptador los implementa; se cambia la fuente sin tocar la lógica.", "s");
-  void scan; void ss; void tel; void file; void mem;
+  void scan; void ss; void tel; void file; void mem; void db;
   writeFileSync(join(DIR, "clases-puertos.svg"), svg("0 0 1136 520", "Diagrama de clases de puertos y adaptadores", s));
 }
 
