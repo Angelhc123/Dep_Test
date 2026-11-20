@@ -6,6 +6,7 @@ import { History } from "./pages/History";
 import { Login } from "./pages/Login";
 import { NewScan } from "./pages/NewScan";
 import { ScanResult } from "./pages/ScanResult";
+import { Status } from "./pages/Status";
 import { useRoute } from "./lib/router";
 
 const NAV = [
@@ -13,6 +14,7 @@ const NAV = [
   ["#/github", "Mis repos de GitHub", "github"],
   ["#/history", "Historial", "history"],
   ["#/about", "Cómo funciona", "about"],
+  ["#/estado", "Estado", "status"],
 ] as const;
 
 export function App() {
@@ -57,6 +59,7 @@ export function App() {
         {route.page === "github" && <GithubRepos />}
         {route.page === "login" && <Login error={route.error} />}
         {route.page === "about" && <About />}
+        {route.page === "status" && <Status />}
       </main>
       <footer className="mx-auto max-w-6xl px-4 pb-8 text-xs text-zinc-500">
         Datos de{" "}

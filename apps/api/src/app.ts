@@ -24,6 +24,7 @@ import { ensureSession, githubTokenOf, ownerKey, registerAuth, type AuthContext 
 import type { Config } from "./config.js";
 import { Database, type StoredScan } from "./db.js";
 import { renderPdf } from "./report/pdf.js";
+import { Telemetry, toPrometheus } from "./telemetry.js";
 
 export interface AppDeps {
   config: Config;
@@ -32,6 +33,8 @@ export interface AppDeps {
   fetchGithub?: typeof fetchGithubProject;
   /** Para pruebas: fetch simulado para OAuth y la API de GitHub. */
   fetchImpl?: typeof fetch;
+  /** Para pruebas: destino de los logs JSON (por defecto, stdout). */
+  logStream?: { write(msg: string): void };
 }
 
 interface ScanBody {
@@ -90,13 +93,26 @@ function downloadName(scan: StoredScan, ext: string): string {
 export async function buildApp(deps: AppDeps): Promise<FastifyInstance> {
   const { config } = deps;
   const app = Fastify({
-    logger: { level: config.logLevel },
+    logger: {
+      level: config.logLevel,
+      // Nunca se registran cookies ni tokens, aunque un serializador los incluya.
+      redact: ["req.headers.cookie", "req.headers.authorization", 'res.headers["set-cookie"]'],
+      ...(deps.logStream ? { stream: deps.logStream } : {}),
+    },
+    // ID de correlación: se respeta el X-Request-Id entrante (si es seguro) o se genera uno.
+    // Aparece como "reqId" en cada línea de log y se devuelve en la cabecera X-Request-Id.
+    requestIdHeader: false,
+    genReqId: (req) => {
+      const h = req.headers["x-request-id"];
+      return typeof h === "string" && /^[\w.-]{1,64}$/.test(h) ? h : randomUUID();
+    },
     bodyLimit: MAX_BODY,
     trustProxy: true, // Railway pone un proxy delante: la IP y el protocolo reales llegan en X-Forwarded-*
   });
 
   const db = new Database(config.dataDir);
-  const cache = db.cache();
+  const telemetry = new Telemetry(SCANNER_VERSION);
+  const cache = telemetry.instrumentCache(db.cache());
   const osv = new OsvClient({ cache });
   const sources: ScanSources = deps.sources ?? {
     osv,
@@ -129,7 +145,8 @@ export async function buildApp(deps: AppDeps): Promise<FastifyInstance> {
   await app.register(cookie);
   await app.register(rateLimit, { global: false });
 
-  app.addHook("onSend", async (_req, reply) => {
+  app.addHook("onSend", async (req, reply) => {
+    reply.header("X-Request-Id", req.id);
     reply.header("X-Content-Type-Options", "nosniff");
     reply.header("Referrer-Policy", "same-origin");
   });
@@ -140,7 +157,32 @@ export async function buildApp(deps: AppDeps): Promise<FastifyInstance> {
     reply.status(status).send({ error: status >= 500 ? "Error interno del servidor" : err.message });
   });
 
+  app.addHook("onResponse", async (req, reply) => {
+    // Archivos de la web agrupados en "(web)": evita una serie por cada asset con hash.
+    const r = req.routeOptions.url;
+    const route =
+      r?.startsWith("/api/") || r === "/metrics" ? r : req.url.startsWith("/api/") ? "/api/*" : "(web)";
+    telemetry.recordRequest(req.method, route, reply.statusCode, reply.elapsedTime);
+  });
+
   await registerAuth(app, auth);
+
+  // ---------- Telemetría ----------
+  const metricsAllowed = (req: FastifyRequest) =>
+    !config.metricsToken || req.headers.authorization === `Bearer ${config.metricsToken}`;
+
+  app.get("/api/metrics", async (req, reply) => {
+    if (!metricsAllowed(req)) return reply.status(401).send({ error: "Token de métricas requerido" });
+    return reply.header("Cache-Control", "no-store").send(telemetry.snapshot(db.stats()));
+  });
+
+  app.get("/metrics", async (req, reply) => {
+    if (!metricsAllowed(req)) return reply.status(401).send({ error: "Token de métricas requerido" });
+    return reply
+      .type("text/plain; version=0.0.4; charset=utf-8")
+      .header("Cache-Control", "no-store")
+      .send(toPrometheus(telemetry.snapshot(db.stats())));
+  });
 
   /** Un escaneo privado (repo privado) solo lo ve su dueño; los demás, cualquiera con el enlace. */
   const readable = (req: FastifyRequest, id: string): StoredScan | null => {
@@ -207,15 +249,43 @@ export async function buildApp(deps: AppDeps): Promise<FastifyInstance> {
       const session = ensureSession(db, req, reply);
       const owner = req.user ? `user:${req.user.id}` : `anon:${session.id}`;
       const opts = body.options ?? {};
-      const report = await scanProject(files, sources, {
-        target,
-        estimate: opts.estimate ?? false,
-        enrichNvd: opts.enrichNvd ?? false,
-        includeDev: opts.includeDev ?? true,
-        remediation: opts.remediation ?? true,
-      });
+      let report;
+      try {
+        report = await scanProject(files, sources, {
+          target,
+          estimate: opts.estimate ?? false,
+          enrichNvd: opts.enrichNvd ?? false,
+          includeDev: opts.includeDev ?? true,
+          remediation: opts.remediation ?? true,
+        });
+      } catch (err) {
+        telemetry.recordScanFailure();
+        throw err;
+      }
       const saved = { ...report, id: randomUUID() };
       db.saveScan(saved, owner, isPrivate);
+      const s = report.summary;
+      telemetry.recordScan({
+        source: target.source,
+        risk: s.risk,
+        dependencies: s.dependencies,
+        vulnerableDependencies: s.vulnerableDependencies,
+        durationMs: report.durationMs,
+      });
+      // Evento de negocio estructurado: se puede filtrar en los logs con event="scan".
+      req.log.info(
+        {
+          event: "scan",
+          scanId: saved.id,
+          source: target.source,
+          owner: owner.split(":")[0],
+          dependencies: s.dependencies,
+          vulnerable: s.vulnerableDependencies,
+          risk: s.risk,
+          durationMs: report.durationMs,
+        },
+        "escaneo completado",
+      );
       return reply.status(201).send({ ...saved, private: isPrivate });
     },
   );

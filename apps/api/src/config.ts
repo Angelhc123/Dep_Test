@@ -24,6 +24,8 @@ export interface Config {
   sessionSecret?: string;
   google?: OAuthClient;
   github?: OAuthClient;
+  /** Si se define, /api/metrics y /metrics exigen "Authorization: Bearer <token>". */
+  metricsToken?: string;
 }
 
 function oauth(id: string | undefined, secret: string | undefined): OAuthClient | undefined {
@@ -46,5 +48,6 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     sessionSecret: env.SESSION_SECRET || undefined,
     google: oauth(env.GOOGLE_CLIENT_ID, env.GOOGLE_CLIENT_SECRET),
     github: oauth(env.GITHUB_CLIENT_ID, env.GITHUB_CLIENT_SECRET),
+    metricsToken: env.METRICS_TOKEN || undefined,
   };
 }

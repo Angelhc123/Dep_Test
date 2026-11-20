@@ -62,7 +62,9 @@ test.describe("Nuevo escaneo", () => {
 });
 
 test.describe("Historial", () => {
-  test("los escaneos de la sesión aparecen en el historial y se eliminan con confirmación", async ({ page }) => {
+  test("los escaneos de la sesión aparecen en el historial y se eliminan con confirmación", async ({
+    page,
+  }) => {
     await escanearDemo(page, "demo-historial");
     await page.getByRole("link", { name: "Historial" }).click();
     await expect(page.getByRole("heading", { name: "Historial" })).toBeVisible();
@@ -82,5 +84,20 @@ test.describe("Navegación", () => {
     await page.getByRole("link", { name: "Cómo funciona" }).click();
     await expect(page).toHaveURL(/#\/about/);
     await expect(page.getByRole("heading").first()).toBeVisible();
+  });
+});
+
+test.describe("Estado (telemetría)", () => {
+  test("la página Estado refleja un escaneo nuevo en la telemetría", async ({ page }) => {
+    await page.goto("/#/estado");
+    await expect(page.getByRole("heading", { name: "Estado del sistema" })).toBeVisible();
+    const tarjeta = page.getByText("Escaneos desde el arranque").locator("..");
+    const antes = Number(await tarjeta.locator("div").first().innerText());
+
+    await escanearDemo(page, "demo-telemetria");
+    await page.getByRole("link", { name: "Estado" }).click();
+    await expect(tarjeta.locator("div").first()).toHaveText(String(antes + 1));
+    await expect(page.getByText("Sesiones vigentes")).toBeVisible();
+    await expect(page.getByRole("cell", { name: "POST /api/scans" })).toBeVisible();
   });
 });

@@ -54,7 +54,7 @@ const FILAS = [
     id: "aceptacion",
     tipo: "Aceptación (BDD)",
     herramienta: "Gherkin + playwright-bdd",
-    que: "Historias en español por caso de uso del FD03 (CU-01, CU-04, CU-05, CU-08) ejecutadas en el navegador.",
+    que: "Historias en español por caso de uso del FD03 (CU-01, CU-04, CU-05, CU-08) y telemetría, ejecutadas en el navegador.",
     enlace: "aceptacion/index.html",
   },
 ];
@@ -170,6 +170,7 @@ ${filaMutacion}
     <div class="card"><a href="${GH}/security/code-scanning?query=tool%3ASemgrep">Semgrep →</a><div class="sub">SAST con reglas de la comunidad (SARIF).</div></div>
     <div class="card"><a href="${GH}/security/code-scanning?query=tool%3ASnyk">Snyk →</a><div class="sub">SAST (Snyk Code) y dependencias (Snyk Open Source).</div></div>
     <div class="card"><a href="${GH}/actions/workflows/calidad.yml">Workflow Calidad →</a><div class="sub">Sonar, Snyk, Semgrep y Hadolint en cada push.</div></div>
+    <div class="card"><a href="${GH}/blob/main/docs/NO_FUNCIONALES.md">Aspectos no funcionales →</a><div class="sub">Sesiones, historial, caché, logs y telemetría.</div></div>
     <div class="card"><a href="depscan-report.html">DepScan sobre sí mismo →</a><div class="sub">Dependencias del propio proyecto.</div></div>
   </div>
 

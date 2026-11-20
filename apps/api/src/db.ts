@@ -360,6 +360,28 @@ export class Database {
     };
   }
 
+  /** Conteos para la telemetría (sesiones vigentes, historial, caché). */
+  stats(): {
+    activeSessions: number;
+    loggedInSessions: number;
+    users: number;
+    scansStored: number;
+    cacheEntries: number;
+  } {
+    const now = Date.now();
+    const n = (sql: string, ...args: number[]) => (this.db.prepare(sql).get(...args) as { n: number }).n;
+    return {
+      activeSessions: n("SELECT COUNT(*) AS n FROM sessions WHERE expires_at > ?", now),
+      loggedInSessions: n(
+        "SELECT COUNT(*) AS n FROM sessions WHERE expires_at > ? AND user_id IS NOT NULL",
+        now,
+      ),
+      users: n("SELECT COUNT(*) AS n FROM users"),
+      scansStored: n("SELECT COUNT(*) AS n FROM scans"),
+      cacheEntries: n("SELECT COUNT(*) AS n FROM cache WHERE expires_at > ?", now),
+    };
+  }
+
   purgeExpired(): void {
     const now = Date.now();
     this.db.prepare("DELETE FROM cache WHERE expires_at < ?").run(now);

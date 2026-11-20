@@ -67,8 +67,36 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
 
 const enc = encodeURIComponent;
 
+/** Telemetría del servidor (GET /api/metrics). Ver apps/api/src/telemetry.ts. */
+export interface Metrics {
+  version: string;
+  startedAt: string;
+  uptimeSeconds: number;
+  memoryMb: number;
+  http: {
+    requests: number;
+    byStatus: Record<string, number>;
+    errorRate: number;
+    latencyMs: { p50: number; p95: number; p99: number };
+    routes: { route: string; count: number; errors: number; p95Ms: number }[];
+  };
+  scans: {
+    total: number;
+    failed: number;
+    bySource: Record<string, number>;
+    byRisk: Record<string, number>;
+    dependencies: number;
+    vulnerableDependencies: number;
+    durationMs: { p50: number; p95: number };
+  };
+  cache: { hits: number; misses: number; writes: number; hitRate: number; entries: number };
+  sessions: { active: number; loggedIn: number; users: number };
+  history: { scansStored: number };
+}
+
 export const api = {
   health: () => request<Health>("/api/health"),
+  metrics: () => request<Metrics>("/api/metrics"),
   me: () => request<Me>("/api/auth/me"),
   logout: () => request<void>("/api/auth/logout", { method: "POST" }),
   disconnectGithub: () => request<void>("/api/auth/github", { method: "DELETE" }),

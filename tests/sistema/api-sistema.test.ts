@@ -98,7 +98,11 @@ describe("Sistema: flujo completo de un escaneo", () => {
 
     const pdf = await fetch(`${srv.url}/api/scans/${id}/report.pdf`, { headers: { cookie } });
     expect(pdf.headers.get("content-type")).toBe("application/pdf");
-    expect(Buffer.from(await pdf.arrayBuffer()).subarray(0, 5).toString()).toBe("%PDF-");
+    expect(
+      Buffer.from(await pdf.arrayBuffer())
+        .subarray(0, 5)
+        .toString(),
+    ).toBe("%PDF-");
   });
 
   it("solo el dueño puede borrar el escaneo", async () => {
@@ -154,19 +158,48 @@ describe("Sistema: persistencia y límites", () => {
     const limitado = await iniciarServidor({ SCAN_RATE_LIMIT: "2" });
     try {
       const estados = [];
-      for (let i = 0; i < 3; i++) estados.push((await fetch(`${limitado.url}/api/scans`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ files: proyectoSeguro }),
-      })).status);
+      for (let i = 0; i < 3; i++)
+        estados.push(
+          (
+            await fetch(`${limitado.url}/api/scans`, {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({ files: proyectoSeguro }),
+            })
+          ).status,
+        );
       expect(estados).toEqual([201, 201, 429]);
     } finally {
       await limitado.detener();
     }
   });
 
+  it("expone telemetría en JSON y en formato Prometheus", async () => {
+    const m = await (await fetch(`${srv.url}/api/metrics`)).json();
+    expect(m.http.requests).toBeGreaterThan(0);
+    expect(m.history.scansStored).toBeGreaterThan(0);
+    const prom = await (await fetch(`${srv.url}/metrics`)).text();
+    expect(prom).toContain("# TYPE depscan_http_requests_total counter");
+  });
+
+  it("cada respuesta trae X-Request-Id y el log tiene el evento del escaneo", async () => {
+    const res = await escanear({ name: "con-traza", files: proyectoSeguro });
+    const id = res.headers.get("x-request-id")!;
+    expect(id).toMatch(/^[0-9a-f-]{36}$/);
+    await new Promise((r) => setTimeout(r, 200));
+    const lineas = srv.logs
+      .join("")
+      .split("\n")
+      .filter((l) => l.startsWith("{"))
+      .map((l) => JSON.parse(l));
+    expect(lineas.find((l) => l.event === "scan" && l.reqId === id)).toMatchObject({ risk: "green" });
+  });
+
   it("registra cada petición en el log estructurado (JSON)", () => {
-    const lineas = srv.logs.join("").split("\n").filter((l) => l.startsWith("{"));
+    const lineas = srv.logs
+      .join("")
+      .split("\n")
+      .filter((l) => l.startsWith("{"));
     const peticiones = lineas.map((l) => JSON.parse(l)).filter((l) => l.req?.url);
     expect(peticiones.length).toBeGreaterThan(0);
     expect(peticiones[0]).toHaveProperty("reqId");

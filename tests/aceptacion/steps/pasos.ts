@@ -93,19 +93,16 @@ Then("veo la revisión {string} en la lista", async ({ page }, nombre: string) =
   await expect(page.getByRole("row").filter({ hasText: nombre }).first()).toBeVisible();
 });
 
-When(
-  "otra persona abre el {string} en su navegador",
-  async ({ browser, $testInfo }, enlace: string) => {
-    // Contexto nuevo = otro navegador, sin la cookie de sesión del primero.
-    const otro = await browser.newContext({ baseURL: $testInfo.project.use.baseURL });
-    const pagina = await otro.newPage();
-    await pagina.goto("/");
-    await pagina.getByRole("link", { name: enlace }).click();
-    await expect(pagina.getByText("Aún no hay escaneos.")).toBeVisible();
-    await otro.close();
-    $testInfo.annotations.push({ type: "historial-ajeno", description: "vacío" });
-  },
-);
+When("otra persona abre el {string} en su navegador", async ({ browser, $testInfo }, enlace: string) => {
+  // Contexto nuevo = otro navegador, sin la cookie de sesión del primero.
+  const otro = await browser.newContext({ baseURL: $testInfo.project.use.baseURL });
+  const pagina = await otro.newPage();
+  await pagina.goto("/");
+  await pagina.getByRole("link", { name: enlace }).click();
+  await expect(pagina.getByText("Aún no hay escaneos.")).toBeVisible();
+  await otro.close();
+  $testInfo.annotations.push({ type: "historial-ajeno", description: "vacío" });
+});
 
 Then("su historial está vacío", async ({ $testInfo }) => {
   expect($testInfo.annotations.some((a) => a.type === "historial-ajeno")).toBe(true);
@@ -119,4 +116,19 @@ When("elimino la revisión {string} y confirmo", async ({ page }, nombre: string
 
 Then("ya no veo la revisión {string} en la lista", async ({ page }, nombre: string) => {
   await expect(page.getByRole("row").filter({ hasText: nombre })).toHaveCount(0);
+});
+
+When("abro la página {string}", async ({ page }, enlace: string) => {
+  await page.getByRole("link", { name: enlace, exact: true }).click();
+});
+
+Then("veo el panel {string}", async ({ page }, titulo: string) => {
+  await expect(page.getByRole("heading", { name: titulo })).toBeVisible();
+});
+
+Then("la telemetría registra al menos {int} escaneo con riesgo alto", async ({ page }, minimo: number) => {
+  const fila = page.getByRole("listitem").filter({ hasText: "Riesgo alto" });
+  await expect(fila).toBeVisible();
+  const n = Number((await fila.locator("span").last().innerText()).trim());
+  expect(n).toBeGreaterThanOrEqual(minimo);
 });

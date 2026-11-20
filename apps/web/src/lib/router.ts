@@ -8,7 +8,8 @@ export type Route =
   | { page: "compare"; a: string; b: string }
   | { page: "github" }
   | { page: "login"; error: string | null }
-  | { page: "about" };
+  | { page: "about" }
+  | { page: "status" };
 
 export function parseRoute(hash: string): Route {
   const [path = "", query = ""] = hash.replace(/^#/, "").split("?");
@@ -20,6 +21,7 @@ export function parseRoute(hash: string): Route {
   if (parts[0] === "github") return { page: "github" };
   if (parts[0] === "login") return { page: "login", error: params.get("error") };
   if (parts[0] === "about") return { page: "about" };
+  if (parts[0] === "estado") return { page: "status" };
   return { page: "new" };
 }
 
