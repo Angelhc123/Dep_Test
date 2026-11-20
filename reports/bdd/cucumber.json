@@ -1,0 +1,800 @@
+[
+  {
+    "description": "  Como desarrollador\n  Quiero subir los manifiestos de mi proyecto\n  Para saber qué librerías tienen vulnerabilidades conocidas",
+    "elements": [
+      {
+        "description": "",
+        "id": "cu-01-revisar-un-proyecto-subiendo-sus-archivos;el-semáforo-refleja-el-riesgo-del-proyecto",
+        "keyword": "Esquema del escenario",
+        "line": 17,
+        "name": "El semáforo refleja el riesgo del proyecto",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 9,
+            "name": "que estoy en la página \"Nuevo escaneo\"",
+            "result": {
+              "status": "passed",
+              "duration": 154000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 10,
+            "name": "subo los archivos del proyecto \"proyecto-demo\"",
+            "result": {
+              "status": "passed",
+              "duration": 41000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 11,
+            "name": "presiono \"Escanear\"",
+            "result": {
+              "status": "passed",
+              "duration": 54000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 12,
+            "name": "veo el semáforo \"Riesgo alto\"",
+            "result": {
+              "status": "passed",
+              "duration": 104000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 13,
+            "name": "veo \"2 / 3\" dependencias vulnerables",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 112000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@CU-01",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "cu-01-revisar-un-proyecto-subiendo-sus-archivos;el-semáforo-refleja-el-riesgo-del-proyecto",
+        "keyword": "Esquema del escenario",
+        "line": 18,
+        "name": "El semáforo refleja el riesgo del proyecto",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 9,
+            "name": "que estoy en la página \"Nuevo escaneo\"",
+            "result": {
+              "status": "passed",
+              "duration": 135000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 10,
+            "name": "subo los archivos del proyecto \"proyecto-python\"",
+            "result": {
+              "status": "passed",
+              "duration": 33000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 11,
+            "name": "presiono \"Escanear\"",
+            "result": {
+              "status": "passed",
+              "duration": 48000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 12,
+            "name": "veo el semáforo \"Riesgo alto\"",
+            "result": {
+              "status": "passed",
+              "duration": 82000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 13,
+            "name": "veo \"1 / 1\" dependencias vulnerables",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 95000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@CU-01",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "cu-01-revisar-un-proyecto-subiendo-sus-archivos;el-semáforo-refleja-el-riesgo-del-proyecto",
+        "keyword": "Esquema del escenario",
+        "line": 19,
+        "name": "El semáforo refleja el riesgo del proyecto",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 9,
+            "name": "que estoy en la página \"Nuevo escaneo\"",
+            "result": {
+              "status": "passed",
+              "duration": 159000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 10,
+            "name": "subo los archivos del proyecto \"proyecto-seguro\"",
+            "result": {
+              "status": "passed",
+              "duration": 33000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 11,
+            "name": "presiono \"Escanear\"",
+            "result": {
+              "status": "passed",
+              "duration": 40000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 12,
+            "name": "veo el semáforo \"Sin riesgo relevante\"",
+            "result": {
+              "status": "passed",
+              "duration": 85000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 13,
+            "name": "veo \"0 / 1\" dependencias vulnerables",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 109000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@CU-01",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "cu-01-revisar-un-proyecto-subiendo-sus-archivos;no-se-puede-escanear-sin-archivos",
+        "keyword": "Escenario",
+        "line": 21,
+        "name": "No se puede escanear sin archivos",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 22,
+            "name": "que estoy en la página \"Nuevo escaneo\"",
+            "result": {
+              "status": "passed",
+              "duration": 137000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 23,
+            "name": "el botón \"Escanear\" está deshabilitado",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 80000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@CU-01",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "aceptacion-›-cu-01-revisar-un-proyecto-subiendo-sus-archivos",
+    "line": 3,
+    "keyword": "Característica",
+    "name": "CU-01 Revisar un proyecto subiendo sus archivos",
+    "tags": [
+      {
+        "name": "@CU-01",
+        "line": 2
+      }
+    ],
+    "uri": "tests\\aceptacion\\features\\cu01-revisar-proyecto.feature"
+  },
+  {
+    "description": "  Como desarrollador\n  Quiero saber a qué versión actualizar cada librería vulnerable\n  Para corregir el problema sin introducir otra vulnerabilidad",
+    "elements": [
+      {
+        "description": "",
+        "id": "cu-04-ver-la-solución-de-una-librería;depscan-recomienda-una-versión-segura-verificada",
+        "keyword": "Esquema del escenario",
+        "line": 17,
+        "name": "DepScan recomienda una versión segura verificada",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 9,
+            "name": "que escaneé el proyecto \"proyecto-demo\"",
+            "result": {
+              "status": "passed",
+              "duration": 311000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 12,
+            "name": "abro la solución de \"lodash\"",
+            "result": {
+              "status": "passed",
+              "duration": 69000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 13,
+            "name": "se recomienda actualizar a \"4.17.21\"",
+            "result": {
+              "status": "passed",
+              "duration": 15000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 109000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@CU-04",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "cu-04-ver-la-solución-de-una-librería;depscan-recomienda-una-versión-segura-verificada",
+        "keyword": "Esquema del escenario",
+        "line": 18,
+        "name": "DepScan recomienda una versión segura verificada",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 9,
+            "name": "que escaneé el proyecto \"proyecto-demo\"",
+            "result": {
+              "status": "passed",
+              "duration": 319000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 12,
+            "name": "abro la solución de \"django\"",
+            "result": {
+              "status": "passed",
+              "duration": 68000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 13,
+            "name": "se recomienda actualizar a \"3.2.19\"",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 97000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@CU-04",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "aceptacion-›-cu-04-ver-la-solución-de-una-librería",
+    "line": 3,
+    "keyword": "Característica",
+    "name": "CU-04 Ver la solución de una librería",
+    "tags": [
+      {
+        "name": "@CU-04",
+        "line": 2
+      }
+    ],
+    "uri": "tests\\aceptacion\\features\\cu04-ver-solucion.feature"
+  },
+  {
+    "description": "  Como docente o jefe de proyecto\n  Quiero descargar el resultado del escaneo\n  Para archivarlo o adjuntarlo como evidencia",
+    "elements": [
+      {
+        "description": "",
+        "id": "cu-05-descargar-el-informe;descargar-el-informe-en-html",
+        "keyword": "Escenario",
+        "line": 8,
+        "name": "Descargar el informe en HTML",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 9,
+            "name": "que escaneé el proyecto \"proyecto-demo\"",
+            "result": {
+              "status": "passed",
+              "duration": 312000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 10,
+            "name": "descargo el informe \"HTML\"",
+            "result": {
+              "status": "passed",
+              "duration": 149000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 11,
+            "name": "obtengo un archivo \".html\" que menciona \"4.17.21\"",
+            "result": {
+              "status": "passed",
+              "duration": 2000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 91000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@CU-05",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "cu-05-descargar-el-informe;descargar-el-informe-en-pdf",
+        "keyword": "Escenario",
+        "line": 13,
+        "name": "Descargar el informe en PDF",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 14,
+            "name": "que escaneé el proyecto \"proyecto-demo\"",
+            "result": {
+              "status": "passed",
+              "duration": 300000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 15,
+            "name": "descargo el informe \"PDF\"",
+            "result": {
+              "status": "passed",
+              "duration": 110000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 16,
+            "name": "obtengo un archivo \".pdf\" válido",
+            "result": {
+              "status": "passed",
+              "duration": 2000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 93000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@CU-05",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "aceptacion-›-cu-05-descargar-el-informe",
+    "line": 3,
+    "keyword": "Característica",
+    "name": "CU-05 Descargar el informe",
+    "tags": [
+      {
+        "name": "@CU-05",
+        "line": 2
+      }
+    ],
+    "uri": "tests\\aceptacion\\features\\cu05-descargar-informe.feature"
+  },
+  {
+    "description": "  Como visitante sin cuenta\n  Quiero que mis revisiones queden guardadas en mi sesión\n  Para volver a consultarlas sin que otras personas las vean",
+    "elements": [
+      {
+        "description": "",
+        "id": "cu-08-consultar-y-eliminar-revisiones-del-historial;la-revisión-queda-en-mi-historial",
+        "keyword": "Escenario",
+        "line": 8,
+        "name": "La revisión queda en mi historial",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 9,
+            "name": "que escaneé el proyecto \"proyecto-demo\"",
+            "result": {
+              "status": "passed",
+              "duration": 310000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 10,
+            "name": "abro el \"Historial\"",
+            "result": {
+              "status": "passed",
+              "duration": 68000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 11,
+            "name": "veo la revisión \"proyecto-demo\" en la lista",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 93000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@CU-08",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "cu-08-consultar-y-eliminar-revisiones-del-historial;otra-persona-no-ve-mi-historial",
+        "keyword": "Escenario",
+        "line": 13,
+        "name": "Otra persona no ve mi historial",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 14,
+            "name": "que escaneé el proyecto \"proyecto-demo\"",
+            "result": {
+              "status": "passed",
+              "duration": 305000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 15,
+            "name": "otra persona abre el \"Historial\" en su navegador",
+            "result": {
+              "status": "passed",
+              "duration": 326000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 16,
+            "name": "su historial está vacío",
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 127000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@CU-08",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "cu-08-consultar-y-eliminar-revisiones-del-historial;eliminar-una-revisión-pide-confirmación",
+        "keyword": "Escenario",
+        "line": 18,
+        "name": "Eliminar una revisión pide confirmación",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 19,
+            "name": "que escaneé el proyecto \"proyecto-seguro\"",
+            "result": {
+              "status": "passed",
+              "duration": 321000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 20,
+            "name": "abro el \"Historial\"",
+            "result": {
+              "status": "passed",
+              "duration": 79000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 21,
+            "name": "elimino la revisión \"proyecto-seguro\" y confirmo",
+            "result": {
+              "status": "passed",
+              "duration": 70000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 22,
+            "name": "ya no veo la revisión \"proyecto-seguro\" en la lista",
+            "result": {
+              "status": "passed",
+              "duration": 11000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 92000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@CU-08",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "aceptacion-›-cu-08-consultar-y-eliminar-revisiones-del-historial",
+    "line": 3,
+    "keyword": "Característica",
+    "name": "CU-08 Consultar y eliminar revisiones del historial",
+    "tags": [
+      {
+        "name": "@CU-08",
+        "line": 2
+      }
+    ],
+    "uri": "tests\\aceptacion\\features\\cu08-historial.feature"
+  },
+  {
+    "description": "  Como administrador del servicio\n  Quiero ver el estado del sistema en vivo\n  Para saber si DepScan responde bien y cuánto se usa",
+    "elements": [
+      {
+        "description": "",
+        "id": "telemetría-visible-para-el-administrador;un-escaneo-nuevo-aparece-en-la-telemetría",
+        "keyword": "Escenario",
+        "line": 8,
+        "name": "Un escaneo nuevo aparece en la telemetría",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 9,
+            "name": "que escaneé el proyecto \"proyecto-demo\"",
+            "result": {
+              "status": "passed",
+              "duration": 324000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 10,
+            "name": "abro la página \"Estado\"",
+            "result": {
+              "status": "passed",
+              "duration": 40000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 11,
+            "name": "veo el panel \"Estado del sistema\"",
+            "result": {
+              "status": "passed",
+              "duration": 62000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 12,
+            "name": "la telemetría registra al menos 1 escaneo con riesgo alto",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 108000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@no-funcional",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "aceptacion-›-telemetría-visible-para-el-administrador",
+    "line": 3,
+    "keyword": "Característica",
+    "name": "Telemetría visible para el administrador",
+    "tags": [
+      {
+        "name": "@no-funcional",
+        "line": 2
+      }
+    ],
+    "uri": "tests\\aceptacion\\features\\no-funcionales-estado.feature"
+  }
+]

@@ -1,0 +1,110 @@
+<testsuites id="" name="" tests="12" failures="0" skipped="0" errors="0" time="8.696751">
+<testsuite name="tests\aceptacion\features\cu01-revisar-proyecto.feature.spec.js" timestamp="2026-11-20T22:17:11.929Z" hostname="aceptacion" tests="4" failures="0" skipped="0" time="1.809" errors="0">
+<testcase name="CU-01 Revisar un proyecto subiendo sus archivos › El semáforo refleja el riesgo del proyecto › Ejemplos: #1" classname="tests\aceptacion\features\cu01-revisar-proyecto.feature.spec.js" time="0.575">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--94f77-sgo-del-proyecto-Ejemplos-1-aceptacion\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="CU-01 Revisar un proyecto subiendo sus archivos › El semáforo refleja el riesgo del proyecto › Ejemplos: #2" classname="tests\aceptacion\features\cu01-revisar-proyecto.feature.spec.js" time="0.466">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--d38c3-sgo-del-proyecto-Ejemplos-2-aceptacion\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="CU-01 Revisar un proyecto subiendo sus archivos › El semáforo refleja el riesgo del proyecto › Ejemplos: #3" classname="tests\aceptacion\features\cu01-revisar-proyecto.feature.spec.js" time="0.489">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--67ca1-sgo-del-proyecto-Ejemplos-3-aceptacion\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="CU-01 Revisar un proyecto subiendo sus archivos › No se puede escanear sin archivos" classname="tests\aceptacion\features\cu01-revisar-proyecto.feature.spec.js" time="0.279">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--8160f-puede-escanear-sin-archivos-aceptacion\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="tests\aceptacion\features\cu04-ver-solucion.feature.spec.js" timestamp="2026-11-20T22:17:11.929Z" hostname="aceptacion" tests="2" failures="0" skipped="0" time="1.116" errors="0">
+<testcase name="CU-04 Ver la solución de una librería › DepScan recomienda una versión segura verificada › Ejemplos: #1" classname="tests\aceptacion\features\cu04-ver-solucion.feature.spec.js" time="0.557">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--2f0b2-egura-verificada-Ejemplos-1-aceptacion\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="CU-04 Ver la solución de una librería › DepScan recomienda una versión segura verificada › Ejemplos: #2" classname="tests\aceptacion\features\cu04-ver-solucion.feature.spec.js" time="0.559">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--a9fbe-egura-verificada-Ejemplos-2-aceptacion\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="tests\aceptacion\features\cu05-descargar-informe.feature.spec.js" timestamp="2026-11-20T22:17:11.929Z" hostname="aceptacion" tests="2" failures="0" skipped="0" time="1.177" errors="0">
+<testcase name="CU-05 Descargar el informe › Descargar el informe en HTML" classname="tests\aceptacion\features\cu05-descargar-informe.feature.spec.js" time="0.616">
+<properties>
+<property name="archivo" value="C:\Users\desci2\Documents\text\reports\bdd-resultados\tests-aceptacion-features--e2c77-escargar-el-informe-en-HTML-aceptacion\depscan-proyecto-demo-2026-11-20.html">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--e2c77-escargar-el-informe-en-HTML-aceptacion\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="CU-05 Descargar el informe › Descargar el informe en PDF" classname="tests\aceptacion\features\cu05-descargar-informe.feature.spec.js" time="0.561">
+<properties>
+<property name="archivo" value="C:\Users\desci2\Documents\text\reports\bdd-resultados\tests-aceptacion-features--b73c3-Descargar-el-informe-en-PDF-aceptacion\depscan-proyecto-demo-2026-11-20.pdf">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--b73c3-Descargar-el-informe-en-PDF-aceptacion\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="tests\aceptacion\features\cu08-historial.feature.spec.js" timestamp="2026-11-20T22:17:11.929Z" hostname="aceptacion" tests="3" failures="0" skipped="0" time="1.968" errors="0">
+<testcase name="CU-08 Consultar y eliminar revisiones del historial › La revisión queda en mi historial" classname="tests\aceptacion\features\cu08-historial.feature.spec.js" time="0.527">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--eb382-isión-queda-en-mi-historial-aceptacion\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="CU-08 Consultar y eliminar revisiones del historial › Otra persona no ve mi historial" classname="tests\aceptacion\features\cu08-historial.feature.spec.js" time="0.808">
+<properties>
+<property name="historial-ajeno" value="vacío">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--8230f--persona-no-ve-mi-historial-aceptacion\test-finished-1.png]]
+
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--8230f--persona-no-ve-mi-historial-aceptacion\test-finished-2.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="CU-08 Consultar y eliminar revisiones del historial › Eliminar una revisión pide confirmación" classname="tests\aceptacion\features\cu08-historial.feature.spec.js" time="0.633">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--e48cb--revisión-pide-confirmación-aceptacion\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="tests\aceptacion\features\no-funcionales-estado.feature.spec.js" timestamp="2026-11-20T22:17:11.929Z" hostname="aceptacion" tests="1" failures="0" skipped="0" time="0.603" errors="0">
+<testcase name="Telemetría visible para el administrador › Un escaneo nuevo aparece en la telemetría" classname="tests\aceptacion\features\no-funcionales-estado.feature.spec.js" time="0.603">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\bdd-resultados\tests-aceptacion-features--37bad-vo-aparece-en-la-telemetría-aceptacion\test-finished-1.png]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

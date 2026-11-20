@@ -1,0 +1,182 @@
+<testsuites id="" name="" tests="16" failures="0" skipped="0" errors="0" time="14.211641">
+<testsuite name="escaneo.spec.ts" timestamp="2026-11-20T22:16:56.171Z" hostname="chromium" tests="8" failures="0" skipped="0" time="4.679" errors="0">
+<testcase name="Nuevo escaneo › el botón Escanear está deshabilitado hasta elegir archivos" classname="escaneo.spec.ts" time="0.402">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-el-b-4081e-itado-hasta-elegir-archivos-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-el-b-4081e-itado-hasta-elegir-archivos-chromium\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-el-b-4081e-itado-hasta-elegir-archivos-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Nuevo escaneo › subir manifiestos muestra el resultado con 2 dependencias vulnerables" classname="escaneo.spec.ts" time="0.609">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-subi-12895--2-dependencias-vulnerables-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-subi-12895--2-dependencias-vulnerables-chromium\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-subi-12895--2-dependencias-vulnerables-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Nuevo escaneo › Ver solución abre el panel con la versión segura verificada" classname="escaneo.spec.ts" time="0.688">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-Ver--27ea2-a-versión-segura-verificada-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-Ver--27ea2-a-versión-segura-verificada-chromium\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-Ver--27ea2-a-versión-segura-verificada-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Nuevo escaneo › el buscador filtra la tabla de hallazgos" classname="escaneo.spec.ts" time="0.583">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-el-b-5ca72-iltra-la-tabla-de-hallazgos-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-el-b-5ca72-iltra-la-tabla-de-hallazgos-chromium\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-el-b-5ca72-iltra-la-tabla-de-hallazgos-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Nuevo escaneo › los enlaces de descarga apuntan al reporte HTML y PDF" classname="escaneo.spec.ts" time="0.562">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-los--ddd0e-untan-al-reporte-HTML-y-PDF-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-los--ddd0e-untan-al-reporte-HTML-y-PDF-chromium\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-los--ddd0e-untan-al-reporte-HTML-y-PDF-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Historial › los escaneos de la sesión aparecen en el historial y se eliminan con confirmación" classname="escaneo.spec.ts" time="0.678">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Historial-los-esca-b0c6c-e-eliminan-con-confirmación-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Historial-los-esca-b0c6c-e-eliminan-con-confirmación-chromium\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Historial-los-esca-b0c6c-e-eliminan-con-confirmación-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Navegación › la página Cómo funciona se abre desde el menú" classname="escaneo.spec.ts" time="0.384">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Navegación-la-pági-6716c-ciona-se-abre-desde-el-menú-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Navegación-la-pági-6716c-ciona-se-abre-desde-el-menú-chromium\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Navegación-la-pági-6716c-ciona-se-abre-desde-el-menú-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Estado (telemetría) › la página Estado refleja un escaneo nuevo en la telemetría" classname="escaneo.spec.ts" time="0.773">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Estado-telemetría--1c708-aneo-nuevo-en-la-telemetría-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Estado-telemetría--1c708-aneo-nuevo-en-la-telemetría-chromium\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Estado-telemetría--1c708-aneo-nuevo-en-la-telemetría-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="escaneo.spec.ts" timestamp="2026-11-20T22:16:56.171Z" hostname="movil" tests="8" failures="0" skipped="0" time="5.375" errors="0">
+<testcase name="Nuevo escaneo › el botón Escanear está deshabilitado hasta elegir archivos" classname="escaneo.spec.ts" time="0.469">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-el-b-4081e-itado-hasta-elegir-archivos-movil\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-el-b-4081e-itado-hasta-elegir-archivos-movil\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-el-b-4081e-itado-hasta-elegir-archivos-movil\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Nuevo escaneo › subir manifiestos muestra el resultado con 2 dependencias vulnerables" classname="escaneo.spec.ts" time="0.628">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-subi-12895--2-dependencias-vulnerables-movil\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-subi-12895--2-dependencias-vulnerables-movil\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-subi-12895--2-dependencias-vulnerables-movil\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Nuevo escaneo › Ver solución abre el panel con la versión segura verificada" classname="escaneo.spec.ts" time="0.768">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-Ver--27ea2-a-versión-segura-verificada-movil\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-Ver--27ea2-a-versión-segura-verificada-movil\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-Ver--27ea2-a-versión-segura-verificada-movil\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Nuevo escaneo › el buscador filtra la tabla de hallazgos" classname="escaneo.spec.ts" time="0.632">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-el-b-5ca72-iltra-la-tabla-de-hallazgos-movil\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-el-b-5ca72-iltra-la-tabla-de-hallazgos-movil\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-el-b-5ca72-iltra-la-tabla-de-hallazgos-movil\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Nuevo escaneo › los enlaces de descarga apuntan al reporte HTML y PDF" classname="escaneo.spec.ts" time="0.68">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-los--ddd0e-untan-al-reporte-HTML-y-PDF-movil\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-los--ddd0e-untan-al-reporte-HTML-y-PDF-movil\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Nuevo-escaneo-los--ddd0e-untan-al-reporte-HTML-y-PDF-movil\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Historial › los escaneos de la sesión aparecen en el historial y se eliminan con confirmación" classname="escaneo.spec.ts" time="0.788">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Historial-los-esca-b0c6c-e-eliminan-con-confirmación-movil\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Historial-los-esca-b0c6c-e-eliminan-con-confirmación-movil\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Historial-los-esca-b0c6c-e-eliminan-con-confirmación-movil\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Navegación › la página Cómo funciona se abre desde el menú" classname="escaneo.spec.ts" time="0.495">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Navegación-la-pági-6716c-ciona-se-abre-desde-el-menú-movil\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Navegación-la-pági-6716c-ciona-se-abre-desde-el-menú-movil\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Navegación-la-pági-6716c-ciona-se-abre-desde-el-menú-movil\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Estado (telemetría) › la página Estado refleja un escaneo nuevo en la telemetría" classname="escaneo.spec.ts" time="0.915">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\ui-resultados\escaneo-Estado-telemetría--1c708-aneo-nuevo-en-la-telemetría-movil\test-finished-1.png]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Estado-telemetría--1c708-aneo-nuevo-en-la-telemetría-movil\video.webm]]
+
+[[ATTACHMENT|..\ui-resultados\escaneo-Estado-telemetría--1c708-aneo-nuevo-en-la-telemetría-movil\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

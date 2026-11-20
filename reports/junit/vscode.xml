@@ -1,0 +1,10 @@
+<testsuite name="Extensi&#xF3;n VS Code (e2e)" tests="8" failures="0" errors="0" skipped="0" timestamp="Fri, 20 Nov 2026 21:46:23 GMT" time="2.726">
+<testcase classname="Extensi&#xF3;n DepScan (VS Code real)" name="subraya lodash (directa, versi&#xF3;n del lockfile) en package.json con el CVE y la versi&#xF3;n segura" file="c:\Users\desci2\Documents\text\apps\vscode\dist-test\extension.test.js" time="0.001"/>
+<testcase classname="Extensi&#xF3;n DepScan (VS Code real)" name="subraya django en requirements.txt como cr&#xED;tica y no marca requests" file="c:\Users\desci2\Documents\text\apps\vscode\dist-test\extension.test.js" time="0"/>
+<testcase classname="Extensi&#xF3;n DepScan (VS Code real)" name="el hover muestra el detalle y la soluci&#xF3;n verificada" file="c:\Users\desci2\Documents\text\apps\vscode\dist-test\extension.test.js" time="2.174"/>
+<testcase classname="Extensi&#xF3;n DepScan (VS Code real)" name="el Quick Fix actualiza lodash a ^4.17.21 y el reescaneo limpia el subrayado" file="c:\Users\desci2\Documents\text\apps\vscode\dist-test\extension.test.js" time="0.404"/>
+<testcase classname="Extensi&#xF3;n DepScan (VS Code real)" name="la skill depscan_scan devuelve el resultado para la IA" file="c:\Users\desci2\Documents\text\apps\vscode\dist-test\extension.test.js" time="0.014"/>
+<testcase classname="Extensi&#xF3;n DepScan (VS Code real)" name="la skill depscan_vulnerability explica un CVE por su alias" file="c:\Users\desci2\Documents\text\apps\vscode\dist-test\extension.test.js" time="0.004"/>
+<testcase classname="Extensi&#xF3;n DepScan (VS Code real)" name="&#x27;Actualizar todas&#x27; corrige requirements.txt y deja el proyecto sin vulnerables" file="c:\Users\desci2\Documents\text\apps\vscode\dist-test\extension.test.js" time="0.021"/>
+<testcase classname="Extensi&#xF3;n DepScan (VS Code real)" name="registra el agente @depscan y sus comandos" file="c:\Users\desci2\Documents\text\apps\vscode\dist-test\extension.test.js" time="0"/>
+</testsuite>

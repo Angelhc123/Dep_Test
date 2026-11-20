@@ -1,24 +1,20 @@
+# Solo se ignora lo necesario para ejecutar en local o lo que es secreto.
 node_modules/
 dist/
 *.tsbuildinfo
+# Secretos (claves reales): nunca al repositorio público
 .env
 .env.*
 *.secrets.local.env
+# Base de datos local (sesiones y tokens cifrados de pruebas locales)
 data/
+# Repos clonados por el benchmark y temporales
 benchmark/repos/
-coverage/
 site/
 ~$*
-# Reportes de pruebas (se publican en GitHub Pages desde CI)
-reports/
-.features-gen/
 .stryker-tmp/
-test-results/
-playwright-report/
-# Laboratorios de la unidad 2 (repos independientes, solo referencia local)
-labssegundaUNidad/
-
-# Extensión de VS Code
+# VS Code descargado para las pruebas e2e de la extensión (1 GB)
 apps/vscode/.vscode-test/
 apps/vscode/dist-test/
-*.vsix
+# Laboratorios de la unidad 2 (privados)
+labssegundaUNidad/

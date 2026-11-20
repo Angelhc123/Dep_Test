@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="192" failures="0" errors="0" time="3.8351246">
+    <testsuite name="apps/api/test/api.test.ts" timestamp="2026-11-20T22:42:09.122Z" hostname="DESKTOP-DLHLHHV" tests="7" failures="0" errors="0" skipped="0" time="0.5727647">
+        <testcase classname="apps/api/test/api.test.ts" name="API: escaneos &gt; GET /api/health" time="0.0623238">
+        </testcase>
+        <testcase classname="apps/api/test/api.test.ts" name="API: escaneos &gt; escanea, calcula la solución, guarda por sesión y descarga HTML y PDF" time="0.0584079">
+        </testcase>
+        <testcase classname="apps/api/test/api.test.ts" name="API: escaneos &gt; valida la entrada" time="0.0038378">
+        </testcase>
+        <testcase classname="apps/api/test/api.test.ts" name="API: escaneos &gt; GET /api/vulns/:id" time="0.0019432">
+        </testcase>
+        <testcase classname="apps/api/test/api.test.ts" name="API: login con GitHub y repos privados &gt; informa qué proveedores están configurados" time="0.0020582">
+        </testcase>
+        <testcase classname="apps/api/test/api.test.ts" name="API: login con GitHub y repos privados &gt; flujo OAuth completo, repos privados y privacidad del escaneo" time="0.0434289">
+        </testcase>
+        <testcase classname="apps/api/test/api.test.ts" name="API: login con GitHub y repos privados &gt; rechaza returnTo externo (redirección abierta)" time="0.0020979">
+        </testcase>
+    </testsuite>
+    <testsuite name="apps/api/test/integracion-fuentes.test.ts" timestamp="2026-11-20T22:42:09.129Z" hostname="DESKTOP-DLHLHHV" tests="5" failures="0" errors="0" skipped="0" time="1.1804023">
+        <testcase classname="apps/api/test/integracion-fuentes.test.ts" name="Integración: escaneo con adaptadores HTTP reales + caché SQLite &gt; lee el proyecto del disco, consulta OSV por HTTP y propone la versión segura" time="0.0881353">
+        </testcase>
+        <testcase classname="apps/api/test/integracion-fuentes.test.ts" name="Integración: escaneo con adaptadores HTTP reales + caché SQLite &gt; el segundo escaneo reutiliza la caché: no vuelve a pedir el detalle a OSV" time="0.0075852">
+        </testcase>
+        <testcase classname="apps/api/test/integracion-fuentes.test.ts" name="Integración: escaneo con adaptadores HTTP reales + caché SQLite &gt; la caché sobrevive a cerrar y reabrir la base de datos" time="0.0066511">
+        </testcase>
+        <testcase classname="apps/api/test/integracion-fuentes.test.ts" name="Integración: escaneo con adaptadores HTTP reales + caché SQLite &gt; reintenta cuando OSV responde 503 y termina el escaneo" time="1.0109718">
+        </testcase>
+        <testcase classname="apps/api/test/integracion-fuentes.test.ts" name="Integración: escaneo con adaptadores HTTP reales + caché SQLite &gt; guarda el reporte en SQLite y lo lista por dueño" time="0.0103015">
+        </testcase>
+    </testsuite>
+    <testsuite name="apps/api/test/no-funcionales.test.ts" timestamp="2026-11-20T22:42:09.130Z" hostname="DESKTOP-DLHLHHV" tests="14" failures="0" errors="0" skipped="0" time="0.4992149">
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Telemetría &gt; /api/metrics cuenta peticiones, escaneos por semáforo, sesiones e historial" time="0.0784892">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Telemetría &gt; /metrics expone el formato de texto de Prometheus" time="0.0013251">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Telemetría &gt; con METRICS_TOKEN las métricas exigen Bearer token" time="0.0217595">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Telemetría &gt; arma una serie por minuto de la última hora para los gráficos" time="0.0015902">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Telemetría &gt; la caché instrumentada mide aciertos, fallos y tasa de aciertos" time="0.0003889">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Logs &gt; cada respuesta lleva X-Request-Id y el mismo id aparece en el log" time="0.0008992">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Logs &gt; ignora un X-Request-Id inseguro y genera un UUID" time="0.0009159">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Logs &gt; registra un evento estructurado por escaneo (event=scan)" time="0.0020671">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Logs &gt; nunca escribe cookies de sesión en los logs" time="0.0025974">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Sesiones &gt; la cookie de sesión es HttpOnly, SameSite=Lax y dura 30 días" time="0.0015945">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Sesiones &gt; una cookie inventada no da acceso a ningún historial" time="0.0007759">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Sesiones &gt; las sesiones y la caché vencidas se purgan" time="0.018185">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Historial &gt; pagina los escaneos del más reciente al más antiguo" time="0.0069244">
+        </testcase>
+        <testcase classname="apps/api/test/no-funcionales.test.ts" name="Historial &gt; rechaza límites de paginación fuera de rango" time="0.0010771">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/analysis.test.ts" timestamp="2026-11-20T22:42:09.132Z" hostname="DESKTOP-DLHLHHV" tests="12" failures="0" errors="0" skipped="0" time="0.0343659">
+        <testcase classname="packages/core/test/analysis.test.ts" name="isAffected &gt; 4.17.11 → true" time="0.0040205">
+        </testcase>
+        <testcase classname="packages/core/test/analysis.test.ts" name="isAffected &gt; 4.17.12 → false" time="0.0003593">
+        </testcase>
+        <testcase classname="packages/core/test/analysis.test.ts" name="isAffected &gt; 4.99.0 → false" time="0.0002043">
+        </testcase>
+        <testcase classname="packages/core/test/analysis.test.ts" name="isAffected &gt; 5.0.0 → true" time="0.0001714">
+        </testcase>
+        <testcase classname="packages/core/test/analysis.test.ts" name="isAffected &gt; 5.1.0 → true" time="0.000179">
+        </testcase>
+        <testcase classname="packages/core/test/analysis.test.ts" name="isAffected &gt; 5.1.1 → false" time="0.000164">
+        </testcase>
+        <testcase classname="packages/core/test/analysis.test.ts" name="normalizeVulnerability &gt; calcula la severidad desde el vector CVSS 3" time="0.0037808">
+        </testcase>
+        <testcase classname="packages/core/test/analysis.test.ts" name="normalizeVulnerability &gt; usa la etiqueta de GHSA si no hay vector" time="0.0005385">
+        </testcase>
+        <testcase classname="packages/core/test/analysis.test.ts" name="dedupe &gt; une entradas que comparten CVE y usa el CVE como ID" time="0.0195021">
+        </testcase>
+        <testcase classname="packages/core/test/analysis.test.ts" name="minSafeVersion &gt; elige la menor versión que corrige todas las fallas" time="0.0011375">
+        </testcase>
+        <testcase classname="packages/core/test/analysis.test.ts" name="minSafeVersion &gt; reporta fallas sin corrección" time="0.0003873">
+        </testcase>
+        <testcase classname="packages/core/test/analysis.test.ts" name="shouldFail &gt; respeta el umbral" time="0.0004526">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/cvss.test.ts" timestamp="2026-11-20T22:42:09.133Z" hostname="DESKTOP-DLHLHHV" tests="7" failures="0" errors="0" skipped="0" time="0.0065773">
+        <testcase classname="packages/core/test/cvss.test.ts" name="cvss3BaseScore &gt; CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H → 9.8" time="0.0024037">
+        </testcase>
+        <testcase classname="packages/core/test/cvss.test.ts" name="cvss3BaseScore &gt; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H → 10" time="0.0003757">
+        </testcase>
+        <testcase classname="packages/core/test/cvss.test.ts" name="cvss3BaseScore &gt; CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N → 6.1" time="0.0002247">
+        </testcase>
+        <testcase classname="packages/core/test/cvss.test.ts" name="cvss3BaseScore &gt; CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:L/I:N/A:N → 1.8" time="0.0002167">
+        </testcase>
+        <testcase classname="packages/core/test/cvss.test.ts" name="cvss3BaseScore &gt; CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H → 5.9" time="0.0002228">
+        </testcase>
+        <testcase classname="packages/core/test/cvss.test.ts" name="cvss3BaseScore &gt; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N → 0" time="0.0001892">
+        </testcase>
+        <testcase classname="packages/core/test/cvss.test.ts" name="cvss3BaseScore &gt; rechaza vectores inválidos o de otra versión" time="0.0003809">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/files.test.ts" timestamp="2026-11-20T22:42:09.136Z" hostname="DESKTOP-DLHLHHV" tests="11" failures="0" errors="0" skipped="0" time="0.0544376">
+        <testcase classname="packages/core/test/files.test.ts" name="isIgnoredPath &gt; ignora rutas dentro de node_modules o .git" time="0.0036275">
+        </testcase>
+        <testcase classname="packages/core/test/files.test.ts" name="isIgnoredPath &gt; no ignora rutas normales" time="0.0004162">
+        </testcase>
+        <testcase classname="packages/core/test/files.test.ts" name="isRequirementsFile &gt; detecta requirements.txt y variantes" time="0.0005895">
+        </testcase>
+        <testcase classname="packages/core/test/files.test.ts" name="isRequirementsFile &gt; rechaza archivos .txt no relacionados" time="0.0003048">
+        </testcase>
+        <testcase classname="packages/core/test/files.test.ts" name="isManifestPath &gt; acepta manifiestos npm y requirements" time="0.0004482">
+        </testcase>
+        <testcase classname="packages/core/test/files.test.ts" name="isManifestPath &gt; rechaza manifiestos dentro de directorios ignorados" time="0.0002456">
+        </testcase>
+        <testcase classname="packages/core/test/files.test.ts" name="isManifestPath &gt; rechaza archivos que no son manifiestos" time="0.0002212">
+        </testcase>
+        <testcase classname="packages/core/test/files.test.ts" name="readProjectDirectory &gt; lee manifiestos recursivamente e ignora node_modules y archivos irrelevantes" time="0.0297701">
+        </testcase>
+        <testcase classname="packages/core/test/files.test.ts" name="readProjectDirectory &gt; respeta el límite maxFiles" time="0.0081823">
+        </testcase>
+        <testcase classname="packages/core/test/files.test.ts" name="readProjectDirectory &gt; ignora directorios inaccesibles sin lanzar" time="0.0018752">
+        </testcase>
+        <testcase classname="packages/core/test/files.test.ts" name="readProjectDirectory &gt; ignora carpetas ocultas" time="0.004764">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/github-source.test.ts" timestamp="2026-11-20T22:42:09.141Z" hostname="DESKTOP-DLHLHHV" tests="13" failures="0" errors="0" skipped="0" time="0.0689779">
+        <testcase classname="packages/core/test/github-source.test.ts" name="parseGithubRepo &gt; acepta owner/repo" time="0.0041869">
+        </testcase>
+        <testcase classname="packages/core/test/github-source.test.ts" name="parseGithubRepo &gt; acepta owner/repo@ref" time="0.0005387">
+        </testcase>
+        <testcase classname="packages/core/test/github-source.test.ts" name="parseGithubRepo &gt; acepta una URL completa de GitHub" time="0.0002692">
+        </testcase>
+        <testcase classname="packages/core/test/github-source.test.ts" name="parseGithubRepo &gt; acepta una URL con /tree/&lt;ref&gt;" time="0.0002398">
+        </testcase>
+        <testcase classname="packages/core/test/github-source.test.ts" name="parseGithubRepo &gt; acepta .git al final y www." time="0.0002232">
+        </testcase>
+        <testcase classname="packages/core/test/github-source.test.ts" name="parseGithubRepo &gt; devuelve null para una entrada inválida" time="0.0002087">
+        </testcase>
+        <testcase classname="packages/core/test/github-source.test.ts" name="fetchGithubProject &gt; descarga los manifiestos de un repo público (sin token)" time="0.0490796">
+        </testcase>
+        <testcase classname="packages/core/test/github-source.test.ts" name="fetchGithubProject &gt; usa la API de contenidos cuando hay token" time="0.0031342">
+        </testcase>
+        <testcase classname="packages/core/test/github-source.test.ts" name="fetchGithubProject &gt; lanza si el repositorio no existe (sin token)" time="0.0031143">
+        </testcase>
+        <testcase classname="packages/core/test/github-source.test.ts" name="fetchGithubProject &gt; lanza con mensaje distinto si el repo no existe y hay token" time="0.0009662">
+        </testcase>
+        <testcase classname="packages/core/test/github-source.test.ts" name="fetchGithubProject &gt; lanza si la rama/ref no existe" time="0.0012046">
+        </testcase>
+        <testcase classname="packages/core/test/github-source.test.ts" name="fetchGithubProject &gt; lanza si no se puede leer el árbol de archivos" time="0.0011561">
+        </testcase>
+        <testcase classname="packages/core/test/github-source.test.ts" name="fetchGithubProject &gt; respeta maxFiles y omite archivos que no respondieron 200" time="0.0011045">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/http.test.ts" timestamp="2026-11-20T22:42:09.143Z" hostname="DESKTOP-DLHLHHV" tests="16" failures="0" errors="0" skipped="0" time="1.1190221">
+        <testcase classname="packages/core/test/http.test.ts" name="httpJson &gt; devuelve el cuerpo parseado en una respuesta 200" time="0.0482454">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="httpJson &gt; devuelve null en 404" time="0.0009551">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="httpJson &gt; lanza HttpError en un error no reintentable (400)" time="0.0024039">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="httpJson &gt; reintenta en 503 y respeta Retry-After" time="1.0158074">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="httpJson &gt; lanza HttpError tras agotar los reintentos en 429" time="0.0031298">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="httpJson &gt; reintenta ante errores de red y finalmente lanza" time="0.0016758">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="httpJson &gt; se recupera de un error de red seguido de éxito" time="0.0009054">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="httpJson &gt; envía el cuerpo como JSON cuando se pasa body" time="0.0004273">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="mapLimit &gt; conserva el orden de los resultados con concurrencia limitada" time="0.0404888">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="mapLimit &gt; funciona con límite mayor que el número de items" time="0.0002977">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="mapLimit &gt; funciona con lista vacía" time="0.0001286">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="cached &gt; usa el loader cuando no hay caché y guarda el resultado" time="0.0004207">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="cached &gt; sin caché siempre ejecuta el loader" time="0.0001705">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="MemoryCache &gt; expira las entradas tras el TTL" time="0.0003952">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="MemoryCache &gt; devuelve undefined para claves inexistentes" time="0.0000871">
+        </testcase>
+        <testcase classname="packages/core/test/http.test.ts" name="RateLimiter &gt; permite hasta `max` llamadas inmediatas y encola el resto" time="0.000847">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/nvd-client.test.ts" timestamp="2026-11-20T22:42:09.145Z" hostname="DESKTOP-DLHLHHV" tests="4" failures="0" errors="0" skipped="0" time="0.0530991">
+        <testcase classname="packages/core/test/nvd-client.test.ts" name="NvdClient.getCve &gt; devuelve null si el ID no tiene el formato CVE-YYYY-NNN" time="0.0027791">
+        </testcase>
+        <testcase classname="packages/core/test/nvd-client.test.ts" name="NvdClient.getCve &gt; devuelve null si NVD no conoce el CVE" time="0.0444616">
+        </testcase>
+        <testcase classname="packages/core/test/nvd-client.test.ts" name="NvdClient.getCve &gt; prefiere CVSS 3.1 sobre 3.0, 4.0 y 2.0" time="0.0022265">
+        </testcase>
+        <testcase classname="packages/core/test/nvd-client.test.ts" name="NvdClient.getCve &gt; usa un apiKey en la cabecera cuando se provee" time="0.0009972">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/osv-client.test.ts" timestamp="2026-11-20T22:42:09.145Z" hostname="DESKTOP-DLHLHHV" tests="9" failures="0" errors="0" skipped="0" time="0.0644462">
+        <testcase classname="packages/core/test/osv-client.test.ts" name="OsvClient.queryBatch &gt; devuelve los IDs de vulnerabilidades por cada query, en orden" time="0.0452348">
+        </testcase>
+        <testcase classname="packages/core/test/osv-client.test.ts" name="OsvClient.queryBatch &gt; pagina en lotes cuando hay más queries que OSV_BATCH_LIMIT" time="0.0076809">
+        </testcase>
+        <testcase classname="packages/core/test/osv-client.test.ts" name="OsvClient.queryBatch &gt; sigue next_page_token para completar los IDs de una query" time="0.0011698">
+        </testcase>
+        <testcase classname="packages/core/test/osv-client.test.ts" name="OsvClient.queryBatch &gt; lanza si la respuesta no tiene el mismo tamaño que el lote" time="0.002703">
+        </testcase>
+        <testcase classname="packages/core/test/osv-client.test.ts" name="OsvClient.queryPackage &gt; acumula vulnerabilidades a través de varias páginas y cachea por paquete" time="0.0014583">
+        </testcase>
+        <testcase classname="packages/core/test/osv-client.test.ts" name="OsvClient.queryPackage &gt; filtra entradas que no cumplen el esquema mínimo" time="0.0007415">
+        </testcase>
+        <testcase classname="packages/core/test/osv-client.test.ts" name="OsvClient.getVulnerability / getVulnerabilities &gt; devuelve null si la respuesta no es una vulnerabilidad válida" time="0.000718">
+        </testcase>
+        <testcase classname="packages/core/test/osv-client.test.ts" name="OsvClient.getVulnerability / getVulnerabilities &gt; devuelve el detalle de la vulnerabilidad" time="0.0005604">
+        </testcase>
+        <testcase classname="packages/core/test/osv-client.test.ts" name="OsvClient.getVulnerability / getVulnerabilities &gt; descarga varios detalles en paralelo y descarta los nulos" time="0.0010136">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/parsers.test.ts" timestamp="2026-11-20T22:42:09.147Z" hostname="DESKTOP-DLHLHHV" tests="9" failures="0" errors="0" skipped="0" time="0.0130076">
+        <testcase classname="packages/core/test/parsers.test.ts" name="parsePackageJson &gt; lee dependencies, devDependencies y optional" time="0.0041582">
+        </testcase>
+        <testcase classname="packages/core/test/parsers.test.ts" name="parsePackageJson &gt; identifica rangos fuera del registro" time="0.0010154">
+        </testcase>
+        <testcase classname="packages/core/test/parsers.test.ts" name="parseLockfile v3 &gt; extrae versiones exactas, incluidas las anidadas" time="0.0004473">
+        </testcase>
+        <testcase classname="packages/core/test/parsers.test.ts" name="parseLockfile v3 &gt; separa directas de transitivas y reconstruye la cadena más corta" time="0.0017345">
+        </testcase>
+        <testcase classname="packages/core/test/parsers.test.ts" name="parseLockfile v3 &gt; avisa de paquetes no alcanzables" time="0.0002549">
+        </testcase>
+        <testcase classname="packages/core/test/parsers.test.ts" name="parseLockfile v1 &gt; lee el árbol anidado" time="0.0008373">
+        </testcase>
+        <testcase classname="packages/core/test/parsers.test.ts" name="parseRequirements &gt; interpreta especificadores, extras, marcadores y continuaciones" time="0.0005579">
+        </testcase>
+        <testcase classname="packages/core/test/parsers.test.ts" name="parseRequirements &gt; sigue -r con rutas relativas y detecta ciclos" time="0.0003356">
+        </testcase>
+        <testcase classname="packages/core/test/parsers.test.ts" name="parseRequirements &gt; marca URL y editables como fuera del índice" time="0.0004083">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/pep440.test.ts" timestamp="2026-11-20T22:42:09.148Z" hostname="DESKTOP-DLHLHHV" tests="19" failures="0" errors="0" skipped="0" time="0.0133984">
+        <testcase classname="packages/core/test/pep440.test.ts" name="comparePep440 &gt; respeta el orden de PEP 440" time="0.0053763">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="comparePep440 &gt; normaliza formas equivalentes" time="0.0007034">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 2.31.0 satisface &gt;=2.0,&lt;3 → true" time="0.000917">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 3.0 satisface &gt;=2.0,&lt;3 → false" time="0.0001971">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 1.4.5 satisface ~=1.4.2 → true" time="0.0003734">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 1.5.0 satisface ~=1.4.2 → false" time="0.0001688">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 2.9 satisface ~=2.2 → true" time="0.0001468">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 3.0 satisface ~=2.2 → false" time="0.0001705">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 1.3.4 satisface ==1.3.* → true" time="0.0001853">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 1.4.0 satisface ==1.3.* → false" time="0.0003687">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 1.3.4 satisface !=1.3.* → false" time="0.0001599">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 3.0rc1 satisface &gt;=2.0 → false" time="0.0002742">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 3.0rc1 satisface &gt;=3.0rc1 → true" time="0.000138">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 1.0.post1 satisface &gt;1.0 → false" time="0.0001686">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 1.0.1 satisface &gt;1.0 → true" time="0.0001083">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 2.0b1 satisface &lt;2.0 → false" time="0.000095">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="satisfiesPep440 &gt; 1.0+local satisface ==1.0 → true" time="0.0001116">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="maxSatisfyingPep440 / exactPep440 &gt; excluye pre-releases" time="0.0003886">
+        </testcase>
+        <testcase classname="packages/core/test/pep440.test.ts" name="maxSatisfyingPep440 / exactPep440 &gt; detecta pines exactos" time="0.0002863">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/registry-client.test.ts" timestamp="2026-11-20T22:42:09.150Z" hostname="DESKTOP-DLHLHHV" tests="4" failures="0" errors="0" skipped="0" time="0.0476654">
+        <testcase classname="packages/core/test/registry-client.test.ts" name="RegistryClient.listVersions (npm) &gt; devuelve las versiones publicadas" time="0.0433655">
+        </testcase>
+        <testcase classname="packages/core/test/registry-client.test.ts" name="RegistryClient.listVersions (npm) &gt; devuelve null si el paquete no existe" time="0.0006283">
+        </testcase>
+        <testcase classname="packages/core/test/registry-client.test.ts" name="RegistryClient.listVersions (PyPI) &gt; excluye versiones donde todos los archivos están yanked" time="0.0007945">
+        </testcase>
+        <testcase classname="packages/core/test/registry-client.test.ts" name="RegistryClient.listVersions (PyPI) &gt; devuelve null si el proyecto no existe" time="0.0004122">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/remediation.test.ts" timestamp="2026-11-20T22:42:09.150Z" hostname="DESKTOP-DLHLHHV" tests="7" failures="0" errors="0" skipped="0" time="0.0227736">
+        <testcase classname="packages/core/test/remediation.test.ts" name="buildRemediation &gt; evalúa todas las versiones contra todos los avisos del paquete" time="0.0100044">
+        </testcase>
+        <testcase classname="packages/core/test/remediation.test.ts" name="buildRemediation &gt; propone overrides cuando el rango del padre no admite la versión segura" time="0.002441">
+        </testcase>
+        <testcase classname="packages/core/test/remediation.test.ts" name="buildRemediation &gt; basta con npm update si el rango del padre ya admite una versión segura" time="0.0012141">
+        </testcase>
+        <testcase classname="packages/core/test/remediation.test.ts" name="buildRemediation &gt; incluye mitigaciones del aviso y por CWE, y el commit de corrección" time="0.0010246">
+        </testcase>
+        <testcase classname="packages/core/test/remediation.test.ts" name="buildRemediation &gt; reporta no-fix si ninguna versión publicada es segura" time="0.0008737">
+        </testcase>
+        <testcase classname="packages/core/test/remediation.test.ts" name="buildRemediation &gt; genera comandos de pip para PyPI" time="0.0040015">
+        </testcase>
+        <testcase classname="packages/core/test/remediation.test.ts" name="extractWorkaround &gt; extrae la sección de workarounds del markdown" time="0.0003374">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/scan.test.ts" timestamp="2026-11-20T22:42:09.151Z" hostname="DESKTOP-DLHLHHV" tests="2" failures="0" errors="0" skipped="0" time="0.0490523">
+        <testcase classname="packages/core/test/scan.test.ts" name="scanProject &gt; ejecuta el pipeline completo con fuentes simuladas" time="0.044151">
+        </testcase>
+        <testcase classname="packages/core/test/scan.test.ts" name="scanProject &gt; estima versiones sin lockfile si se pide" time="0.0018894">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/semver.test.ts" timestamp="2026-11-20T22:42:09.152Z" hostname="DESKTOP-DLHLHHV" tests="34" failures="0" errors="0" skipped="0" time="0.016406">
+        <testcase classname="packages/core/test/semver.test.ts" name="compareSemver &gt; 1.0.0 vs 2.0.0 → -1" time="0.0042261">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="compareSemver &gt; 1.2.3 vs 1.2.3 → 0" time="0.0003499">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="compareSemver &gt; 1.10.0 vs 1.9.0 → 1" time="0.0002373">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="compareSemver &gt; 1.0.0-alpha vs 1.0.0 → -1" time="0.0002911">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="compareSemver &gt; 1.0.0-alpha vs 1.0.0-alpha.1 → -1" time="0.0003903">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="compareSemver &gt; 1.0.0-alpha.1 vs 1.0.0-alpha.beta → -1" time="0.000246">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="compareSemver &gt; 1.0.0-beta.2 vs 1.0.0-beta.11 → -1" time="0.0002281">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="compareSemver &gt; 1.0.0-rc.1 vs 1.0.0 → -1" time="0.0002135">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="compareSemver &gt; v1.0.0 vs 1.0.0+build.5 → 0" time="0.0002298">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 4.17.21 satisface ^4.17.0 → true" time="0.0014712">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 5.0.0 satisface ^4.17.0 → false" time="0.0005052">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 0.2.5 satisface ^0.2.3 → true" time="0.0002183">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 0.3.0 satisface ^0.2.3 → false" time="0.0001163">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 0.0.4 satisface ^0.0.3 → false" time="0.000137">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 1.2.9 satisface ~1.2.3 → true" time="0.0002223">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 1.3.0 satisface ~1.2.3 → false" time="0.0000924">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 1.9.9 satisface 1.x → true" time="0.0001985">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 2.0.0 satisface 1.x → false" time="0.0000994">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 1.5.0 satisface 1.2.3 - 2.3.4 → true" time="0.0001773">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 2.3.5 satisface 1.2.3 - 2.3.4 → false" time="0.0001015">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 2.3.9 satisface 1.2.3 - 2.3 → true" time="0.0000825">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 1.0.0 satisface &gt;=1.0.0 &lt;2.0.0 || &gt;=3.0.0 → true" time="0.0001926">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 2.5.0 satisface &gt;=1.0.0 &lt;2.0.0 || &gt;=3.0.0 → false" time="0.000164">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 3.1.0 satisface &gt;= 1.0.0 &lt;2.0.0 || &gt;=3.0.0 → true" time="0.0001474">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 9.9.9 satisface * → true" time="0.000103">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 9.9.9 satisface  → true" time="0.0000763">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 1.2.0 satisface &gt;1.1 → true" time="0.0001136">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 1.1.9 satisface &gt;1.1 → false" time="0.0001304">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 1.2.3-beta.2 satisface ^1.2.3-beta.1 → true" time="0.0002411">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 1.3.0-beta.1 satisface ^1.2.3-beta.1 → false" time="0.0001597">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; 2.0.0-rc.1 satisface ^1.0.0 → false" time="0.0001295">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="satisfiesSemver &gt; rangos no semver devuelven false" time="0.0001768">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="maxSatisfyingSemver / exactSemver &gt; elige la mayor versión estable dentro del rango" time="0.0003886">
+        </testcase>
+        <testcase classname="packages/core/test/semver.test.ts" name="maxSatisfyingSemver / exactSemver &gt; detecta versiones fijas" time="0.0004005">
+        </testcase>
+    </testsuite>
+    <testsuite name="packages/core/test/types.test.ts" timestamp="2026-11-20T22:42:09.156Z" hostname="DESKTOP-DLHLHHV" tests="2" failures="0" errors="0" skipped="0" time="0.0059867">
+        <testcase classname="packages/core/test/types.test.ts" name="severityRank &gt; ordena de mayor a menor gravedad: critical &gt; high &gt; medium &gt; unknown &gt; low" time="0.0026935">
+        </testcase>
+        <testcase classname="packages/core/test/types.test.ts" name="severityFromScore &gt; clasifica según los umbrales de CVSS" time="0.0007565">
+        </testcase>
+    </testsuite>
+    <testsuite name="apps/vscode/test/unit/manifiestos.test.ts" timestamp="2026-11-20T22:42:09.156Z" hostname="DESKTOP-DLHLHHV" tests="17" failures="0" errors="0" skipped="0" time="0.0135266">
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="esManifiesto &gt; package.json → true" time="0.0032271">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="esManifiesto &gt; a/b/package-lock.json → true" time="0.0004749">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="esManifiesto &gt; C:\proy\requirements-dev.txt → true" time="0.000219">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="esManifiesto &gt; README.md → false" time="0.0001572">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="esManifiesto &gt; package.json.bak → false" time="0.0001467">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="ubicarDependencia &gt; encuentra la dependencia en package.json y no confunde scripts" time="0.0018806">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="ubicarDependencia &gt; busca también en devDependencies" time="0.0004858">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="ubicarDependencia &gt; encuentra transitivas anidadas en package-lock.json" time="0.0003326">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="ubicarDependencia &gt; en requirements.txt normaliza el nombre e ignora comentarios" time="0.0008017">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="ubicarDependencia &gt; devuelve null si no existe" time="0.0003162">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="aplicarVersion &gt; en package.json conserva el prefijo ^" time="0.0008666">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="aplicarVersion &gt; en requirements.txt fija == y conserva marcador y comentario" time="0.0003298">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="aplicarVersion &gt; no toca el lockfile (se regenera con npm install)" time="0.0002073">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="mensajes y filtros &gt; el mensaje resume severidad, CVE y la solución verificada" time="0.0004699">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="mensajes y filtros &gt; indica la cadena de una transitiva" time="0.0003667">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="mensajes y filtros &gt; filtra por severidad mínima" time="0.0002681">
+        </testcase>
+        <testcase classname="apps/vscode/test/unit/manifiestos.test.ts" name="mensajes y filtros &gt; solo las directas con versión recomendada son corregibles" time="0.0002563">
+        </testcase>
+    </testsuite>
+</testsuites>
