@@ -75,4 +75,4 @@ También se puede desde VS Code: *Extensiones → ⋯ → Instalar desde VSIX…
 5. **Skills en Copilot (30 s).** En modo *Agent* de Copilot, escribe *"revisa si mis dependencias tienen vulnerabilidades #depscanScan"*. Copilot usa la skill de DepScan.
 6. **Evidencia (20 s).** Abre el panel de GitHub Pages en la fila *Extensión VS Code (e2e) 8/8* y muestra la página de descarga del `.vsix`.
 
-**Mensaje clave:** *"El mismo motor que probamos con 250 pruebas automatizadas ahora vive en el editor: el desarrollador ve la vulnerabilidad donde la escribe, y un agente de IA la explica y la corrige con datos reales de OSV, sin inventar CVE."*
+**Mensaje clave:** *"El mismo motor que probamos con 251 pruebas automatizadas ahora vive en el editor: el desarrollador ve la vulnerabilidad donde la escribe, y un agente de IA la explica y la corrige con datos reales de OSV, sin inventar CVE."*

@@ -1,6 +1,6 @@
 {
-  "generado": "2026-11-20T22:08:54.342Z",
-  "commit": "3a3367b73669d92ece9d967da074b6db4f17855f",
+  "generado": "2026-11-20T22:28:54.866Z",
+  "commit": "3abcf15b2c3e0afbfac7af171433af1733fe3353",
   "suites": [
     {
       "id": "unitarias",
@@ -10,7 +10,7 @@
       "total": 166,
       "fallidas": 0,
       "omitidas": 0,
-      "segundos": 1.289525462
+      "segundos": 1.451497624
     },
     {
       "id": "integracion",
@@ -20,7 +20,7 @@
       "total": 26,
       "fallidas": 0,
       "omitidas": 0,
-      "segundos": 1.697576537
+      "segundos": 1.8806686149999998
     },
     {
       "id": "sistema",
@@ -29,7 +29,7 @@
       "total": 23,
       "fallidas": 0,
       "omitidas": 0,
-      "segundos": 1.519723349
+      "segundos": 1.685033078
     },
     {
       "id": "ui",
@@ -38,7 +38,7 @@
       "total": 16,
       "fallidas": 0,
       "omitidas": 0,
-      "segundos": 6.961
+      "segundos": 8.619
     },
     {
       "id": "aceptacion",
@@ -47,7 +47,7 @@
       "total": 12,
       "fallidas": 0,
       "omitidas": 0,
-      "segundos": 5.052
+      "segundos": 6.928000000000001
     },
     {
       "id": "vscode",
@@ -56,7 +56,7 @@
       "total": 8,
       "fallidas": 0,
       "omitidas": 0,
-      "segundos": 1.689
+      "segundos": 1.562
     }
   ],
   "mutacion": {
@@ -67,10 +67,9 @@
     "puntaje": 61.04448742746615
   },
   "cobertura": {
-    "lines": 93.46,
-    "statements": 90.43,
-    "functions": 94.29,
-    "branches": 77.67
-  },
-  "nota": "unitarias/integración reclasificadas localmente con el mismo vitest.xml (166+26=192); el resto, tal cual del CI"
+    "lines": 93.57,
+    "statements": 90.59,
+    "functions": 94.33,
+    "branches": 77.96
+  }
 }

@@ -22,7 +22,7 @@ const nice = (v) => {
   const p = 10 ** Math.floor(Math.log10(Math.max(v, 1)));
   return [1, 2, 2.5, 5, 10].map((m) => m * p).find((m) => m >= v);
 };
-const hora = (iso) => new Date(iso).toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit", timeZone: "America/Lima" });
+const hora = (iso) => new Date(iso).toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Lima" });
 
 // 1 · Peticiones por minuto (barras) + latencia p95 (línea, eje derecho)
 {
@@ -80,7 +80,7 @@ const hora = (iso) => new Date(iso).toLocaleTimeString("es-PE", { hour: "2-digit
 // 3 · Acumulado (muestras cada 10 s): peticiones y escaneos
 {
   const m = tel.muestras;
-  const W = 560, H = 250, L = 46, R = 16, T = 14, B = 38;
+  const W = 560, H = 200, L = 46, R = 16, T = 14, B = 38;
   const iw = W - L - R, ih = H - T - B;
   const max = nice(Math.max(...m.map((p) => p.requests)));
   const x = (i) => L + (iw * i) / (m.length - 1);
@@ -91,7 +91,7 @@ const hora = (iso) => new Date(iso).toLocaleTimeString("es-PE", { hour: "2-digit
   }
   const linea = (campo, color) =>
     `<polyline points="${m.map((p, i) => `${x(i)},${y(p[campo])}`).join(" ")}" style="fill:none;stroke:${color};stroke-width:2.5"/>`;
-  g += linea("requests", "var(--accent)") + linea("scans", "var(--green)") + linea("historial", "var(--amber)");
+  g += linea("requests", "var(--accent)") + linea("historial", "var(--amber)") + linea("scans", "var(--green)").replace("stroke-width:2.5", "stroke-width:2.5;stroke-dasharray:6 5");
   const u = m.at(-1);
   g += `<text x="${x(m.length - 1) - 4}" y="${y(u.requests) - 8}" text-anchor="end" style="font-size:12px;font-weight:700;fill:var(--accent)">${u.requests} peticiones</text>`;
   g += `<text x="${x(m.length - 1) - 4}" y="${y(u.scans) + 18}" text-anchor="end" style="font-size:12px;font-weight:700;fill:var(--green)">${u.scans} escaneos = ${u.historial} en historial</text>`;
@@ -110,17 +110,17 @@ const hora = (iso) => new Date(iso).toLocaleTimeString("es-PE", { hour: "2-digit
     ["escaneos en rojo", f.scans.byRisk.red ?? 0, "var(--red)"],
     ["escaneos en verde", f.scans.byRisk.green ?? 0, "var(--green)"],
   ];
-  const W = 420, H = 250, L = 190, R = 50;
+  const W = 560, H = 196, L = 220, R = 60;
   const max = Math.max(...filas.map((r) => r[1]));
   let g = "";
   filas.forEach(([n, v, c], i) => {
-    const y = 14 + i * 44 + (i >= 3 ? 14 : 0);
+    const y = 4 + i * 36 + (i >= 3 ? 10 : 0);
     const w = ((W - L - R) * v) / max;
     g += txt(L - 10, y + 17, n, "fill:var(--ink)", "end");
     g += `<rect x="${L}" y="${y + 2}" width="${Math.max(w, 2)}" height="22" rx="3" style="fill:${c}"/>`;
     g += `<text x="${L + Math.max(w, 2) + 6}" y="${y + 18}" style="font-size:13px;font-weight:700;fill:var(--ink)">${v}</text>`;
   });
-  g += `<path d="M10,148 H${W - 10}" style="stroke:var(--line);stroke-dasharray:4 4"/>`;
+  g += `<path d="M10,114 H${W - 10}" style="stroke:var(--line);stroke-dasharray:4 4"/>`;
   guardar("graf-estados", W, H, "Respuestas por clase y escaneos por semáforo", g);
 }
 

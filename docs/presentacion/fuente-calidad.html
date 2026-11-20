@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DepScan · Calidad y pruebas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #e9ebef; --slide: #ffffff; --ink: #14161b; --muted: #5b6270; --line: #dfe2e8; --card: #f5f6f8;
+  --accent: #2563eb; --red: #dc2626; --amber: #d97706; --green: #16a34a; --code: #eef1f5;
+  --shadow: 0 10px 40px rgba(20, 22, 27, .14);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #050608; --slide: #0f1115; --ink: #eef0f4; --muted: #9aa1ad; --line: #262a33; --card: #171a20;
+    --accent: #60a5fa; --red: #ef4444; --amber: #f59e0b; --green: #22c55e; --code: #1b1f27;
+    --shadow: 0 10px 40px rgba(0, 0, 0, .6);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #050608; --slide: #0f1115; --ink: #eef0f4; --muted: #9aa1ad; --line: #262a33; --card: #171a20;
+  --accent: #60a5fa; --red: #ef4444; --amber: #f59e0b; --green: #22c55e; --code: #1b1f27;
+  --shadow: 0 10px 40px rgba(0, 0, 0, .6);
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: Inter, system-ui, sans-serif; overflow: hidden; }
+code, .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+#stage { position: fixed; inset: 0 0 44px 0; display: grid; place-items: center; }
+.slide {
+  position: absolute; width: 1280px; height: 720px; background: var(--slide); border-radius: 14px;
+  box-shadow: var(--shadow); padding: 56px 72px 48px; display: none; flex-direction: column; overflow: hidden;
+  transform-origin: center center;
+}
+.slide.on { display: flex; }
+.slide::after { /* barra semáforo */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px;
+  background: linear-gradient(90deg, var(--red) 0 33.3%, var(--amber) 33.3% 66.6%, var(--green) 66.6%);
+}
+.num { position: absolute; right: 28px; bottom: 18px; font-size: 13px; color: var(--muted); }
+.brand { position: absolute; left: 72px; bottom: 18px; font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+.dots { display: inline-flex; gap: 4px; }
+.dots i { width: 9px; height: 9px; border-radius: 50%; display: block; }
+.dots i:nth-child(1) { background: var(--red); } .dots i:nth-child(2) { background: var(--amber); } .dots i:nth-child(3) { background: var(--green); }
+
+.kicker { font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+h1 { font-size: 64px; line-height: 1.05; font-weight: 800; letter-spacing: -.02em; }
+h2 { font-size: 40px; line-height: 1.12; font-weight: 800; letter-spacing: -.015em; margin-bottom: 26px; }
+h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+p, li { font-size: 20px; line-height: 1.5; }
+.muted { color: var(--muted); }
+.small, .small li { font-size: 16px; }
+ul.list { padding-left: 0; list-style: none; display: grid; gap: 12px; }
+ul.list li { padding-left: 26px; position: relative; }
+ul.list li::before { content: ""; position: absolute; left: 4px; top: 11px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }
+.body { flex: 1; min-height: 0; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; }
+.card p, .card li { font-size: 17px; }
+.big { font-size: 46px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.red { color: var(--red); } .amber { color: var(--amber); } .green { color: var(--green); } .acc { color: var(--accent); }
+.pill { display: inline-block; font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--code); color: var(--muted); }
+code { background: var(--code); padding: 1px 6px; border-radius: 5px; font-size: .88em; }
+
+table { width: 100%; border-collapse: collapse; font-size: 16px; }
+th { text-align: left; font-weight: 700; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; padding: 9px 10px; border-bottom: 2px solid var(--line); }
+td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+td.y { color: var(--green); font-weight: 700; } td.n { color: var(--muted); } td.p { color: var(--amber); font-weight: 600; }
+tr.us td { background: color-mix(in srgb, var(--accent) 9%, transparent); }
+th.us { color: var(--accent); }
+
+.shot { border-radius: 10px; border: 1px solid var(--line); box-shadow: var(--shadow); width: 100%; display: block; }
+.cover { justify-content: center; }
+.cover h1 { font-size: 92px; }
+.cover .sub { font-size: 28px; color: var(--muted); max-width: 900px; margin-top: 14px; line-height: 1.3; }
+.meta { margin-top: 48px; display: grid; gap: 6px; font-size: 18px; color: var(--muted); }
+.meta b { color: var(--ink); }
+.biglogo { display: inline-flex; gap: 10px; margin-bottom: 28px; }
+.biglogo i { width: 26px; height: 26px; border-radius: 50%; display: block; }
+.biglogo i:nth-child(1) { background: var(--red); } .biglogo i:nth-child(2) { background: var(--amber); } .biglogo i:nth-child(3) { background: var(--green); }
+
+/* pipeline */
+.pipe { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 8px; }
+.step { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 12px; position: relative; }
+.step b { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: var(--slide); font-size: 15px; margin-bottom: 10px; }
+.step h4 { font-size: 16px; margin-bottom: 6px; }
+.step p { font-size: 14px; line-height: 1.4; color: var(--muted); }
+
+.filecell { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10.5px; line-height: 1.45; color: var(--accent); background: var(--code); border-radius: 8px; padding: 7px 8px; }
+table.trace td { font-size: 13px; padding: 6px 8px; }
+table.trace code { font-size: 11.5px; }
+.pnum { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--slide); font-size: 12px; margin-right: 4px; }
+
+/* arquitectura */
+.arch { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 18px; align-items: stretch; }
+.layer { border: 2px dashed var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.layer > span { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.box { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 15px; }
+.box b { display: block; font-size: 16px; }
+.box small { color: var(--muted); font-size: 13px; }
+.core { border-color: var(--accent); border-style: solid; }
+.core .box { border-left: 4px solid var(--accent); }
+.flowarrow { text-align: center; color: var(--muted); font-size: 13px; }
+
+.quote { border-left: 4px solid var(--red); padding: 4px 0 4px 18px; }
+
+/* barra inferior */
+#bar { position: fixed; left: 0; right: 0; bottom: 0; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 14px; color: var(--muted); font-size: 13px; }
+#bar button { background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; height: 30px; min-width: 34px; padding: 0 10px; font: inherit; cursor: pointer; }
+#bar button:hover { border-color: var(--accent); }
+#prog { flex: 1; height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; }
+#prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+.hide-sm { }
+@media (max-width: 600px) { .hide-sm { display: none; } }
+
+/* diagramas SVG */
+.dg { width: 100%; height: 100%; display: block; overflow: visible; }
+.dg text { font-family: Inter, system-ui, sans-serif; fill: var(--ink); }
+.dg .t { font-size: 16px; font-weight: 700; }
+.dg .s { font-size: 13px; fill: var(--muted); }
+.dg .m { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11.5px; fill: var(--accent); }
+.dg .k { font-size: 11px; font-weight: 700; letter-spacing: .12em; fill: var(--muted); }
+.dg .ka { font-size: 11px; font-weight: 700; letter-spacing: .12em; fill: var(--accent); }
+.dg .lb { font-size: 12px; fill: var(--muted); paint-order: stroke; stroke: var(--slide); stroke-width: 5px; stroke-linejoin: round; }
+.dg .bx { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.dg .bxa { fill: color-mix(in srgb, var(--accent) 9%, var(--slide)); stroke: var(--accent); stroke-width: 2; }
+.dg .ctr { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 7 5; }
+.dg .ln { fill: none; stroke: var(--muted); stroke-width: 1.6; }
+.dg .lna { fill: none; stroke: var(--accent); stroke-width: 1.8; }
+.dg .dash { stroke-dasharray: 5 4; }
+.dg .life { stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.dg .ah { fill: var(--muted); }
+.dg .aha { fill: var(--accent); }
+.dg .ahopen { fill: none; stroke: var(--muted); stroke-width: 1.4; }
+.dg .gen { fill: var(--slide); stroke: var(--muted); stroke-width: 1.4; }
+.dg .actor { fill: none; stroke: var(--ink); stroke-width: 1.8; }
+.dg .uc { fill: var(--card); stroke: var(--accent); stroke-width: 1.5; }
+.dg .num { font-size: 11px; font-weight: 700; fill: var(--slide); }
+.dg .numbg { fill: var(--accent); }
+
+/* semáforo de pilares */
+.pillar { border-top: 6px solid; }
+.pillar.r { border-top-color: var(--red); } .pillar.a { border-top-color: var(--amber); } .pillar.g { border-top-color: var(--green); }
+.strip { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.strip span { background: var(--code); border-radius: 999px; padding: 6px 14px; font-size: 15px; font-weight: 600; }
+
+/* matriz de versiones */
+table.vm td, table.vm th { text-align: center; }
+table.vm td:first-child, table.vm th:first-child { text-align: left; }
+.cell-r { background: color-mix(in srgb, var(--red) 16%, transparent); color: var(--red); font-weight: 700; }
+.cell-g { background: color-mix(in srgb, var(--green) 16%, transparent); color: var(--green); font-weight: 700; }
+.ok { color: var(--green); font-weight: 700; }
+
+pre.gherkin, pre.prom { font-family: "JetBrains Mono", ui-monospace, monospace; background: var(--code); border-radius: 10px; padding: 14px 16px; white-space: pre; overflow: hidden; }
+pre.gherkin { font-size: 13px; line-height: 1.55; }
+pre.prom { font-size: 11px; line-height: 1.45; padding: 8px 10px; margin-top: 4px; }
+pre.gherkin .kw { color: var(--accent); font-weight: 700; }
+ol.steps { padding-left: 22px; display: grid; gap: 8px; }
+.slide .body img.shot { max-height: 500px; object-fit: cover; object-position: top; }
+ol.steps li { font-size: 15px; line-height: 1.45; }
+
+@media print {
+  @page { size: 1280px 720px; margin: 0; }
+  body { overflow: visible; background: none; }
+  #bar { display: none; }
+  #stage { position: static; display: block; }
+  .slide { display: flex !important; position: relative; transform: none !important; box-shadow: none; border-radius: 0; break-after: page; }
+}
+</style>
+</head>
+<body>
+<div id="stage">
+<!-- Diapositivas de la presentación de calidad. armar-calidad.mjs las envuelve con
+     el estilo y la navegación de fuente.html y genera fuente-calidad.html. -->
+
+<!-- 1 · Portada -->
+<section class="slide cover">
+  <div class="biglogo"><i></i><i></i><i></i></div>
+  <div class="kicker">Unidad 2 · Calidad de software</div>
+  <h1 style="font-size:68px">DepScan: calidad, pruebas<br>y plugin de VS Code</h1>
+  <p class="sub">Análisis estático, pruebas automatizadas, aspectos no funcionales y el reto, con su evidencia publicada en cada push.</p>
+  <div class="meta">
+    <div><b>Panel en vivo:</b> <span class="mono acc">angelhc123.github.io/Dep_Test</span></div>
+    <div>Angel Gadiel Hernández Cruz · Richard Alexis Podestá Condori · Gustavo Alonso Sagua Ramos</div>
+    <div><b>Universidad Privada de Tacna</b> · EPIS · 2026</div>
+  </div>
+</section>
+
+<!-- 2 · Qué nos pidieron -->
+<section class="slide">
+  <div class="kicker">Entregables de la unidad</div>
+  <h2 style="margin-bottom:16px">Lo que pedía el curso y dónde está cada cosa</h2>
+  <div class="body">
+    <table class="small">
+      <tr><th style="width:27%">Entregable</th><th style="width:25%">Herramienta</th><th style="width:20%">Resultado</th><th>Evidencia</th></tr>
+      <tr><td><b>Análisis estático</b></td><td>SonarCloud · Semgrep · Snyk · Hadolint</td><td class="y">Quality Gate ✓ · A/A/A</td><td><code>calidad.yml</code> · SonarCloud · Code scanning</td></tr>
+      <tr><td><b>Unitarias + mutación</b></td><td>Vitest + v8 · Stryker</td><td class="y">166/166 · 61 % mut.</td><td>Panel → <code>/unitarias</code> <code>/cobertura</code> <code>/mutacion</code></td></tr>
+      <tr><td><b>Integración y sistema</b></td><td>Vitest + Fastify inject · servidor real</td><td class="y">26/26 · 23/23</td><td>Panel → <code>/unitarias</code> <code>/sistema</code></td></tr>
+      <tr><td><b>Interfaz de usuario</b></td><td>Playwright (escritorio + móvil)</td><td class="y">16/16 + videos</td><td>Panel → <code>/ui</code></td></tr>
+      <tr><td><b>Aceptación de usuario</b></td><td>Gherkin en español + playwright-bdd</td><td class="y">12/12 escenarios</td><td>Panel → <code>/aceptacion</code></td></tr>
+      <tr><td><b>No funcionales</b></td><td>Sesiones · historial · caché · logs · telemetría</td><td class="y">implementado + probado</td><td><code>docs/NO_FUNCIONALES.md</code> · página <b>Estado</b></td></tr>
+      <tr><td><b>Reto</b></td><td>Plugin VS Code + skills + agente</td><td class="y">8/8 e2e · .vsix</td><td>Panel → <code>/extension</code> · <code>apps/vscode</code></td></tr>
+    </table>
+    <p class="small muted" style="margin-top:14px">Todo corre solo en GitHub Actions en cada push a <code>main</code>; nada se ejecuta a mano para la presentación.</p>
+  </div>
+</section>
+
+<!-- 3 · Cómo está automatizado -->
+<section class="slide">
+  <div class="kicker">Automatización · .github/workflows</div>
+  <h2 style="margin-bottom:10px">Un push dispara tres workflows</h2>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1136 500" role="img" aria-label="Pipeline de CI de DepScan">
+      <defs><marker id="ci-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+      <marker id="ci-aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="aha" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+      <rect x="0" y="210" width="130" height="64" rx="12" class="bxa"/><text x="65" y="238" text-anchor="middle" class="t">git push</text><text x="65" y="258" text-anchor="middle" class="m">main</text>
+      <path class="lna" d="M130,242 C160,242 160,62 196,62" marker-end="url(#ci-aa)"/>
+      <path class="lna" d="M130,242 H196" marker-end="url(#ci-aa)"/>
+      <path class="lna" d="M130,242 C160,242 160,430 196,430" marker-end="url(#ci-aa)"/>
+      <!-- calidad -->
+      <rect x="198" y="10" width="190" height="104" rx="10" class="bx"/><text x="210" y="34" class="t">calidad.yml</text><text x="210" y="54" class="s">análisis estático</text><text x="210" y="74" class="m">5 jobs en paralelo</text><text x="210" y="94" class="m">SARIF → Code scanning</text>
+      <g class="m" style="fill:var(--ink)">
+        <rect x="420" y="10" width="160" height="30" rx="7" class="bx"/><text x="432" y="30">Tests + cobertura</text>
+        <rect x="600" y="10" width="140" height="30" rx="7" class="bx"/><text x="612" y="30">SonarCloud</text>
+        <rect x="420" y="50" width="100" height="30" rx="7" class="bx"/><text x="432" y="70">Semgrep</text>
+        <rect x="530" y="50" width="120" height="30" rx="7" class="bx"/><text x="542" y="70">Snyk Code</text>
+        <rect x="660" y="50" width="160" height="30" rx="7" class="bx"/><text x="672" y="70">Snyk Open Source</text>
+        <rect x="420" y="90" width="180" height="30" rx="7" class="bx"/><text x="432" y="110">Hadolint (Dockerfile)</text>
+      </g>
+      <path class="ln" d="M580,25 H598" marker-end="url(#ci-a)"/>
+      <path class="ln" d="M388,62 H418" marker-end="url(#ci-a)"/>
+      <rect x="880" y="10" width="256" height="110" rx="10" class="bx"/><text x="896" y="36" class="t">Resultados</text><text x="896" y="58" class="s">sonarcloud.io · Quality Gate</text><text x="896" y="78" class="s">GitHub → Security → Code scanning</text><text x="896" y="98" class="s">artefactos snyk-reportes</text>
+      <path class="ln" d="M820,65 H878" marker-end="url(#ci-a)"/>
+      <!-- pruebas -->
+      <rect x="198" y="168" width="190" height="148" rx="10" class="bxa"/><text x="210" y="192" class="t">pruebas.yml</text><text x="210" y="212" class="s">pruebas automatizadas</text><text x="210" y="232" class="m">6 jobs en paralelo</text><text x="210" y="252" class="m">+ job publicar</text><text x="210" y="272" class="m">reportes HTML</text><text x="210" y="292" class="m">→ GitHub Pages</text>
+      <g class="m" style="fill:var(--ink)">
+        <rect x="420" y="160" width="210" height="30" rx="7" class="bx"/><text x="432" y="180">Unitarias + integración</text>
+        <rect x="640" y="160" width="150" height="30" rx="7" class="bx"/><text x="652" y="180">Mutación</text>
+        <rect x="420" y="200" width="210" height="30" rx="7" class="bx"/><text x="432" y="220">Sistema (servidor real)</text>
+        <rect x="640" y="200" width="150" height="30" rx="7" class="bx"/><text x="652" y="220">UI · Playwright</text>
+        <rect x="420" y="240" width="210" height="30" rx="7" class="bx"/><text x="432" y="260">Aceptación · BDD</text>
+        <rect x="640" y="240" width="150" height="30" rx="7" class="bx"/><text x="652" y="260">VS Code e2e + .vsix</text>
+        <rect x="420" y="284" width="370" height="30" rx="7" class="bxa"/><text x="432" y="304">publicar: junta reportes + resumen.json + panel</text>
+      </g>
+      <path class="ln" d="M388,242 H418" marker-end="url(#ci-a)"/>
+      <path class="lna" d="M790,299 H878" marker-end="url(#ci-aa)"/>
+      <rect x="880" y="236" width="256" height="128" rx="10" class="bxa"/><text x="896" y="262" class="t">GitHub Pages</text><text x="896" y="284" class="m">/ panel · /unitarias · /cobertura</text><text x="896" y="302" class="m">/mutacion · /sistema · /ui</text><text x="896" y="320" class="m">/aceptacion · /extension</text><text x="896" y="342" class="s">+ resumen en la ejecución</text>
+      <!-- ci -->
+      <rect x="198" y="390" width="190" height="84" rx="10" class="bx"/><text x="210" y="414" class="t">ci.yml</text><text x="210" y="434" class="s">integración continua</text><text x="210" y="454" class="m">lint · tipos · build</text>
+      <g class="m" style="fill:var(--ink)">
+        <rect x="420" y="390" width="90" height="30" rx="7" class="bx"/><text x="432" y="410">ESLint</text>
+        <rect x="520" y="390" width="110" height="30" rx="7" class="bx"/><text x="532" y="410">typecheck</text>
+        <rect x="640" y="390" width="80" height="30" rx="7" class="bx"/><text x="652" y="410">test</text>
+        <rect x="730" y="390" width="80" height="30" rx="7" class="bx"/><text x="742" y="410">build</text>
+        <rect x="420" y="432" width="390" height="30" rx="7" class="bxa"/><text x="432" y="452">DepScan se escanea a sí mismo (--fail-on high)</text>
+      </g>
+      <path class="ln" d="M388,430 H418" marker-end="url(#ci-a)"/>
+      <rect x="880" y="400" width="256" height="70" rx="10" class="bx"/><text x="896" y="426" class="t">Railway</text><text x="896" y="448" class="s">despliega solo si el build pasa</text>
+      <path class="ln" d="M810,447 H878" marker-end="url(#ci-a)"/>
+    </svg>
+  </div>
+</section>
+
+<!-- 4 · Panel -->
+<section class="slide">
+  <div class="kicker">Evidencia pública</div>
+  <h2 style="margin-bottom:12px">El panel de pruebas y calidad</h2>
+  <div class="body" style="display:grid; grid-template-columns: 1.6fr 1fr; gap:26px; align-items:start">
+    <img class="shot" src="{{IMG:panel}}" alt="Panel de pruebas y calidad en GitHub Pages">
+    <div style="display:grid; gap:14px">
+      <div class="card" style="border-left:4px solid var(--accent)"><p class="small muted">Enlace</p><p class="mono acc" style="font-size:19px; font-weight:600">angelhc123.github.io/<br>Dep_Test</p></div>
+      <ul class="list small">
+        <li>Se regenera en <b>cada push</b> a <code>main</code> (job <code>publicar</code>).</li>
+        <li>Muestra el commit y enlaza a la ejecución de Actions.</li>
+        <li>Cada fila abre el <b>reporte HTML</b> de su herramienta.</li>
+        <li><code>resumen.json</code>: los mismos números, legibles por máquina.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · SonarCloud -->
+<section class="slide">
+  <div class="kicker">Análisis estático · SonarCloud</div>
+  <h2 style="margin-bottom:12px">SonarCloud: Quality Gate aprobado</h2>
+  <div class="body" style="display:grid; grid-template-columns: 1.6fr 1fr; gap:26px; align-items:start">
+    <img class="shot" src="{{IMG:sonar}}" alt="Resumen del proyecto en SonarCloud">
+    <div style="display:grid; gap:12px">
+      <div class="grid2" style="gap:10px">
+        <div class="card"><div class="big green" style="font-size:34px">0</div><p class="small muted">bugs</p></div>
+        <div class="card"><div class="big green" style="font-size:34px">0</div><p class="small muted">vulnerabilidades</p></div>
+        <div class="card"><div class="big" style="font-size:34px">A·A·A</div><p class="small muted">confiab. · seguridad · mantenib.</p></div>
+        <div class="card"><div class="big" style="font-size:34px">1,2 %</div><p class="small muted">duplicación</p></div>
+      </div>
+      <p class="small"><b>Antes:</b> 8 bugs y 1 vulnerabilidad (confiabilidad D, seguridad C). Los corregimos en el código: ordenamientos, una regex, accesibilidad y <i>path traversal</i> en la CLI.</p>
+      <p class="small muted">Config: <code>sonar-project.properties</code> · job <code>SonarCloud</code> de <code>calidad.yml</code></p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · Semgrep y Snyk -->
+<section class="slide">
+  <div class="kicker">Análisis estático · Semgrep y Snyk → GitHub Code scanning</div>
+  <h2 style="margin-bottom:12px">Cada alerta, revisada y clasificada</h2>
+  <div class="body" style="display:grid; grid-template-columns: 1.25fr 1fr; gap:24px; align-items:start">
+    <img class="shot" src="{{IMG:code-scanning}}" alt="Alertas de Code scanning por herramienta">
+    <table class="small" style="font-size:14px">
+      <tr><th>Herramienta</th><th>Qué encontró</th><th>Acción</th></tr>
+      <tr><td><b>Semgrep</b><br>61</td><td>≈ 55 avisos de acciones con tag (<code>@v4</code>) en vez de SHA; GCM sin largo de etiqueta; Docker como root</td><td>GCM <b class="green">corregido</b>; root aceptado (volumen de Railway); tags: plan de fijar por SHA</td></tr>
+      <tr><td><b>Snyk Open Source</b><br>27</td><td>lodash, django… en <code>tests/fixtures</code> y el proyecto e2e</td><td><b>Vulnerables a propósito</b>: son los datos de prueba</td></tr>
+      <tr><td><b>Snyk Code</b><br>10</td><td>2 posibles XSS en enlaces · 8 notas en pruebas</td><td>XSS <b class="green">corregido</b> (URL codificada); notas = secretos falsos de prueba</td></tr>
+      <tr><td><b>Hadolint</b><br>0</td><td>Dockerfile</td><td class="y">limpio</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 7 · Pruebas: resumen -->
+<section class="slide">
+  <div class="kicker">Pruebas automatizadas</div>
+  <h2 style="margin-bottom:12px">251 pruebas en 6 niveles, 0 fallidas</h2>
+  <div class="body" style="display:grid; grid-template-columns: 1.15fr 1fr; gap:26px; align-items:start">
+    <div>{{SVG:graf-pruebas}}</div>
+    <div style="display:grid; gap:12px">
+      <div class="grid2" style="gap:10px">
+        <div class="card"><div class="big acc" style="font-size:34px">93,6 %</div><p class="small muted">cobertura de líneas</p></div>
+        <div class="card"><div class="big" style="font-size:34px">78,0 %</div><p class="small muted">cobertura de ramas</p></div>
+        <div class="card"><div class="big amber" style="font-size:34px">61 %</div><p class="small muted">puntaje de mutación</p></div>
+        <div class="card"><div class="big green" style="font-size:34px">0</div><p class="small muted">fallidas en el último CI</p></div>
+      </div>
+      <p class="small muted">Umbrales que rompen el build: cobertura &lt; 80 % (líneas/funciones) o &lt; 65 % (ramas); mutación &lt; 50 %.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · Dónde están las pruebas -->
+<section class="slide">
+  <div class="kicker">¿Dónde están las pruebas?</div>
+  <h2 style="margin-bottom:12px">Carpetas, archivos y cómo correrlas</h2>
+  <div class="body">
+    <table class="small trace">
+      <tr><th style="width:15%">Tipo</th><th style="width:37%">Carpeta / archivos</th><th style="width:8%">N.º</th><th style="width:22%">Comando</th><th>Configuración</th></tr>
+      <tr><td><b>Unitarias</b></td><td><code>packages/core/test/</code> 14 archivos: semver (34), pep440 (19), http (16), github-source (13), analysis (12)…<br><code>apps/vscode/test/unit/manifiestos.test.ts</code> (17)</td><td>166</td><td><code>npm run test:unit</code></td><td><code>vitest.config.ts</code> · proyecto <i>unitarias</i></td></tr>
+      <tr><td><b>Integración</b></td><td><code>apps/api/test/</code> api.test.ts (7) · integracion-fuentes.test.ts (5) · no-funcionales.test.ts (14)</td><td>26</td><td><code>npm run test:integration</code></td><td>proyecto <i>integracion</i></td></tr>
+      <tr><td><b>Mutación</b></td><td>muta <code>packages/core/src/</code> versions · parsers · resolver · analysis</td><td>2585 mut.</td><td><code>npm run test:mutation</code></td><td><code>stryker.config.mjs</code></td></tr>
+      <tr><td><b>Sistema</b></td><td><code>tests/sistema/</code> api-sistema.test.ts · cli-sistema.test.ts · servidor.ts</td><td>23</td><td><code>npm run test:system</code></td><td><code>vitest.sistema.config.ts</code></td></tr>
+      <tr><td><b>UI</b></td><td><code>tests/ui/escaneo.spec.ts</code> (8 pruebas × escritorio y móvil)</td><td>16</td><td><code>npm run test:ui</code></td><td><code>playwright.config.ts</code></td></tr>
+      <tr><td><b>Aceptación</b></td><td><code>tests/aceptacion/features/*.feature</code> (5) · <code>steps/pasos.ts</code></td><td>12</td><td><code>npm run test:acceptance</code></td><td><code>playwright.bdd.config.ts</code></td></tr>
+      <tr><td><b>VS Code e2e</b></td><td><code>apps/vscode/test/e2e/extension.test.ts</code> · proyecto de prueba</td><td>8</td><td><code>npm run test:e2e -w depscan-vscode</code></td><td><code>.vscode-test.mjs</code></td></tr>
+      <tr><td><b>Apoyo</b></td><td><code>tests/support/</code> servidor-pruebas.mjs (DepScan real, OSV simulado) · datos-prueba.mjs<br><code>tests/fixtures/</code> proyecto-demo · proyecto-python · proyecto-seguro</td><td>—</td><td colspan="2" class="muted">Hacen las pruebas reproducibles: no dependen de internet ni de avisos nuevos.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 9 · Unitarias y mutación -->
+<section class="slide">
+  <div class="kicker">Unitarias + mutación</div>
+  <h2 style="margin-bottom:12px">Cobertura 93 %, mutación 61 %: la cobertura sola engaña</h2>
+  <div class="body grid2" style="align-items:start">
+    <div style="display:grid; gap:14px">
+      <div class="card"><h3>Qué prueban las unitarias</h3><p>Comparadores semver y PEP 440, parsers de <code>package-lock</code> v1–v3 y <code>requirements.txt</code>, CVSS, deduplicación, versión segura y la lógica de la extensión. Sin red: dobles de prueba de OSV.</p></div>
+      <div class="card" style="border-left:4px solid var(--amber)"><h3>Qué es la mutación (Stryker)</h3><p>Stryker cambia el código a propósito (un <code>&lt;</code> por <code>&lt;=</code>, un <code>&amp;&amp;</code> por <code>||</code>) y vuelve a correr las pruebas. Si ninguna falla, el <b>mutante sobrevive</b>: esa línea se ejecuta pero <b>nadie verifica su resultado</b>.</p></div>
+    </div>
+    <div>
+      <table class="small">
+        <tr><th>Carpeta mutada</th><th>Puntaje</th></tr>
+        <tr><td><code>versions/</code> semver · pep440</td><td class="y">67,8 %</td></tr>
+        <tr><td><code>analysis/</code></td><td class="p">60,4 %</td></tr>
+        <tr><td><code>parsers/</code></td><td class="p">57,5 %</td></tr>
+        <tr><td><code>resolver/</code></td><td class="p">42,0 %</td></tr>
+        <tr><td><b>Total</b> (1578 de 2585 eliminados)</td><td class="p"><b>61,0 %</b></td></tr>
+      </table>
+      <p class="small muted" style="margin-top:12px">Umbral de quiebre: 50 %. El reporte (<code>/mutacion</code>) señala cada condición sin verificar: <code>resolver/</code> es lo siguiente a reforzar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · Integración y sistema -->
+<section class="slide">
+  <div class="kicker">Integración y sistema</div>
+  <h2 style="margin-bottom:12px">De las piezas juntas al sistema completo</h2>
+  <div class="body grid2" style="align-items:start">
+    <div class="card"><h3>Integración · 26 pruebas</h3>
+      <ul class="list small">
+        <li>API Fastify + SQLite + sesiones + OAuth de GitHub ensamblados (<code>app.inject</code>).</li>
+        <li><b>Clientes HTTP reales</b> de OSV y registros contra un OSV local: todo en <b>un</b> lote, la caché evita repetir consultas, reintento ante <code>503</code>.</li>
+        <li>Telemetría, logs, sesiones e historial (<code>no-funcionales.test.ts</code>).</li>
+      </ul></div>
+    <div class="card"><h3>Sistema · 23 pruebas</h3>
+      <ul class="list small">
+        <li>DepScan <b>compilado</b> corriendo como proceso; solo se le habla por HTTP.</li>
+        <li>Flujo completo: escanear → solución → historial → HTML/PDF → borrar.</li>
+        <li>El historial <b>sobrevive a un reinicio</b> del servidor.</li>
+        <li>Rate limit (<code>429</code>), cabeceras de seguridad, <code>X-Request-Id</code> y log del escaneo.</li>
+        <li>La CLI: <code>--help</code>, errores y <i>path traversal</i> en <code>--output</code>.</li>
+      </ul></div>
+  </div>
+</section>
+
+<!-- 11 · UI -->
+<section class="slide">
+  <div class="kicker">Interfaz de usuario · Playwright</div>
+  <h2 style="margin-bottom:12px">Un navegador real, en escritorio y en móvil</h2>
+  <div class="body" style="display:grid; grid-template-columns: 1.6fr 1fr; gap:26px; align-items:start">
+    <img class="shot" src="{{IMG:playwright}}" alt="Reporte de Playwright con video de la prueba">
+    <ul class="list small">
+      <li><b>8 pruebas × 2 dispositivos</b> (Chrome de escritorio y Pixel 7).</li>
+      <li>Subir manifiestos, ver hallazgos, abrir la solución, filtrar, descargar, borrar del historial, página Estado.</li>
+      <li>Cada prueba graba <b>video</b>, <b>traza</b> paso a paso y captura.</li>
+      <li>En el reporte: <i>View trace</i> repite la prueba con el DOM de cada paso.</li>
+      <li class="muted">Archivo: <code>tests/ui/escaneo.spec.ts</code></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 12 · BDD -->
+<section class="slide">
+  <div class="kicker">Aceptación de usuario · BDD</div>
+  <h2 style="margin-bottom:12px">Los criterios de aceptación del FD03, ejecutables</h2>
+  <div class="body" style="display:grid; grid-template-columns: 1fr 1.2fr; gap:26px; align-items:start">
+    <pre class="gherkin"><span class="kw"># language: es</span>
+<span class="kw">Característica:</span> CU-01 Revisar un proyecto
+<span class="kw">Esquema del escenario:</span> El semáforo refleja el riesgo
+  <span class="kw">Dado</span> que estoy en la página "Nuevo escaneo"
+  <span class="kw">Cuando</span> subo los archivos del proyecto "&lt;proyecto&gt;"
+  <span class="kw">Y</span> presiono "Escanear"
+  <span class="kw">Entonces</span> veo el semáforo "&lt;semaforo&gt;"
+  <span class="kw">Y</span> veo "&lt;vulnerables&gt;" dependencias vulnerables
+<span class="kw">Ejemplos:</span>
+  | proyecto        | semaforo             | vulnerables |
+  | proyecto-demo   | Riesgo alto          | 2 / 3       |
+  | proyecto-python | Riesgo alto          | 1 / 1       |
+  | proyecto-seguro | Sin riesgo relevante | 0 / 1       |</pre>
+    <img class="shot" src="{{IMG:bdd}}" alt="Reporte Cucumber de los escenarios">
+  </div>
+  <p class="small muted" style="margin-top:8px">5 features: CU-01, CU-04 (versión segura), CU-05 (informe HTML/PDF), CU-08 (historial y privacidad) y telemetría · 12 escenarios en verde.</p>
+</section>
+
+<!-- 13 · No funcionales -->
+<section class="slide">
+  <div class="kicker">Aspectos no funcionales</div>
+  <h2 style="margin-bottom:12px">Sesiones, historial, caché, logs y telemetría</h2>
+  <div class="body">
+    <table class="small trace">
+      <tr><th style="width:12%">Aspecto</th><th style="width:44%">Cómo lo hace DepScan</th><th style="width:22%">Código</th><th>Prueba que lo demuestra</th></tr>
+      <tr><td><b>Sesiones</b></td><td>Cookie <code>HttpOnly</code>, <code>SameSite=Lax</code>, 30 días; en la BD solo el <b>SHA-256</b> del token; tokens OAuth cifrados con AES-256-GCM</td><td><code>auth/routes.ts</code> · <code>auth/crypto.ts</code></td><td>cookie HttpOnly y 30 días · cookie falsa sin acceso · purga de vencidas</td></tr>
+      <tr><td><b>Historial</b></td><td>Cada escaneo con su dueño (<code>anon:</code> o <code>user:</code>); paginado; comparar y borrar solo el dueño; pasa a la cuenta al iniciar sesión</td><td><code>db.ts</code> · <code>History.tsx</code></td><td><b>sobrevive a reinicio</b> · paginación · otra persona no lo ve (BDD)</td></tr>
+      <tr><td><b>Caché</b></td><td>SQLite con TTL: 24 h OSV/NVD, 1 h registros; persiste en el volumen; medida (aciertos/fallos)</td><td><code>db.cache()</code> · <code>http.ts cached()</code></td><td>2.º escaneo sin pedir detalle a OSV · sobrevive a reabrir la BD</td></tr>
+      <tr><td><b>Logs</b></td><td>JSON estructurado (pino); <code>X-Request-Id</code> de correlación; evento <code>event="scan"</code>; cookies y tokens <b>redactados</b></td><td><code>app.ts</code> (logger, onSend)</td><td>mismo ID en respuesta y log · <b>nunca escribe cookies</b></td></tr>
+      <tr><td><b>Telemetría</b></td><td><code>/api/metrics</code> (JSON) y <code>/metrics</code> (Prometheus); serie por minuto; página <b>Estado</b> con gráficos; <code>METRICS_TOKEN</code> opcional</td><td><code>telemetry.ts</code> · <code>Status.tsx</code></td><td>conteos · formato Prometheus · serie de 60 min · UI y BDD</td></tr>
+    </table>
+    <p class="small muted" style="margin-top:10px">Detalle: <code>docs/NO_FUNCIONALES.md</code> · pruebas en <code>apps/api/test/no-funcionales.test.ts</code> y <code>tests/sistema/</code></p>
+  </div>
+</section>
+
+<!-- 14 · Telemetría: página Estado -->
+<section class="slide">
+  <div class="kicker">Telemetría · página Estado</div>
+  <h2 style="margin-bottom:12px">Estadísticas en vivo dentro de la aplicación</h2>
+  <div class="body" style="display:grid; grid-template-columns: 1.7fr 1fr; gap:24px; align-items:start">
+    <img class="shot" src="{{IMG:estado}}" alt="Página Estado con gráficos de telemetría">
+    <ul class="list small">
+      <li>Menú <b>Estado</b> → <code>/#/estado</code>; se actualiza cada 5 s.</li>
+      <li>Peticiones, latencia <b>p95</b>, errores 5xx y escaneos.</li>
+      <li><b>Gráficos por minuto</b> de la última hora: peticiones + latencia, y escaneos.</li>
+      <li>Sesiones vigentes, historial, caché y rutas más usadas.</li>
+      <li>Los datos salen de <code>GET /api/metrics</code>; el gráfico usa Recharts.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 15 · Telemetría: gráficos -->
+<section class="slide">
+  <div class="kicker">Telemetría · evidencia estadística</div>
+  <h2 style="margin-bottom:6px">6 minutos de uso simulado, medidos por la propia app</h2>
+  <p class="small muted" style="margin-bottom:8px">911 peticiones · 445 escaneos (297 en rojo, 148 en verde) · latencia p95 4.9 ms · 0 % de errores 5xx · generado con scripts/telemetria-demo.mjs el 20/11/2026, 5:06:38 p. m.</p>
+  <div class="body grid2" style="grid-template-columns: 1.3fr 1fr; gap:22px">
+    <div class="card" style="padding:12px 14px"><h3 style="font-size:16px">Peticiones por minuto y latencia p95</h3>{{SVG:graf-peticiones}}</div>
+    <div class="card" style="padding:12px 14px"><h3 style="font-size:16px">Escaneos por minuto</h3>{{SVG:graf-escaneos}}</div>
+  </div>
+</section>
+
+<!-- 16 · Telemetría: cómo se generó -->
+<section class="slide">
+  <div class="kicker">Telemetría · cómo se generaron los datos</div>
+  <h2 style="margin-bottom:12px">Del uso a la gráfica, sin inventar nada</h2>
+  <div class="body grid2" style="grid-template-columns: 1fr 1.1fr; gap:24px; align-items:start">
+    <div style="display:grid; gap:12px">
+      <ol class="steps small">
+        <li><code>scripts/telemetria-demo.mjs</code> levanta DepScan completo (API + SQLite + web).</li>
+        <li>Simula uso: escanea 3 proyectos de ejemplo, consulta historial y salud, y manda peticiones inválidas a propósito.</li>
+        <li>Cada 10 s lee <code>GET /api/metrics</code> y guarda la muestra.</li>
+        <li>Al final guarda la serie por minuto en <code>docs/presentacion/datos/telemetria-demo.json</code>.</li>
+        <li><code>graficos.mjs</code> dibuja estas gráficas a partir de ese JSON.</li>
+      </ol>
+      <div class="card" style="padding:12px 14px"><p class="small muted">Producción (Railway), mismo endpoint:</p><pre class="prom">depscan_uptime_seconds 1003
+depscan_memory_rss_megabytes 88.7
+depscan_http_responses_total{status="2xx"} 4
+depscan_sessions_active 2
+depscan_history_scans_stored 21</pre></div>
+    </div>
+    <div style="display:grid; gap:10px">
+      <div class="card" style="padding:12px 14px"><h3 style="font-size:16px">Acumulado (muestras cada 10 s)</h3>{{SVG:graf-acumulado}}</div>
+      <div class="card" style="padding:12px 14px"><h3 style="font-size:16px">Respuestas y semáforo</h3>{{SVG:graf-estados}}</div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 · Reto: qué hicimos -->
+<section class="slide">
+  <div class="kicker">Reto · plugin de VS Code con skills y agente</div>
+  <h2 style="margin-bottom:12px">DepScan dentro del editor</h2>
+  <div class="body" style="display:grid; grid-template-columns: 1.55fr 1fr; gap:24px; align-items:start">
+    <img class="shot" src="{{IMG:vscode-hover-c}}" alt="Hover de DepScan en VS Code con CVE y versión segura">
+    <ul class="list small">
+      <li><b>Subrayado</b> de librerías vulnerables en <code>package.json</code>, lockfile y <code>requirements.txt</code>.</li>
+      <li><b>Hover</b>: severidad, CVSS, enlace a OSV, versión que lo corrige y comandos.</li>
+      <li><b>Barra de estado</b>: <span class="red">DepScan: 3 vulnerables</span>.</li>
+      <li>Datos <b>reales de OSV</b> (captura real: express, lodash y django).</li>
+      <li>Usa el <b>mismo motor</b> que la web y la CLI (<code>@depscan/core</code>).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 18 · Reto: Quick Fix, panel, skills, agente -->
+<section class="slide">
+  <div class="kicker">Reto · corregir y preguntar</div>
+  <h2 style="margin-bottom:12px">Quick Fix, panel de hallazgos, skills y agente <code style="font-size:.8em">@depscan</code></h2>
+  <div class="body" style="display:grid; grid-template-columns: 1fr 1fr 1.05fr; gap:18px; align-items:start">
+    <div><img class="shot" src="{{IMG:vscode-quickfix-c}}" alt="Quick Fix de DepScan"><p class="small muted" style="margin-top:6px"><code>Ctrl+.</code> → actualizar a la versión segura verificada.</p></div>
+    <div><img class="shot" src="{{IMG:vscode-panel-c}}" alt="Panel lateral de hallazgos" style="max-height:330px"><p class="small muted" style="margin-top:6px">Panel lateral: hallazgos por severidad y sus CVE.</p></div>
+    <div style="display:grid; gap:10px">
+      <div class="card" style="padding:12px 14px"><h3 style="font-size:16px">3 skills para la IA</h3><p class="small"><code>#depscanScan</code> · <code>#depscanVulnerability</code> · <code>#depscanFix</code> (pide confirmación)</p></div>
+      <div class="card" style="padding:12px 14px; border-left:4px solid var(--accent)"><h3 style="font-size:16px">Agente @depscan</h3><p class="small"><code>/scan</code> prioriza · <code>/fix</code> botones · <code>/explain CVE-…</code>. En preguntas libres decide qué skill usar (bucle de <i>tool calling</i>).</p></div>
+      <div class="card" style="padding:12px 14px"><h3 style="font-size:16px">Skill de Claude Code</h3><p class="small"><code>.claude/skills/revisar-dependencias</code></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 19 · Reto: cómo se hizo, descargar, git -->
+<section class="slide">
+  <div class="kicker">Reto · cómo se hizo, cómo se descarga y cómo vive en el repo</div>
+  <h2 style="margin-bottom:12px">Del código al <code style="font-size:.85em">.vsix</code>, automáticamente</h2>
+  <div class="body grid3" style="gap:18px; align-items:start">
+    <div class="card"><h3>1 · Cómo se hizo</h3>
+      <ul class="list small">
+        <li><code>apps/vscode/</code>: un workspace más del monorepo.</li>
+        <li><code>esbuild</code> empaqueta el core dentro: el <code>.vsix</code> pesa 40 KB y no trae dependencias.</li>
+        <li><code>src/</code>: extension · controlador · proveedores · agente · motor · manifiestos.</li>
+        <li>17 unitarias + <b>8 e2e en un VS Code real</b> (<code>@vscode/test-electron</code>).</li>
+      </ul></div>
+    <div class="card"><h3>2 · Cómo se descarga e instala</h3>
+      <ul class="list small">
+        <li>Panel → <code>/extension</code> → <b>Descargar depscan.vsix</b>.</li>
+        <li><code>code --install-extension depscan.vsix</code></li>
+        <li>o Extensiones → ⋯ → <i>Instalar desde VSIX…</i></li>
+        <li>VS Code 1.99+; preguntas libres al agente con Copilot.</li>
+      </ul></div>
+    <div class="card"><h3>3 · Cómo está en git</h3>
+      <ul class="list small">
+        <li>Job <code>Extensión VS Code (e2e + .vsix)</code> en <code>pruebas.yml</code>.</li>
+        <li>VS Code corre en pantalla virtual (<code>xvfb-run</code>).</li>
+        <li>Empaqueta con <code>vsce</code> y lo publica en GitHub Pages.</li>
+        <li>Docs: <code>docs/RETO_VSCODE.md</code> · <code>apps/vscode/README.md</code></li>
+      </ul></div>
+  </div>
+  <img class="shot" src="{{IMG:extension}}" alt="Página de descarga de la extensión" style="margin-top:12px; height:150px; width:100%; object-fit:cover; object-position:top">
+</section>
+
+<!-- 20 · Cierre -->
+<section class="slide cover" style="align-items:center; text-align:center">
+  <div class="biglogo"><i></i><i></i><i></i></div>
+  <h1 style="font-size:72px">Todo es verificable</h1>
+  <p class="sub" style="margin-inline:auto">251 pruebas · 0 fallidas · Quality Gate aprobado · 0 bugs · 0 vulnerabilidades · telemetría en vivo · plugin descargable</p>
+  <div class="meta" style="justify-items:center">
+    <div><b>Panel:</b> <span class="mono acc">angelhc123.github.io/Dep_Test</span></div>
+    <div><b>App:</b> <span class="mono">deptest-production-7f98.up.railway.app</span> · <b>Código:</b> <span class="mono">github.com/Angelhc123/Dep_Test</span></div>
+    <div style="margin-top:10px">Angel Gadiel Hernández Cruz · Richard Alexis Podestá Condori · Gustavo Alonso Sagua Ramos</div>
+  </div>
+</section>
+
+</div>
+
+<div id="bar">
+  <button id="prev" aria-label="Anterior">←</button>
+  <button id="next" aria-label="Siguiente">→</button>
+  <span id="count">1 / 1</span>
+  <div id="prog"><i></i></div>
+  <span class="hide-sm">← → para avanzar · F pantalla completa</span>
+  <button id="theme" aria-label="Cambiar tema">◐</button>
+  <button id="full" aria-label="Pantalla completa">⛶</button>
+</div>
+
+<script>
+(() => {
+  const slides = [...document.querySelectorAll(".slide")];
+  const total = slides.length;
+  slides.forEach((s, i) => {
+    if (i > 0) s.insertAdjacentHTML("beforeend", `<div class="brand"><span class="dots"><i></i><i></i><i></i></span>DepScan</div>`);
+    s.insertAdjacentHTML("beforeend", `<div class="num">${i + 1} / ${total}</div>`);
+  });
+  let cur = Math.min(Math.max(parseInt(location.hash.slice(1)) || 1, 1), total) - 1;
+
+  const fit = () => {
+    const st = document.getElementById("stage");
+    const k = Math.min((st.clientWidth - 24) / 1280, (st.clientHeight - 24) / 720);
+    slides.forEach((s) => (s.style.transform = `scale(${k})`));
+  };
+  const show = (i) => {
+    cur = Math.min(Math.max(i, 0), total - 1);
+    slides.forEach((s, j) => s.classList.toggle("on", j === cur));
+    document.getElementById("count").textContent = `${cur + 1} / ${total}`;
+    document.querySelector("#prog i").style.width = `${((cur + 1) / total) * 100}%`;
+    history.replaceState(null, "", `#${cur + 1}`);
+  };
+  const full = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.());
+
+  document.addEventListener("keydown", (e) => {
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+    else if (e.key === "Home") show(0);
+    else if (e.key === "End") show(total - 1);
+    else if (e.key === "f" || e.key === "F") full();
+  });
+  document.getElementById("prev").onclick = () => show(cur - 1);
+  document.getElementById("next").onclick = () => show(cur + 1);
+  document.getElementById("full").onclick = full;
+  document.getElementById("theme").onclick = () => {
+    const dark = getComputedStyle(document.body).backgroundColor === "rgb(5, 6, 8)";
+    document.documentElement.dataset.theme = dark ? "light" : "dark";
+  };
+  let x0 = null;
+  document.addEventListener("touchstart", (e) => (x0 = e.touches[0].clientX), { passive: true });
+  document.addEventListener("touchend", (e) => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1));
+    x0 = null;
+  });
+  addEventListener("resize", fit);
+  fit();
+  show(cur);
+})();
+</script>
+</body>
+</html>

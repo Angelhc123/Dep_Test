@@ -1,6 +1,6 @@
 # Speech · Presentación DepScan
 
-Guion para `DepScan-Presentacion.html` (21 diapositivas). Duración estimada: **17–19 minutos** más preguntas.
+Guion para `DepScan-Presentacion.html` (28 diapositivas). Duración estimada: **27–30 minutos** más preguntas.
 El texto está pensado para decirse en voz alta, no para leerse: úsalo como guía y di las ideas con tus palabras.
 
 > Consejo general: en cada diapositiva di primero **la idea** (el título) y luego los detalles. Si te pierdes, vuelve al título.
@@ -10,8 +10,8 @@ El texto está pensado para decirse en voz alta, no para leerse: úsalo como gu�
 | Bloque | Diapositivas | Quién |
 |---|---|---|
 | Problema y solución | 1–6 | Angel Gadiel Hernández Cruz |
-| Cómo funciona (casos de uso, arquitectura, motor) | 7–13 | Richard Alexis Podestá Condori |
-| Producto, resultados y cierre | 14–21 | Gustavo Alonso Sagua Ramos |
+| Cómo funciona (casos de uso, arquitectura, diagramas UML, motor y código) | 7–17 | Richard Alexis Podestá Condori |
+| Producto, resultados y cierre | 18–28 | Gustavo Alonso Sagua Ramos |
 
 > La calidad del código (pruebas, cobertura, SonarCloud, Snyk, Semgrep) y la seguridad de la aplicación van en una **presentación aparte**. Si preguntan aquí, respondan en una frase y remitan a esa presentación.
 
@@ -142,22 +142,175 @@ El texto está pensado para decirse en voz alta, no para leerse: úsalo como gu�
 
 ---
 
-## Diapositiva 10 · Dentro del motor — *Un escaneo en 7 pasos* (≈ 1 min)
+## Diapositiva 10 · Diagrama de paquetes — *Cómo está organizado el código* (≈ 1 min)
+
+> Este es el **diagrama de paquetes** del FD04: cómo está organizado el código en el repositorio.
+>
+> **Arriba están las cuatro aplicaciones**, que son las puertas de entrada:
+> - `apps/web`, la interfaz en React;
+> - `apps/api`, el servidor Fastify con la base de datos;
+> - `apps/cli`, la línea de comandos;
+> - `apps/vscode`, la extensión del editor.
+>
+> **Abajo, el recuadro azul grande es `packages/core`**, el motor. Las flechas punteadas son dependencias del tipo *«import»*: la API, la CLI y la extensión **importan el motor como librería**. La web no lo importa: le habla a la API por HTTP y JSON.
+>
+> **Dentro del motor, `scan.ts` es el orquestador**: usa `project` para leer carpetas, `resolver` para las versiones, `analysis` para el análisis y los **puertos** de `sources`. Los **adaptadores** de OSV, NVD, registros y GitHub *implementan* esos puertos: es el triángulo hueco de abajo a la derecha.
+>
+> Lo importante: **ninguna flecha sale del motor hacia las aplicaciones**. El motor no sabe que existe una web ni una base de datos.
+
+---
+
+## Diapositiva 11 · Diagrama de clases del dominio — *El reporte y lo que contiene* (≈ 1 min)
+
+> Este es el **diagrama de clases del dominio**. Son los tipos reales de `packages/core/src/domain/types.ts`.
+>
+> **La raíz es `ScanReport`, el reporte de un escaneo.** El rombo lleno significa *composición*: el reporte **contiene** sus partes:
+> - un `ScanTarget`, que dice qué se analizó (carpeta, archivos subidos o un repo de GitHub con su commit);
+> - un `ScanSummary` con los conteos y el semáforo;
+> - todas las `Dependency` analizadas;
+> - los `Finding`, que son los hallazgos.
+>
+> Cada **`Finding`** apunta a **una** dependencia y agrupa **una o más `Vulnerability`**, ya deduplicadas: por eso el `id` prefiere CVE y guarda los demás nombres en `aliases`. Además tiene **cero o una `Remediation`**, la solución, con el estado (*upgrade*, *no-fix* o *unknown*), la versión recomendada, si está **verificada**, y sus opciones de actualización y mitigaciones.
+>
+> A la derecha están las enumeraciones: `Severity`, `Risk` (rojo, ámbar, verde), `Ecosystem` y `Resolution`, que indica de dónde salió la versión exacta.
+
+---
+
+## Diapositiva 12 · Diagrama de clases de interfaces — *Puertos y adaptadores* (≈ 1 min)
+
+> Esta es la parte de diseño que más defendemos: **el motor no conoce a OSV**.
+>
+> **Arriba, `scan.ts`** recibe un objeto `ScanSources` con tres **interfaces**, que son los *puertos*:
+> - `VulnSource`, para consultar vulnerabilidades;
+> - `CveEnricher`, para el CVSS de NVD;
+> - `RegistrySource`, para listar versiones publicadas.
+>
+> **Abajo están las clases que los implementan**, la flecha punteada con triángulo: `OsvClient`, `NvdClient` y `RegistryClient`.
+>
+> **A la derecha, el puerto `Cache`** tiene cuatro implementaciones según dónde corre el motor:
+> - `MemoryCache` en la CLI;
+> - `Database` con SQLite en la API;
+> - `CacheArchivo` en la extensión de VS Code;
+> - `Telemetry`, que la *envuelve* para contar aciertos y fallos (patrón decorador).
+>
+> **¿Para qué sirve esto?** En las pruebas reemplazamos OSV por una fuente simulada sin tocar una línea del motor. Y si mañana usamos otra base de vulnerabilidades, se escribe otro adaptador.
+
+---
+
+## Diapositiva 13 · Modelo de datos — *Qué se guarda y dónde* (≈ 45 s)
+
+> La base de datos es **SQLite**, en el archivo `apps/api/src/db.ts`. Tiene cinco tablas:
+> - **`users`** e **`identities`**: un usuario puede unir varias cuentas (Google y GitHub). El token de GitHub se guarda **cifrado con AES-256-GCM**.
+> - **`sessions`**: guardamos el **hash SHA-256** del token, nunca el token. `user_id` vacío significa sesión anónima.
+> - **`scans`**: el historial. El campo `owner` dice de quién es: `user:` más el id, o `anon:` más la sesión. `private` marca los repos privados.
+> - **`cache`**: no tiene relaciones. Guarda las respuestas de OSV, NVD y los registros con su fecha de vencimiento.
+>
+> Cada seis horas, `purgeExpired()` borra sesiones y caché vencidas.
+
+---
+
+## Diapositiva 14 · Dentro del motor — *Un escaneo en 7 pasos* (≈ 1 min)
 
 > Si abrimos el hexágono, un escaneo sigue siete pasos:
 > 1. **Leer** los manifiestos, con rangos de versión, archivos incluidos con `-r`, extras y comentarios.
 > 2. **Resolver** la versión exacta desde el lockfile. Esto es fundamental: el `package.json` dice "cualquier 4.x", pero lo vulnerable o no es una versión concreta.
 > 3. **Consultar** OSV con `querybatch`, hasta 1000 paquetes por petición.
-> 4. **Detallar** severidad, alias y versiones corregidas, con caché.
+> 4. **Detallar** severidad, alias y versiones corregidas, con caché, y unir los duplicados.
 > 5. **Enriquecer**, opcionalmente, con el CVSS oficial de NVD.
-> 6. **Analizar**: deduplicar, separar directas de transitivas, priorizar y calcular la versión segura.
+> 6. **Analizar**: priorizar, separar directas de transitivas y calcular la versión segura.
 > 7. **Reportar**: semáforo, web, HTML, PDF y código de salida para CI.
 >
-> Abajo está la división clave: **OSV y NVD aportan los datos**. **DepScan aporta todo lo demás.**
+> Debajo de cada paso, en azul, está **el archivo donde ocurre**; la siguiente diapositiva lo detalla. Y la división clave: **OSV y NVD aportan los datos; DepScan aporta todo lo demás**, y los siete pasos los orquesta una sola función, `scanProject()`, en `packages/core/src/scan.ts`.
 
 ---
 
-## Diapositiva 11 · Nuestra diferencia — *Remediación verificada* (≈ 1 min 30 s)
+## Diapositiva 15 · Trazabilidad — *¿En qué archivo ocurre cada paso?* (≈ 2 min 30 s)
+
+> En la presentación anterior el ingeniero nos preguntó **en qué parte del código ocurre cada uno de los siete pasos**. Esta diapositiva es la respuesta, con archivo, función y línea. Lo contamos siguiendo un escaneo de principio a fin.
+>
+> **Paso 0, la entrada.** Hay tres puertas:
+> - En la **web**, `lib/manifests.ts` con `readManifests()` filtra en el navegador solo los manifiestos. Luego `lib/api.ts` los envía a la API.
+> - En la **API**, la ruta `POST /api/scans` está en `apps/api/src/app.ts`, línea 203. Limpia las rutas (descarta `..` y lo que no sea manifiesto) y, si es un repo, llama a `fetchGithubProject()`.
+> - En la **CLI**, `apps/cli/src/index.ts` usa `readProjectDirectory()` de `core/project/files.ts`.
+>
+> Las tres terminan llamando a `scanProject()` en `packages/core/src/scan.ts`. **Desde aquí, todo es el motor.**
+>
+> **Paso 1, leer.** `scanProject` llama a `resolveProject()`, y este llama a los parsers:
+> - `parsePackageJson()` en `parsers/npm/package-json.ts`;
+> - `parseLockfile()` en `parsers/npm/lockfile.ts`, que entiende las versiones 1, 2 y 3 del lockfile;
+> - `parseRequirements()` en `parsers/pypi/requirements.ts`.
+>
+> **Paso 2, resolver.** En `resolver/resolve.ts`:
+> - `resolveProject()`, en la línea 195, decide por carpeta;
+> - `resolveNpm()` cruza `package.json` con el lockfile y marca qué dependencias son directas y cuáles transitivas;
+> - `resolvePypi()` hace lo mismo para Python;
+> - si falta la versión y el usuario lo pidió, `estimate()` consulta el registro.
+>
+> Para comparar versiones usa nuestros comparadores propios, en `versions/semver.ts` y `versions/pep440.ts`.
+>
+> **Paso 3, consultar.** De vuelta en `scan.ts`, líneas 66 a 76, se arma **una sola consulta por nombre y versión**, aunque el paquete se repita. Luego se llama a `queryBatch()` en `sources/osv/osv-client.ts`, que hace `POST /v1/querybatch` en lotes de mil. Los reintentos ante errores están en `sources/http.ts`.
+>
+> **Paso 4, detallar.** En `scan.ts`, líneas 80 a 98, se pide el detalle de cada aviso con `getVulnerability()`, ocho en paralelo y **con caché**. Después, en `analysis/analyze.ts`:
+> - `normalizeVulnerability()` calcula la severidad, con el CVSS de `cvss.ts`;
+> - `dedupe()` **une el mismo fallo publicado como CVE, GHSA o PYSEC**.
+>
+> **Paso 5, enriquecer.** Es opcional. Está en `scan.ts`, líneas 100 a 124: `getCve()` de `nvd-client.ts` trae el CVSS oficial y `applyNvd()` lo aplica.
+>
+> **Paso 6, analizar.** En `analyze.ts`, `buildFinding()` arma cada hallazgo y su semáforo con `riskOf()`, y `sortFindings()` los ordena por prioridad. Después, `buildRemediation()` en `analysis/remediation.ts` calcula la **versión segura verificada**: cruza **todos** los avisos del paquete con todas las versiones publicadas usando `isAffected()` de `affected.ts`.
+>
+> **Paso 7, reportar.** `scan.ts`, líneas 150 a 168, agrega las advertencias y llama a `summarize()` para el semáforo final. Con ese `ScanReport`:
+> - la **API** lo guarda con `db.saveScan()` (`app.ts`, línea 266) y responde 201;
+> - la **web** lo muestra en `ScanResult.tsx`;
+> - los **reportes** salen de `renderHtml()` y `renderPdf()`;
+> - la **CLI** decide el código de salida con `shouldFail()`.
+
+---
+
+## Diapositiva 16 · Diagrama de actividades — *El flujo exacto del código* (≈ 1 min 30 s)
+
+> Este **diagrama de actividades** sigue `scanProject()` **línea por línea**, con sus decisiones. Los círculos azules son los números de los siete pasos.
+>
+> **Columna izquierda:**
+> - Empieza leyendo y resolviendo. **Primera decisión:** si quedan dependencias sin versión y el usuario activó *estimar*, se consulta el registro.
+> - Se arman las consultas únicas. **Segunda decisión:** si no hay ninguna, no se llama a OSV y la lista de avisos queda vacía; la flecha de la derecha salta esa caja.
+> - Luego se consulta OSV en lote, se pide el detalle de cada aviso y se normaliza y deduplica.
+>
+> **Columna derecha:**
+> - **Tercera decisión:** solo si se pidió NVD y la fuente existe, se enriquece con CVSS.
+> - Se arman y ordenan los hallazgos.
+> - **Cuarta decisión:** si hay hallazgos y no se desactivó la remediación, se calcula la versión segura, seis paquetes en paralelo, pidiendo a la vez todos los avisos del paquete y sus versiones publicadas.
+> - Al final, advertencias, resumen y semáforo. La API lo guarda y responde; la CLI imprime y define su código de salida.
+>
+> Lo que muestra el diagrama es lo que hace el código, decisión por decisión.
+
+---
+
+## Diapositiva 17 · Mapa de archivos — *De la pantalla a OSV* (≈ 1 min 30 s)
+
+> Aquí están **todos los archivos de código** que hacen funcionar DepScan, agrupados por carpeta:
+> - la web, con 23 archivos;
+> - la API, la CLI y la extensión;
+> - el motor, con 24 archivos;
+> - a la derecha, los servicios externos y la base de datos;
+> - en la última columna, los archivos de la raíz que hacen funcionar el monorepo, el build y el despliegue: `package.json` con los workspaces, `Dockerfile`, `railway.json` y los workflows.
+>
+> **Las líneas azules son el recorrido de un escaneo**, con los números de los siete pasos:
+> 1. Empieza en `NewScan.tsx`: el usuario sube archivos.
+> 2. `manifests.ts` los filtra y `api.ts` los envía.
+> 3. Entran a `app.ts` en la API, que llama a `scan.ts`.
+> 4. Del motor salen hacia `resolve.ts` y los tres parsers (pasos 1 y 2), hacia `osv-client.ts` y OSV (pasos 3 y 4), hacia NVD (paso 5) y hacia `analyze.ts` y `remediation.ts` (paso 6).
+> 5. El resultado vuelve a `app.ts`, se guarda con `db.ts` en SQLite (paso 7) y se muestra en `ScanResult.tsx`.
+>
+> **Las líneas grises** son otros flujos:
+> - el login, que va de `providers.ts` a Google y GitHub;
+> - la CLI y la extensión de VS Code, que entran directo al motor;
+> - el PDF, que usa los tipos del dominio.
+>
+> Si quieren seguir cualquier paso en el código, este mapa dice exactamente a qué archivo ir.
+
+---
+
+## Diapositiva 18 · Nuestra diferencia — *Remediación verificada* (≈ 1 min 30 s)
 
 > Esta es la parte que más nos diferencia, y la explicamos con un caso real: Log4j.
 >
@@ -171,13 +324,13 @@ El texto está pensado para decirse en voz alta, no para leerse: úsalo como gu�
 
 ---
 
-## Diapositiva 12 · Tecnología — *Un solo lenguaje de punta a punta: TypeScript* (≈ 45 s)
+## Diapositiva 19 · Tecnología — *Un solo lenguaje de punta a punta: TypeScript* (≈ 45 s)
 
 > Todo el sistema está en **TypeScript**. Frontend con React 19, Vite y Tailwind. Backend con Node.js 24 y Fastify 5. El motor es una librería propia, `@depscan/core`, **sin dependencias de runtime**, algo coherente para un escáner de dependencias. Base de datos SQLite nativa de Node. PDFs con pdfkit. CLI con `parseArgs` de Node. Y despliegue con Docker en Railway.
 
 ---
 
-## Diapositiva 13 · Decisiones — *¿Por qué esta tecnología y no otra?* (≈ 1 min 15 s)
+## Diapositiva 20 · Decisiones — *¿Por qué esta tecnología y no otra?* (≈ 1 min 15 s)
 
 > Cada elección tiene una razón, documentada como ADR, registros de decisiones de arquitectura:
 > - **TypeScript en todo:** mismos tipos entre web, API y motor, y la restricción del curso era trabajar solo con VS Code.
@@ -191,7 +344,7 @@ El texto está pensado para decirse en voz alta, no para leerse: úsalo como gu�
 
 ---
 
-## Diapositiva 14 · La aplicación — *Escanear es arrastrar una carpeta o pegar un repo* (≈ 45 s)
+## Diapositiva 21 · La aplicación — *Escanear es arrastrar una carpeta o pegar un repo* (≈ 45 s)
 
 > Esta es la pantalla de nuevo escaneo. Hay tres formas: **subir archivos o una carpeta** —el navegador filtra solo los manifiestos, ignorando `node_modules`—; pegar un **repositorio de GitHub**, que se analiza en un commit exacto; o elegir de **mis repos de GitHub**, incluidos los privados.
 >
@@ -199,7 +352,7 @@ El texto está pensado para decirse en voz alta, no para leerse: úsalo como gu�
 
 ---
 
-## Diapositiva 15 · La aplicación — *El resultado: semáforo, severidades y cada hallazgo* (≈ 45 s)
+## Diapositiva 22 · La aplicación — *El resultado: semáforo, severidades y cada hallazgo* (≈ 45 s)
 
 > Este es el resultado de NodeGoat. Arriba, el **semáforo** de riesgo y el conteo por severidad. Se registra la rama, el **commit**, la versión del escáner y el tiempo: **7,2 segundos para 1091 dependencias**.
 >
@@ -207,7 +360,7 @@ El texto está pensado para decirse en voz alta, no para leerse: úsalo como gu�
 
 ---
 
-## Diapositiva 16 · La aplicación — *No solo dice qué está mal: dice cómo arreglarlo* (≈ 45 s)
+## Diapositiva 23 · La aplicación — *No solo dice qué está mal: dice cómo arreglarlo* (≈ 45 s)
 
 > Y esto es lo que vimos en la diapositiva de Log4j, ya en la aplicación. Al abrir un hallazgo:
 > - La **versión recomendada**, preferiblemente dentro de la misma versión mayor para no romper nada; si hace falta un salto mayor, se avisa.
@@ -217,7 +370,7 @@ El texto está pensado para decirse en voz alta, no para leerse: úsalo como gu�
 
 ---
 
-## Diapositiva 17 · Validación — *Benchmark: ¿encuentra lo mismo que npm audit?* (≈ 1 min 30 s)
+## Diapositiva 24 · Validación — *Benchmark: ¿encuentra lo mismo que npm audit?* (≈ 1 min 30 s)
 
 > Para no quedarnos en "creemos que funciona", lo **medimos**. Eso es el benchmark: una **prueba comparativa**. Pasamos DepScan y `npm audit` —la herramienta oficial que viene con npm— sobre los **mismos proyectos**, que son proyectos hechos vulnerables a propósito para enseñar seguridad, **congelados en un commit**, y cruzamos los resultados aviso por aviso. Cualquiera puede repetirlo con `npm run benchmark`.
 >
@@ -231,7 +384,7 @@ El texto está pensado para decirse en voz alta, no para leerse: úsalo como gu�
 
 ---
 
-## Diapositiva 18 · Comparación — *Frente a herramientas similares* (≈ 1 min)
+## Diapositiva 25 · Comparación — *Frente a herramientas similares* (≈ 1 min)
 
 > `npm audit` y `pip-audit` cubren un ecosistema cada una, son de consola y en inglés. OSV-Scanner cubre ambos y deduplica, pero no tiene interfaz web y su remediación es parcial. Snyk es la más completa, pero es comercial, y el PDF y varias funciones son de pago.
 >
@@ -239,13 +392,13 @@ El texto está pensado para decirse en voz alta, no para leerse: úsalo como gu�
 
 ---
 
-## Diapositiva 19 · Trabajo futuro — *Hacia dónde puede crecer* (≈ 45 s)
+## Diapositiva 26 · Trabajo futuro — *Hacia dónde puede crecer* (≈ 45 s)
 
 > Hacia adelante: **más ecosistemas** como Maven, Go, Cargo, Composer y NuGet; gracias a la arquitectura solo hacen falta nuevos parsers y comparadores. **Alcanzabilidad**, para saber si el código realmente llama a la función vulnerable. **Correcciones automáticas** vía pull request, con revisión humana. **Benchmark ampliado** con OSV-Scanner y `pip-audit` para PyPI. **Alertas** cuando se publique una falla nueva en un proyecto ya escaneado. Y exportar el inventario como **SBOM** en CycloneDX o SPDX.
 
 ---
 
-## Diapositiva 20 · Conclusiones — *Cada objetivo, con su evidencia* (≈ 1 min 15 s)
+## Diapositiva 27 · Conclusiones — *Cada objetivo, con su evidencia* (≈ 1 min 15 s)
 
 > Volvemos a los seis objetivos del inicio, cada uno con su evidencia:
 > - **OE1:** leemos los lockfiles de npm en sus tres versiones y los `requirements` de Python; resolvimos las 1091 dependencias de NodeGoat.
@@ -261,7 +414,7 @@ El texto está pensado para decirse en voz alta, no para leerse: úsalo como gu�
 
 ---
 
-## Diapositiva 21 · Gracias — *¿Preguntas?* (≈ 15 s)
+## Diapositiva 28 · Gracias — *¿Preguntas?* (≈ 15 s)
 
 > Muchas gracias por su atención. La demo está en línea en esta dirección y el código en GitHub. Quedamos atentos a sus preguntas.
 
@@ -313,7 +466,7 @@ Los antecedentes sirven para demostrar que el problema **es real, es caro y sigu
 
 **Relación con DepScan.** Justifica dos funciones:
 - **Resolver las transitivas** desde el lockfile: el 97 % de NodeGoat es la versión npm del "no sabía que tenía Log4j".
-- **Remediación verificada** (diapositiva 11): quien actualizaba a "la versión corregida del aviso" (2.15.0) seguía vulnerable. DepScan evalúa la versión recomendada contra **todos** los avisos del paquete, justo para evitar eso.
+- **Remediación verificada** (diapositiva 18): quien actualizaba a "la versión corregida del aviso" (2.15.0) seguía vulnerable. DepScan evalúa la versión recomendada contra **todos** los avisos del paquete, justo para evitar eso.
 
 ## 3. OWASP Top 10 — A06:2021 "Componentes vulnerables y desactualizados"
 
@@ -353,6 +506,12 @@ Entre las prevenciones que recomienda está **mantener un inventario de versione
 ---
 
 # Preguntas probables y cómo responderlas
+
+**"¿En qué parte del código ocurre cada uno de los 7 pasos?"** *(la pregunta del ingeniero; ver diapositivas 15 y 17)*
+> Todos los orquesta una función: `scanProject()` en `packages/core/src/scan.ts`. **Leer** lo hacen los parsers de `parsers/npm` y `parsers/pypi`; **resolver**, `resolver/resolve.ts`; **consultar**, `queryBatch()` de `sources/osv/osv-client.ts`; **detallar**, `getVulnerability()` y luego `dedupe()` de `analysis/analyze.ts`; **enriquecer**, `nvd-client.ts`; **analizar**, `buildFinding()` y `buildRemediation()` de `analysis/remediation.ts`; y **reportar**, `summarize()` más `db.saveScan()` en la API o `shouldFail()` en la CLI. Si quiere, lo mostramos en el mapa de archivos (diapositiva 17).
+
+**"¿El diagrama de actividades es el real o uno idealizado?"**
+> Es el real: cada caja tiene debajo la función que se ejecuta y cada rombo es un `if` de `scan.ts` (estimar, hay consultas, NVD, remediación). El generador de diagramas está en `docs/presentacion/diagramas.mjs`, junto al código.
 
 **"¿Esto no es solo consultar una API?"**
 > No. OSV solo responde "esta versión exacta tiene estos avisos". Para llegar ahí hay que leer los manifiestos, resolver la versión exacta de más de mil dependencias, compararlas con comparadores propios de semver y PEP 440, deduplicar y, sobre todo, calcular una versión segura contra todos los avisos. Eso es lógica nuestra, cubierta con pruebas automatizadas.

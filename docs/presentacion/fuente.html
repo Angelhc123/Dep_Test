@@ -92,6 +92,11 @@ th.us { color: var(--accent); }
 .step h4 { font-size: 16px; margin-bottom: 6px; }
 .step p { font-size: 14px; line-height: 1.4; color: var(--muted); }
 
+.filecell { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10.5px; line-height: 1.45; color: var(--accent); background: var(--code); border-radius: 8px; padding: 7px 8px; }
+table.trace td { font-size: 13px; padding: 6px 8px; }
+table.trace code { font-size: 11.5px; }
+.pnum { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--slide); font-size: 12px; margin-right: 4px; }
+
 /* arquitectura */
 .arch { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 18px; align-items: stretch; }
 .layer { border: 2px dashed var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
@@ -490,7 +495,35 @@ table.vm td:first-child, table.vm th:first-child { text-align: left; }
   <p class="small muted" style="margin-top:6px">El núcleo define <b>puertos</b> (interfaces) y los <b>adaptadores</b> los cumplen: se puede cambiar la fuente de datos sin tocar la lógica. Web, API y CLI usan el mismo motor.</p>
 </section>
 
-<!-- 10 · Pipeline -->
+<!-- 10 · Diagrama de paquetes -->
+<section class="slide">
+  <div class="kicker">Arquitectura · FD04 §2 · Diagrama de paquetes</div>
+  <h2 style="margin-bottom:10px">Cómo está organizado el código</h2>
+  <div class="body">{{SVG:paquetes}}</div>
+</section>
+
+<!-- 11 · Clases de dominio -->
+<section class="slide">
+  <div class="kicker">Diseño · FD04 §4 · Diagrama de clases del dominio</div>
+  <h2 style="margin-bottom:10px">El reporte y lo que contiene</h2>
+  <div class="body">{{SVG:clases-dominio}}</div>
+</section>
+
+<!-- 12 · Clases de puertos -->
+<section class="slide">
+  <div class="kicker">Diseño · FD04 §5 · Diagrama de clases de interfaces</div>
+  <h2 style="margin-bottom:10px">Puertos y adaptadores: el motor no conoce a OSV</h2>
+  <div class="body">{{SVG:clases-puertos}}</div>
+</section>
+
+<!-- 13 · Modelo de datos -->
+<section class="slide">
+  <div class="kicker">Datos · FD04 · Modelo físico SQLite</div>
+  <h2 style="margin-bottom:10px">Qué se guarda y dónde</h2>
+  <div class="body">{{SVG:datos}}</div>
+</section>
+
+<!-- 14 · Pipeline -->
 <section class="slide">
   <div class="kicker">Dentro del motor</div>
   <h2>Un escaneo en 7 pasos</h2>
@@ -499,16 +532,59 @@ table.vm td:first-child, table.vm th:first-child { text-align: left; }
       <div class="step"><b>1</b><h4>Leer</h4><p>Detecta y parsea los manifiestos (rangos, <code>-r</code>, extras, comentarios).</p></div>
       <div class="step"><b>2</b><h4>Resolver</h4><p>Versión exacta desde el lockfile; sin él, avisa o estima.</p></div>
       <div class="step"><b>3</b><h4>Consultar</h4><p>OSV <code>querybatch</code>: hasta 1000 paquetes por lote.</p></div>
-      <div class="step"><b>4</b><h4>Detallar</h4><p>Severidad, alias y versiones corregidas, con caché.</p></div>
+      <div class="step"><b>4</b><h4>Detallar</h4><p>Severidad, alias y versiones corregidas, con caché; une duplicados.</p></div>
       <div class="step"><b>5</b><h4>Enriquecer</h4><p>CVSS oficial de NVD por CVE (opcional).</p></div>
-      <div class="step"><b>6</b><h4>Analizar</h4><p>Deduplica, separa directa/transitiva, prioriza y calcula la versión segura.</p></div>
+      <div class="step"><b>6</b><h4>Analizar</h4><p>Prioriza, separa directa/transitiva y calcula la versión segura.</p></div>
       <div class="step"><b>7</b><h4>Reportar</h4><p>Semáforo, web, HTML/PDF y código de salida para CI.</p></div>
     </div>
-    <div class="grid2" style="margin-top:26px">
+    <div class="pipe" style="margin-top:8px">
+      <div class="filecell">parsers/npm/*.ts<br>parsers/pypi/requirements.ts</div>
+      <div class="filecell">resolver/resolve.ts<br>versions/semver · pep440</div>
+      <div class="filecell">scan.ts L66–76<br>sources/osv/osv-client.ts</div>
+      <div class="filecell">osv-client.ts getVulnerability<br>analysis/analyze.ts dedupe</div>
+      <div class="filecell">sources/nvd/nvd-client.ts<br>analyze.ts applyNvd</div>
+      <div class="filecell">analysis/analyze.ts<br>analysis/remediation.ts</div>
+      <div class="filecell">analyze.ts summarize<br>report/html.ts · api/db.ts</div>
+    </div>
+    <div class="grid2" style="margin-top:20px">
       <div class="card"><h3>Lo que aportan OSV y NVD</h3><p class="muted">Descubrir y publicar las vulnerabilidades.</p></div>
-      <div class="card" style="border-left:4px solid var(--accent)"><h3>Lo que aporta DepScan</h3><p class="muted">Parsers, resolución de versiones, comparadores semver / PEP 440 propios, deduplicación, priorización, remediación, reportes e interfaz.</p></div>
+      <div class="card" style="border-left:4px solid var(--accent)"><h3>Lo que aporta DepScan</h3><p class="muted">Todo lo demás: los 7 pasos los orquesta una sola función, <code>scanProject()</code> en <code>packages/core/src/scan.ts</code>.</p></div>
     </div>
   </div>
+</section>
+
+<!-- 15 · Los 7 pasos en el código -->
+<section class="slide">
+  <div class="kicker">Trazabilidad paso → código</div>
+  <h2 style="margin-bottom:14px">¿En qué archivo ocurre cada paso?</h2>
+  <div class="body">
+    <table class="small trace">
+      <tr><th style="width:12%">Paso</th><th style="width:31%">Archivo</th><th style="width:31%">Función</th><th>Qué hace ahí</th></tr>
+      <tr><td><b class="pnum">0</b> Entrada</td><td><code>web/lib/manifests.ts</code> · <code>api/app.ts</code> L203<br><code>cli/index.ts</code> · <code>core/project/files.ts</code></td><td><code>readManifests()</code> · <code>POST /api/scans</code><br><code>readProjectDirectory()</code> · <code>fetchGithubProject()</code></td><td>Recibe solo los manifiestos; descarta <code>node_modules</code> y rutas con <code>..</code>.</td></tr>
+      <tr><td><b class="pnum">1</b> Leer</td><td><code>core/parsers/npm/package-json.ts</code><br><code>npm/lockfile.ts</code> · <code>pypi/requirements.ts</code></td><td><code>parsePackageJson()</code> L22 · <code>parseLockfile()</code> L142<br><code>parseRequirements()</code> L153</td><td>Convierte cada archivo en dependencias declaradas.</td></tr>
+      <tr><td><b class="pnum">2</b> Resolver</td><td><code>core/resolver/resolve.ts</code><br><code>core/versions/semver.ts · pep440.ts</code></td><td><code>resolveProject()</code> L195 → <code>resolveNpm()</code> L56<br><code>resolvePypi()</code> L146 · <code>estimate()</code> L174</td><td>Versión exacta por dependencia; directa o transitiva.</td></tr>
+      <tr><td><b class="pnum">3</b> Consultar</td><td><code>core/scan.ts</code> L66–76<br><code>core/sources/osv/osv-client.ts</code></td><td>consultas únicas <code>name@version</code><br><code>queryBatch()</code> L39 → <code>/v1/querybatch</code></td><td>Un lote de hasta 1000 paquetes; reintentos en <code>http.ts</code>.</td></tr>
+      <tr><td><b class="pnum">4</b> Detallar</td><td><code>core/scan.ts</code> L80–98<br><code>core/analysis/analyze.ts</code></td><td><code>getVulnerability()</code> L110 (caché)<br><code>normalizeVulnerability()</code> L35 · <code>dedupe()</code> L86</td><td>Severidad (CVSS en <code>cvss.ts</code>) y une CVE/GHSA/PYSEC.</td></tr>
+      <tr><td><b class="pnum">5</b> Enriquecer</td><td><code>core/scan.ts</code> L100–124<br><code>core/sources/nvd/nvd-client.ts</code></td><td><code>getCve()</code> L45<br><code>applyNvd()</code> L136</td><td>Opcional: CVSS oficial de NIST.</td></tr>
+      <tr><td><b class="pnum">6</b> Analizar</td><td><code>core/analysis/analyze.ts</code><br><code>core/analysis/remediation.ts</code></td><td><code>buildFinding()</code> L176 · <code>sortFindings()</code> L198<br><code>buildRemediation()</code> L71</td><td>Riesgo, orden de prioridad y versión segura verificada (<code>affected.ts</code>).</td></tr>
+      <tr><td><b class="pnum">7</b> Reportar</td><td><code>core/scan.ts</code> L150–168 · <code>api/app.ts</code> L266<br><code>core/report/html.ts</code> · <code>api/report/pdf.ts</code></td><td><code>summarize()</code> L208 · <code>db.saveScan()</code><br><code>renderHtml()</code> · <code>renderPdf()</code> · <code>shouldFail()</code></td><td>Semáforo, historial, HTML/PDF y código de salida de la CLI.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 16 · Diagrama de actividades -->
+<section class="slide">
+  <div class="kicker">Proceso · Diagrama de actividades de <code style="font-size:.9em">scanProject()</code></div>
+  <h2 style="margin-bottom:8px">El flujo exacto del código, con sus decisiones</h2>
+  <div class="body">{{SVG:actividades}}</div>
+</section>
+
+<!-- 17 · Mapa de archivos -->
+<section class="slide" style="padding-top:44px">
+  <div class="kicker">Mapa de archivos · todos los que hacen funcionar DepScan</div>
+  <h2 style="margin-bottom:6px; font-size:32px">De la pantalla a OSV: por dónde pasa un escaneo</h2>
+  <div class="body">{{SVG:mapa-archivos}}</div>
+  <p class="small muted" style="margin-top:4px; font-size:13px">Azul: flujo de un escaneo, con los números de los 7 pasos. Gris: otros vínculos (login, CLI, extensión, PDF). Cajas resaltadas: archivos del flujo principal.</p>
 </section>
 
 <!-- 11 · Remediación verificada -->
