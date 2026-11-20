@@ -55,7 +55,7 @@ export function NewScan() {
   }
 
   const canScan = mode === "github" ? repo.trim().length > 2 : files.length > 0;
-  const hasLock = files.some((f) => /package-lock\.json|npm-shrinkwrap\.json$/.test(f.path));
+  const hasLock = files.some((f) => /(package-lock\.json|npm-shrinkwrap\.json)$/.test(f.path));
   const hasPkg = files.some((f) => f.path.endsWith("package.json"));
 
   return (

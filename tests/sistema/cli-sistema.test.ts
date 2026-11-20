@@ -21,6 +21,12 @@ describe("Sistema: CLI", () => {
     expect(r.stderr + r.stdout).toContain("Formato no válido");
   });
 
+  it("rechaza --output fuera de la carpeta actual (path traversal)", () => {
+    const r = cli("--output", "../../fuera.html", "--format", "html", "tests/sistema");
+    expect(r.status).not.toBe(0);
+    expect(r.stderr).toContain("--output debe estar dentro de la carpeta actual");
+  });
+
   it("una carpeta sin manifiestos no falla el pipeline", () => {
     const r = cli("--no-color", "tests/sistema");
     expect(r.status).toBe(0);

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { writeFile } from "node:fs/promises";
-import { basename, resolve } from "node:path";
+import { basename, relative, resolve, isAbsolute } from "node:path";
 import { parseArgs } from "node:util";
 import {
   fetchGithubProject,
@@ -110,8 +110,14 @@ async function main(): Promise<number> {
         ? renderHtml(report)
         : renderText(report, color);
   if (values.output) {
-    await writeFile(values.output, out, "utf8");
-    log(`Reporte escrito en ${values.output}`);
+    // El reporte solo se escribe dentro de la carpeta actual (evita path traversal: ../../etc/x).
+    const destino = resolve(process.cwd(), values.output);
+    const rel = relative(process.cwd(), destino);
+    if (!rel || rel.startsWith("..") || isAbsolute(rel)) {
+      throw new Error(`--output debe estar dentro de la carpeta actual: ${values.output}`);
+    }
+    await writeFile(destino, out, "utf8");
+    log(`Reporte escrito en ${rel}`);
     if (format !== "table") log(renderText(report, false).split("\n").slice(0, 4).join("\n"));
   } else {
     console.log(out);

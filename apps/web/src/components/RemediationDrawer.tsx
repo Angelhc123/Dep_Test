@@ -53,10 +53,17 @@ export function RemediationDrawer({ finding, onClose }: { finding: Finding; onCl
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/40" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex justify-end">
+      {/* Fondo oscuro: clic fuera del panel lo cierra (Escape también, ver useEffect). */}
+      <button
+        type="button"
+        tabIndex={-1}
+        aria-label="Cerrar panel"
+        className="absolute inset-0 cursor-default bg-black/40"
+        onClick={onClose}
+      />
       <aside
-        className="h-full w-full max-w-2xl overflow-y-auto bg-white p-6 shadow-xl dark:bg-zinc-900"
-        onClick={(e) => e.stopPropagation()}
+        className="relative h-full w-full max-w-2xl overflow-y-auto bg-white p-6 shadow-xl dark:bg-zinc-900"
         aria-label={`Solución para ${d.name}`}
       >
         <div className="flex items-start justify-between gap-4">

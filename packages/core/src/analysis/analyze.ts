@@ -112,7 +112,7 @@ export function dedupe(items: DependencyVuln[], ecosystem: Dependency["ecosystem
         sourceRank[b.vuln.severitySource] - sourceRank[a.vuln.severitySource] ||
         severityRank(b.vuln.severity) - severityRank(a.vuln.severity),
     )[0]!;
-    const aliases = [...new Set(group.flatMap((g) => g.vuln.aliases))].sort();
+    const aliases = [...new Set(group.flatMap((g) => g.vuln.aliases))].sort((a, b) => a.localeCompare(b));
     const fixed = [...new Set(group.flatMap((g) => g.vuln.fixedIn))].sort((x, y) =>
       compareVersions(ecosystem, x, y),
     );

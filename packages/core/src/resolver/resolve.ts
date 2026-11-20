@@ -196,7 +196,7 @@ export async function resolveProject(files: ProjectFiles, opts: ResolveOptions =
   const out: ResolveResult = { dependencies: [], manifests: [], warnings: [] };
   const pending: Pending[] = [];
   const includeDev = opts.includeDev ?? true;
-  const paths = [...files.keys()].sort();
+  const paths = [...files.keys()].sort((a, b) => a.localeCompare(b));
 
   const npmDirs = new Set(
     paths.filter((p) => /(^|\/)(package\.json|package-lock\.json|npm-shrinkwrap\.json)$/.test(p)).map(dirOf),
@@ -204,7 +204,7 @@ export async function resolveProject(files: ProjectFiles, opts: ResolveOptions =
   const lockDirs = new Set(
     paths.filter((p) => /(^|\/)(package-lock\.json|npm-shrinkwrap\.json)$/.test(p)).map(dirOf),
   );
-  for (const dir of [...npmDirs].sort()) {
+  for (const dir of [...npmDirs].sort((a, b) => a.localeCompare(b))) {
     // Un package.json sin lockfile dentro de un proyecto con lockfile (workspace) ya está cubierto.
     const coveredByAncestor =
       !lockDirs.has(dir) && [...lockDirs].some((l) => (l === "" ? dir !== "" : dir.startsWith(`${l}/`)));
