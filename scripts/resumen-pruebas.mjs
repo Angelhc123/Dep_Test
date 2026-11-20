@@ -45,8 +45,9 @@ function contarJunit(xml, filtro) {
 
 function esDelProyecto(suite, proyecto) {
   const nombre = /<testsuite\s[^>]*?\bname="([^"]*)"/.exec(suite)?.[1] ?? "";
-  if (proyecto === "unitarias") return nombre.startsWith("packages/");
-  if (proyecto === "integracion") return nombre.startsWith("apps/");
+  // Unitarias: el core y la lógica pura de la extensión. Integración: API y CLI ensambladas.
+  if (proyecto === "unitarias") return nombre.startsWith("packages/") || nombre.startsWith("apps/vscode/test/unit/");
+  if (proyecto === "integracion") return nombre.startsWith("apps/api/") || nombre.startsWith("apps/cli/");
   return true;
 }
 

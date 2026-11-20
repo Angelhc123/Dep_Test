@@ -92,7 +92,7 @@ export function History() {
                     />
                   </td>
                   <td className="p-3">
-                    <a href={`#/scan/${s.id}`} className="font-medium hover:underline">
+                    <a href={`#/scan/${encodeURIComponent(s.id)}`} className="font-medium hover:underline">
                       {s.targetName}
                     </a>
                     <div className="text-xs text-zinc-500">

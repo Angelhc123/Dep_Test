@@ -1,0 +1,76 @@
+{
+  "generado": "2026-11-20T22:08:54.342Z",
+  "commit": "3a3367b73669d92ece9d967da074b6db4f17855f",
+  "suites": [
+    {
+      "id": "unitarias",
+      "nombre": "Unitarias",
+      "junit": "reports/junit/vitest.xml",
+      "filtro": "unitarias",
+      "total": 166,
+      "fallidas": 0,
+      "omitidas": 0,
+      "segundos": 1.289525462
+    },
+    {
+      "id": "integracion",
+      "nombre": "Integración",
+      "junit": "reports/junit/vitest.xml",
+      "filtro": "integracion",
+      "total": 26,
+      "fallidas": 0,
+      "omitidas": 0,
+      "segundos": 1.697576537
+    },
+    {
+      "id": "sistema",
+      "nombre": "Sistema",
+      "junit": "reports/junit/sistema.xml",
+      "total": 23,
+      "fallidas": 0,
+      "omitidas": 0,
+      "segundos": 1.519723349
+    },
+    {
+      "id": "ui",
+      "nombre": "Interfaz de usuario",
+      "junit": "reports/junit/ui.xml",
+      "total": 16,
+      "fallidas": 0,
+      "omitidas": 0,
+      "segundos": 6.961
+    },
+    {
+      "id": "aceptacion",
+      "nombre": "Aceptación (BDD)",
+      "junit": "reports/junit/aceptacion.xml",
+      "total": 12,
+      "fallidas": 0,
+      "omitidas": 0,
+      "segundos": 5.052
+    },
+    {
+      "id": "vscode",
+      "nombre": "Extensión VS Code (e2e)",
+      "junit": "reports/junit/vscode.xml",
+      "total": 8,
+      "fallidas": 0,
+      "omitidas": 0,
+      "segundos": 1.689
+    }
+  ],
+  "mutacion": {
+    "mutantes": 2585,
+    "eliminados": 1578,
+    "sobrevivientes": 777,
+    "sinCobertura": 230,
+    "puntaje": 61.04448742746615
+  },
+  "cobertura": {
+    "lines": 93.46,
+    "statements": 90.43,
+    "functions": 94.29,
+    "branches": 77.67
+  },
+  "nota": "unitarias/integración reclasificadas localmente con el mismo vitest.xml (166+26=192); el resto, tal cual del CI"
+}

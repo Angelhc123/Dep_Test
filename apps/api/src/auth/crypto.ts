@@ -42,8 +42,13 @@ export class TokenCipher {
     const [version, iv, tag, data] = payload.split(".");
     if (version !== "v1" || !iv || !tag || !data) return null;
     try {
-      const decipher = createDecipheriv("aes-256-gcm", this.key, Buffer.from(iv, "base64url"));
-      decipher.setAuthTag(Buffer.from(tag, "base64url"));
+      // Se fija la longitud de la etiqueta (16 bytes): evita aceptar etiquetas truncadas.
+      const authTag = Buffer.from(tag, "base64url");
+      if (authTag.length !== 16) return null;
+      const decipher = createDecipheriv("aes-256-gcm", this.key, Buffer.from(iv, "base64url"), {
+        authTagLength: 16,
+      });
+      decipher.setAuthTag(authTag);
       return Buffer.concat([decipher.update(Buffer.from(data, "base64url")), decipher.final()]).toString(
         "utf8",
       );

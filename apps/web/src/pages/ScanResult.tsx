@@ -34,7 +34,7 @@ export function ScanResult({ id }: { id: string }) {
                 {" · "}
                 <a
                   className="font-mono underline"
-                  href={`https://github.com/${t.name}/tree/${t.commit}`}
+                  href={`https://github.com/${t.name.split("/").map(encodeURIComponent).join("/")}/tree/${encodeURIComponent(t.commit)}`}
                   target="_blank"
                   rel="noreferrer"
                 >
