@@ -92,6 +92,14 @@ export interface Metrics {
   cache: { hits: number; misses: number; writes: number; hitRate: number; entries: number };
   sessions: { active: number; loggedIn: number; users: number };
   history: { scansStored: number };
+  series: {
+    t: string;
+    requests: number;
+    errors5xx: number;
+    scans: number;
+    p95Ms: number;
+    cacheHitRate: number | null;
+  }[];
 }
 
 export const api = {

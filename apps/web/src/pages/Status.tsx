@@ -1,4 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ComposedChart,
+  Line,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { Card, ErrorBox, Spinner, Stat } from "../components/ui";
 import { api, type Metrics } from "../lib/api";
 import { RISK_COLOR, RISK_LABEL } from "../lib/format";
@@ -36,6 +47,21 @@ export function Status() {
           <Stat value={m.scans.total} label="Escaneos desde el arranque" />
         </div>
       </section>
+
+      <div className="grid gap-4 md:grid-cols-[3fr_2fr]">
+        <Card>
+          <h2 className="font-semibold">Peticiones por minuto y latencia p95</h2>
+          <p className="mb-2 text-xs text-zinc-500">
+            Última hora · barras: peticiones · línea: latencia p95 (ms)
+          </p>
+          <ActivityChart series={m.series} />
+        </Card>
+        <Card>
+          <h2 className="font-semibold">Escaneos por minuto</h2>
+          <p className="mb-2 text-xs text-zinc-500">Última hora</p>
+          <ScansChart series={m.series} />
+        </Card>
+      </div>
 
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
@@ -105,6 +131,91 @@ export function Status() {
           </table>
         </Card>
       </div>
+    </div>
+  );
+}
+
+const hora = (iso: string) =>
+  new Date(iso).toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" });
+
+function ActivityChart({ series }: { series: Metrics["series"] }) {
+  const data = series.map((p) => ({ ...p, hora: hora(p.t) }));
+  return (
+    <div
+      className="h-56 w-full"
+      role="img"
+      aria-label="Peticiones por minuto y latencia p95 de la última hora"
+    >
+      <ResponsiveContainer>
+        <ComposedChart data={data} margin={{ left: -12, right: 4, top: 6, bottom: 0 }}>
+          <CartesianGrid
+            strokeDasharray="3 3"
+            stroke="currentColor"
+            className="text-zinc-200 dark:text-zinc-800"
+            vertical={false}
+          />
+          <XAxis dataKey="hora" stroke="currentColor" className="text-xs text-zinc-400" minTickGap={24} />
+          <YAxis
+            yAxisId="req"
+            allowDecimals={false}
+            stroke="currentColor"
+            className="text-xs text-zinc-400"
+          />
+          <YAxis
+            yAxisId="ms"
+            orientation="right"
+            stroke="currentColor"
+            className="text-xs text-zinc-400"
+            unit=" ms"
+          />
+          <Tooltip contentStyle={{ borderRadius: 8, fontSize: 12 }} />
+          <Bar
+            yAxisId="req"
+            dataKey="requests"
+            name="Peticiones"
+            fill="#2563eb"
+            radius={[3, 3, 0, 0]}
+            isAnimationActive={false}
+          />
+          <Line
+            yAxisId="ms"
+            dataKey="p95Ms"
+            name="Latencia p95 (ms)"
+            stroke="#d97706"
+            strokeWidth={2}
+            dot={false}
+            isAnimationActive={false}
+          />
+        </ComposedChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+function ScansChart({ series }: { series: Metrics["series"] }) {
+  const data = series.map((p) => ({ ...p, hora: hora(p.t) }));
+  return (
+    <div className="h-56 w-full" role="img" aria-label="Escaneos por minuto de la última hora">
+      <ResponsiveContainer>
+        <BarChart data={data} margin={{ left: -20, right: 4, top: 6, bottom: 0 }}>
+          <CartesianGrid
+            strokeDasharray="3 3"
+            stroke="currentColor"
+            className="text-zinc-200 dark:text-zinc-800"
+            vertical={false}
+          />
+          <XAxis dataKey="hora" stroke="currentColor" className="text-xs text-zinc-400" minTickGap={24} />
+          <YAxis allowDecimals={false} stroke="currentColor" className="text-xs text-zinc-400" />
+          <Tooltip contentStyle={{ borderRadius: 8, fontSize: 12 }} />
+          <Bar
+            dataKey="scans"
+            name="Escaneos"
+            fill="#16a34a"
+            radius={[3, 3, 0, 0]}
+            isAnimationActive={false}
+          />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }

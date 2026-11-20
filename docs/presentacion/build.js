@@ -1,12 +1,31 @@
-// Incrusta las capturas (img/*.jpg) en fuente.html y genera DepScan-Presentacion.html autocontenido.
-import { readFileSync, writeFileSync } from "node:fs";
+// Genera las presentaciones autocontenidas:
+//   fuente.html          → DepScan-Presentacion.html  (producto)
+//   fuente-calidad.html  → DepScan-Calidad.html       (calidad, pruebas, no funcionales, reto)
+// Reemplaza {{IMG:nombre}} por img/nombre.(jpg|png) en base64 y {{SVG:nombre}} por
+// diagramas/nombre.svg (generados con `node diagramas.mjs` y `node graficos.mjs`).
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const dir = dirname(fileURLToPath(import.meta.url));
-const html = readFileSync(join(dir, "fuente.html"), "utf8").replace(/\{\{IMG:(\w+)\}\}/g, (_, n) => {
-  const b64 = readFileSync(join(dir, "img", `${n}.jpg`)).toString("base64");
-  return `data:image/jpeg;base64,${b64}`;
-});
-writeFileSync(join(dir, "DepScan-Presentacion.html"), html);
-console.log("DepScan-Presentacion.html generado");
+
+function incrustar(html) {
+  return html
+    .replace(/\{\{IMG:([\w-]+)\}\}/g, (_, n) => {
+      for (const [ext, mime] of [["jpg", "jpeg"], ["png", "png"]]) {
+        const f = join(dir, "img", `${n}.${ext}`);
+        if (existsSync(f)) return `data:image/${mime};base64,${readFileSync(f).toString("base64")}`;
+      }
+      throw new Error(`Falta la imagen img/${n}`);
+    })
+    .replace(/\{\{SVG:([\w-]+)\}\}/g, (_, n) => readFileSync(join(dir, "diagramas", `${n}.svg`), "utf8"));
+}
+
+for (const [fuente, salida] of [
+  ["fuente.html", "DepScan-Presentacion.html"],
+  ["fuente-calidad.html", "DepScan-Calidad.html"],
+]) {
+  if (!existsSync(join(dir, fuente))) continue;
+  writeFileSync(join(dir, salida), incrustar(readFileSync(join(dir, fuente), "utf8")));
+  console.log(`${salida} generado`);
+}

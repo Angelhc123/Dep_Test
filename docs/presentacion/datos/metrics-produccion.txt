@@ -1,0 +1,40 @@
+# HELP depscan_uptime_seconds Segundos desde el arranque
+# TYPE depscan_uptime_seconds gauge
+depscan_uptime_seconds 1003
+# HELP depscan_memory_rss_megabytes Memoria residente del proceso
+# TYPE depscan_memory_rss_megabytes gauge
+depscan_memory_rss_megabytes 88.7
+# HELP depscan_http_requests_total Peticiones HTTP por ruta
+# TYPE depscan_http_requests_total counter
+depscan_http_requests_total{route="GET /api/metrics"} 3
+depscan_http_requests_total{route="GET /api/health"} 1
+# HELP depscan_http_responses_total Respuestas HTTP por clase de estado
+# TYPE depscan_http_responses_total counter
+depscan_http_responses_total{status="2xx"} 4
+# HELP depscan_http_latency_ms Latencia HTTP (percentiles de las últimas 500 peticiones)
+# TYPE depscan_http_latency_ms gauge
+depscan_http_latency_ms{quantile="p50"} 0.8
+depscan_http_latency_ms{quantile="p95"} 6.1
+depscan_http_latency_ms{quantile="p99"} 6.1
+# HELP depscan_scans_total Escaneos completados por origen y semáforo
+# TYPE depscan_scans_total counter
+# HELP depscan_scans_failed_total Escaneos que terminaron en error
+# TYPE depscan_scans_failed_total counter
+depscan_scans_failed_total 0
+# HELP depscan_scans_by_risk_total Escaneos por semáforo de riesgo
+# TYPE depscan_scans_by_risk_total counter
+# HELP depscan_cache_hits_total Aciertos de caché
+# TYPE depscan_cache_hits_total counter
+depscan_cache_hits_total 0
+# HELP depscan_cache_misses_total Fallos de caché
+# TYPE depscan_cache_misses_total counter
+depscan_cache_misses_total 0
+# HELP depscan_cache_entries Entradas vigentes en la caché SQLite
+# TYPE depscan_cache_entries gauge
+depscan_cache_entries 0
+# HELP depscan_sessions_active Sesiones vigentes
+# TYPE depscan_sessions_active gauge
+depscan_sessions_active 2
+# HELP depscan_history_scans_stored Escaneos guardados en el historial
+# TYPE depscan_history_scans_stored gauge
+depscan_history_scans_stored 21

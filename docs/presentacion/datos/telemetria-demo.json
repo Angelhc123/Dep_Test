@@ -1,0 +1,471 @@
+{
+  "generado": "2026-11-20T22:06:38.387Z",
+  "minutos": 6,
+  "muestras": [
+    {
+      "t": "2026-11-20T22:00:47.738Z",
+      "requests": 17,
+      "p95Ms": 12.6,
+      "scans": 5,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 5
+    },
+    {
+      "t": "2026-11-20T22:00:57.743Z",
+      "requests": 35,
+      "p95Ms": 9,
+      "scans": 10,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 10
+    },
+    {
+      "t": "2026-11-20T22:01:07.744Z",
+      "requests": 53,
+      "p95Ms": 75.7,
+      "scans": 15,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 15
+    },
+    {
+      "t": "2026-11-20T22:01:17.750Z",
+      "requests": 72,
+      "p95Ms": 75.7,
+      "scans": 20,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 20
+    },
+    {
+      "t": "2026-11-20T22:01:27.758Z",
+      "requests": 90,
+      "p95Ms": 12.6,
+      "scans": 25,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 25
+    },
+    {
+      "t": "2026-11-20T22:01:37.759Z",
+      "requests": 108,
+      "p95Ms": 9,
+      "scans": 30,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 30
+    },
+    {
+      "t": "2026-11-20T22:01:47.761Z",
+      "requests": 135,
+      "p95Ms": 7.9,
+      "scans": 45,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 45
+    },
+    {
+      "t": "2026-11-20T22:01:57.774Z",
+      "requests": 164,
+      "p95Ms": 6.2,
+      "scans": 60,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 60
+    },
+    {
+      "t": "2026-11-20T22:02:07.781Z",
+      "requests": 192,
+      "p95Ms": 5.5,
+      "scans": 75,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 75
+    },
+    {
+      "t": "2026-11-20T22:02:17.794Z",
+      "requests": 220,
+      "p95Ms": 5.4,
+      "scans": 90,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 90
+    },
+    {
+      "t": "2026-11-20T22:02:27.795Z",
+      "requests": 248,
+      "p95Ms": 5.4,
+      "scans": 105,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 105
+    },
+    {
+      "t": "2026-11-20T22:02:37.796Z",
+      "requests": 277,
+      "p95Ms": 5.4,
+      "scans": 120,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 120
+    },
+    {
+      "t": "2026-11-20T22:02:47.812Z",
+      "requests": 295,
+      "p95Ms": 5.4,
+      "scans": 128,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 128
+    },
+    {
+      "t": "2026-11-20T22:02:57.819Z",
+      "requests": 318,
+      "p95Ms": 5.4,
+      "scans": 138,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 138
+    },
+    {
+      "t": "2026-11-20T22:03:07.820Z",
+      "requests": 341,
+      "p95Ms": 5.4,
+      "scans": 148,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 148
+    },
+    {
+      "t": "2026-11-20T22:03:17.829Z",
+      "requests": 364,
+      "p95Ms": 5.4,
+      "scans": 158,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 158
+    },
+    {
+      "t": "2026-11-20T22:03:27.832Z",
+      "requests": 388,
+      "p95Ms": 5.4,
+      "scans": 168,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 168
+    },
+    {
+      "t": "2026-11-20T22:03:37.837Z",
+      "requests": 410,
+      "p95Ms": 5.4,
+      "scans": 178,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 178
+    },
+    {
+      "t": "2026-11-20T22:03:47.843Z",
+      "requests": 443,
+      "p95Ms": 5.3,
+      "scans": 198,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 198
+    },
+    {
+      "t": "2026-11-20T22:03:57.856Z",
+      "requests": 476,
+      "p95Ms": 5.3,
+      "scans": 218,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 218
+    },
+    {
+      "t": "2026-11-20T22:04:07.868Z",
+      "requests": 510,
+      "p95Ms": 5.1,
+      "scans": 238,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 238
+    },
+    {
+      "t": "2026-11-20T22:04:17.879Z",
+      "requests": 543,
+      "p95Ms": 5.1,
+      "scans": 258,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 258
+    },
+    {
+      "t": "2026-11-20T22:04:27.893Z",
+      "requests": 576,
+      "p95Ms": 5.1,
+      "scans": 278,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 278
+    },
+    {
+      "t": "2026-11-20T22:04:37.893Z",
+      "requests": 608,
+      "p95Ms": 5.1,
+      "scans": 298,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 298
+    },
+    {
+      "t": "2026-11-20T22:04:47.903Z",
+      "requests": 632,
+      "p95Ms": 5.1,
+      "scans": 308,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 308
+    },
+    {
+      "t": "2026-11-20T22:04:57.918Z",
+      "requests": 655,
+      "p95Ms": 5.1,
+      "scans": 318,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 318
+    },
+    {
+      "t": "2026-11-20T22:05:07.926Z",
+      "requests": 678,
+      "p95Ms": 5.1,
+      "scans": 328,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 328
+    },
+    {
+      "t": "2026-11-20T22:05:17.926Z",
+      "requests": 701,
+      "p95Ms": 5.1,
+      "scans": 338,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 338
+    },
+    {
+      "t": "2026-11-20T22:05:27.932Z",
+      "requests": 725,
+      "p95Ms": 5.1,
+      "scans": 348,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 348
+    },
+    {
+      "t": "2026-11-20T22:05:37.935Z",
+      "requests": 747,
+      "p95Ms": 5.1,
+      "scans": 358,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 358
+    },
+    {
+      "t": "2026-11-20T22:05:47.934Z",
+      "requests": 775,
+      "p95Ms": 5.1,
+      "scans": 373,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 373
+    },
+    {
+      "t": "2026-11-20T22:05:57.939Z",
+      "requests": 803,
+      "p95Ms": 5,
+      "scans": 388,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 388
+    },
+    {
+      "t": "2026-11-20T22:06:07.949Z",
+      "requests": 832,
+      "p95Ms": 5,
+      "scans": 403,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 403
+    },
+    {
+      "t": "2026-11-20T22:06:17.951Z",
+      "requests": 858,
+      "p95Ms": 5,
+      "scans": 418,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 418
+    },
+    {
+      "t": "2026-11-20T22:06:27.951Z",
+      "requests": 882,
+      "p95Ms": 5,
+      "scans": 430,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 430
+    },
+    {
+      "t": "2026-11-20T22:06:37.964Z",
+      "requests": 910,
+      "p95Ms": 4.9,
+      "scans": 445,
+      "errorRate": 0,
+      "sesiones": 1,
+      "historial": 445
+    }
+  ],
+  "final": {
+    "version": "0.1.0",
+    "startedAt": "2026-11-20T22:00:37.527Z",
+    "uptimeSeconds": 361,
+    "memoryMb": 74.7,
+    "http": {
+      "requests": 911,
+      "byStatus": {
+        "2xx": 838,
+        "4xx": 73
+      },
+      "errorRate": 0,
+      "latencyMs": {
+        "p50": 1.2,
+        "p95": 4.9,
+        "p99": 5.5
+      },
+      "routes": [
+        {
+          "route": "POST /api/scans",
+          "count": 489,
+          "errors": 0,
+          "p95Ms": 5.4
+        },
+        {
+          "route": "GET /api/health",
+          "count": 179,
+          "errors": 0,
+          "p95Ms": 0.3
+        },
+        {
+          "route": "GET /api/scans",
+          "count": 178,
+          "errors": 0,
+          "p95Ms": 0.9
+        },
+        {
+          "route": "GET /api/metrics",
+          "count": 36,
+          "errors": 0,
+          "p95Ms": 1.6
+        },
+        {
+          "route": "GET /api/*",
+          "count": 29,
+          "errors": 0,
+          "p95Ms": 0.2
+        }
+      ]
+    },
+    "scans": {
+      "total": 445,
+      "failed": 0,
+      "bySource": {
+        "upload": 445
+      },
+      "byRisk": {
+        "green": 148,
+        "red": 297
+      },
+      "dependencies": 741,
+      "vulnerableDependencies": 445,
+      "durationMs": {
+        "p50": 0,
+        "p95": 1
+      }
+    },
+    "cache": {
+      "hits": 0,
+      "misses": 0,
+      "writes": 0,
+      "hitRate": 0,
+      "entries": 0
+    },
+    "sessions": {
+      "active": 1,
+      "loggedIn": 0,
+      "users": 0
+    },
+    "history": {
+      "scansStored": 445
+    },
+    "series": [
+      {
+        "t": "2026-11-20T22:00:00.000Z",
+        "requests": 39,
+        "errors5xx": 0,
+        "scans": 11,
+        "p95Ms": 9,
+        "cacheHitRate": null
+      },
+      {
+        "t": "2026-11-20T22:01:00.000Z",
+        "requests": 131,
+        "errors5xx": 0,
+        "scans": 52,
+        "p95Ms": 5.4,
+        "cacheHitRate": null
+      },
+      {
+        "t": "2026-11-20T22:02:00.000Z",
+        "requests": 153,
+        "errors5xx": 0,
+        "scans": 77,
+        "p95Ms": 5.1,
+        "cacheHitRate": null
+      },
+      {
+        "t": "2026-11-20T22:03:00.000Z",
+        "requests": 161,
+        "errors5xx": 0,
+        "scans": 82,
+        "p95Ms": 5.2,
+        "cacheHitRate": null
+      },
+      {
+        "t": "2026-11-20T22:04:00.000Z",
+        "requests": 176,
+        "errors5xx": 0,
+        "scans": 98,
+        "p95Ms": 4.9,
+        "cacheHitRate": null
+      },
+      {
+        "t": "2026-11-20T22:05:00.000Z",
+        "requests": 150,
+        "errors5xx": 0,
+        "scans": 71,
+        "p95Ms": 4.9,
+        "cacheHitRate": null
+      },
+      {
+        "t": "2026-11-20T22:06:00.000Z",
+        "requests": 101,
+        "errors5xx": 0,
+        "scans": 54,
+        "p95Ms": 5.1,
+        "cacheHitRate": null
+      }
+    ]
+  }
+}

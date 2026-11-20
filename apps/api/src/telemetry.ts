@@ -27,6 +27,29 @@ class Window {
 
 const round = (n: number) => Math.round(n * 10) / 10;
 
+/** Minutos que se conservan en la serie temporal (última hora). */
+const SERIES_MINUTES = 60;
+
+interface Bucket {
+  minute: number; // epoch en minutos
+  requests: number;
+  errors: number;
+  scans: number;
+  cacheHits: number;
+  cacheMisses: number;
+  durations: number[];
+}
+
+export interface SeriesPoint {
+  /** Inicio del minuto (ISO 8601). */
+  t: string;
+  requests: number;
+  errors5xx: number;
+  scans: number;
+  p95Ms: number;
+  cacheHitRate: number | null;
+}
+
 interface RouteStats {
   count: number;
   errors: number;
@@ -65,6 +88,8 @@ export interface MetricsSnapshot {
   cache: { hits: number; misses: number; writes: number; hitRate: number; entries: number };
   sessions: { active: number; loggedIn: number; users: number };
   history: { scansStored: number };
+  /** Serie por minuto de la última hora (para gráficos de tendencia). */
+  series: SeriesPoint[];
 }
 
 export interface ScanEvent {
@@ -76,7 +101,7 @@ export interface ScanEvent {
 }
 
 export class Telemetry {
-  readonly startedAt = new Date();
+  readonly startedAt: Date;
   private readonly routes = new Map<string, RouteStats>();
   private readonly byStatus: Record<string, number> = {};
   private readonly latency = new Window();
@@ -86,11 +111,57 @@ export class Telemetry {
   private readonly scanRisk: Record<string, number> = {};
   private readonly scanDuration = new Window();
   private cacheStats = { hits: 0, misses: 0, writes: 0 };
+  private readonly buckets: Bucket[] = [];
 
-  constructor(private readonly version: string) {}
+  constructor(
+    private readonly version: string,
+    /** Reloj inyectable (pruebas). */
+    private readonly now: () => number = Date.now,
+  ) {
+    this.startedAt = new Date(now());
+  }
+
+  /** Bucket del minuto actual; descarta los de más de una hora. */
+  private bucket(): Bucket {
+    const minute = Math.floor(this.now() / 60_000);
+    let b = this.buckets.at(-1);
+    if (!b || b.minute !== minute) {
+      b = { minute, requests: 0, errors: 0, scans: 0, cacheHits: 0, cacheMisses: 0, durations: [] };
+      this.buckets.push(b);
+      while (this.buckets.length && this.buckets[0]!.minute <= minute - SERIES_MINUTES) this.buckets.shift();
+    }
+    return b;
+  }
+
+  /** Serie continua de la última hora (los minutos sin actividad aparecen en cero). */
+  series(): SeriesPoint[] {
+    const actual = Math.floor(this.now() / 60_000);
+    const primero = Math.max(actual - SERIES_MINUTES + 1, Math.floor(this.startedAt.getTime() / 60_000));
+    const porMinuto = new Map(this.buckets.map((b) => [b.minute, b]));
+    const out: SeriesPoint[] = [];
+    for (let m = primero; m <= actual; m++) {
+      const b = porMinuto.get(m);
+      const lookups = b ? b.cacheHits + b.cacheMisses : 0;
+      const w = new Window();
+      for (const d of b?.durations ?? []) w.push(d);
+      out.push({
+        t: new Date(m * 60_000).toISOString(),
+        requests: b?.requests ?? 0,
+        errors5xx: b?.errors ?? 0,
+        scans: b?.scans ?? 0,
+        p95Ms: w.percentile(95),
+        cacheHitRate: lookups ? round((100 * b!.cacheHits) / lookups) : null,
+      });
+    }
+    return out;
+  }
 
   recordRequest(method: string, route: string, status: number, ms: number): void {
     this.requests++;
+    const b = this.bucket();
+    b.requests++;
+    if (status >= 500) b.errors++;
+    b.durations.push(ms);
     const cls = `${Math.floor(status / 100)}xx`;
     this.byStatus[cls] = (this.byStatus[cls] ?? 0) + 1;
     this.latency.push(ms);
@@ -104,6 +175,7 @@ export class Telemetry {
 
   recordScan(e: ScanEvent): void {
     this.scans.total++;
+    this.bucket().scans++;
     this.scans.dependencies += e.dependencies;
     this.scans.vulnerable += e.vulnerableDependencies;
     this.scanSource[e.source] = (this.scanSource[e.source] ?? 0) + 1;
@@ -120,8 +192,13 @@ export class Telemetry {
     return {
       get: async (key) => {
         const v = await cache.get(key);
-        if (v === undefined) this.cacheStats.misses++;
-        else this.cacheStats.hits++;
+        if (v === undefined) {
+          this.cacheStats.misses++;
+          this.bucket().cacheMisses++;
+        } else {
+          this.cacheStats.hits++;
+          this.bucket().cacheHits++;
+        }
         return v;
       },
       set: async (key, value, ttl) => {
@@ -137,7 +214,7 @@ export class Telemetry {
     return {
       version: this.version,
       startedAt: this.startedAt.toISOString(),
-      uptimeSeconds: Math.round((Date.now() - this.startedAt.getTime()) / 1000),
+      uptimeSeconds: Math.round((this.now() - this.startedAt.getTime()) / 1000),
       memoryMb: round(process.memoryUsage().rss / 1024 / 1024),
       http: {
         requests: this.requests,
@@ -177,6 +254,7 @@ export class Telemetry {
         users: storage.users,
       },
       history: { scansStored: storage.scansStored },
+      series: this.series(),
     };
   }
 }

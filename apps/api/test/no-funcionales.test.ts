@@ -119,6 +119,39 @@ describe("Telemetría", () => {
     await protegida.close();
   });
 
+  it("arma una serie por minuto de la última hora para los gráficos", () => {
+    let ahora = Date.parse("2026-11-20T10:00:10Z");
+    const t = new Telemetry("test", () => ahora);
+    t.recordRequest("GET", "/api/health", 200, 10);
+    t.recordRequest("POST", "/api/scans", 500, 30);
+    ahora += 2 * 60_000; // dos minutos después
+    t.recordRequest("GET", "/api/health", 200, 20);
+    t.recordScan({
+      source: "upload",
+      risk: "red",
+      dependencies: 3,
+      vulnerableDependencies: 1,
+      durationMs: 50,
+    });
+    const vacio = { activeSessions: 0, loggedInSessions: 0, users: 0, scansStored: 0, cacheEntries: 0 };
+    const serie = t.snapshot(vacio).series;
+    expect(serie.map((p) => p.t)).toEqual([
+      "2026-11-20T10:00:00.000Z",
+      "2026-11-20T10:01:00.000Z",
+      "2026-11-20T10:02:00.000Z",
+    ]);
+    expect(serie[0]).toMatchObject({ requests: 2, errors5xx: 1, scans: 0, p95Ms: 30 });
+    expect(serie[1]).toMatchObject({ requests: 0, scans: 0, cacheHitRate: null });
+    expect(serie[2]).toMatchObject({ requests: 1, scans: 1, p95Ms: 20 });
+
+    ahora += 90 * 60_000; // hora y media después: solo queda la última hora
+    t.recordRequest("GET", "/api/health", 200, 5);
+    const reciente = t.snapshot(vacio).series;
+    expect(reciente).toHaveLength(60);
+    expect(reciente.at(-1)!.requests).toBe(1);
+    expect(reciente.slice(0, -1).every((p) => p.requests === 0)).toBe(true);
+  });
+
   it("la caché instrumentada mide aciertos, fallos y tasa de aciertos", async () => {
     const t = new Telemetry("test");
     const cache = t.instrumentCache(new MemoryCache());
