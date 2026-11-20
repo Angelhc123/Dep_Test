@@ -175,7 +175,10 @@ jobs:
         with: { name: reporte-aceptacion, path: reports }
       - name: Reporte de depscan sobre este repo (dogfooding)
         continue-on-error: true
-        run: mkdir -p site && node apps/cli/dist/index.js . --format html --output site/depscan-report.html
+        # tests/fixtures contiene proyectos vulnerables A PROPÓSITO (datos de prueba): se excluyen.
+        run: |
+          rm -rf tests/fixtures
+          mkdir -p site && node apps/cli/dist/index.js . --format html --output site/depscan-report.html
       - name: Ensamblar sitio
         run: |
           copiar() { [ -d "$1" ] && mkdir -p "site/$2" && cp -r "$1"/. "site/$2/" || true; }

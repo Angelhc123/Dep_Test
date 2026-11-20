@@ -25,7 +25,10 @@ jobs:
 
       # El propio escáner revisa este repositorio: falla si hay vulnerabilidades altas o críticas.
       - name: depscan sobre este repo
-        run: node apps/cli/dist/index.js . --fail-on high --format html --output depscan-report.html
+        # tests/fixtures contiene proyectos vulnerables A PROPÓSITO (datos de prueba): se excluyen.
+        run: |
+          rm -rf tests/fixtures
+          node apps/cli/dist/index.js . --fail-on high --format html --output depscan-report.html
       - name: Publicar reporte
         if: always()
         uses: actions/upload-artifact@v4
