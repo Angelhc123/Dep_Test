@@ -137,9 +137,35 @@ jobs:
             reports/junit/aceptacion.xml
           retention-days: 30
 
+  vscode:
+    name: Extensión VS Code (e2e + .vsix)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Pruebas e2e en un VS Code real (pantalla virtual)
+        working-directory: apps/vscode
+        run: xvfb-run -a npm run test:e2e
+      - name: Empaquetar la extensión (.vsix)
+        working-directory: apps/vscode
+        run: npm run package
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: reporte-vscode
+          path: |
+            reports/junit/vscode.xml
+            apps/vscode/depscan.vsix
+            apps/vscode/README.md
+          retention-days: 30
+
   publicar:
     name: Publicar reportes en GitHub Pages
-    needs: [unitarias, mutacion, sistema, ui, aceptacion]
+    needs: [unitarias, mutacion, sistema, ui, aceptacion, vscode]
     # Se publica aunque alguna prueba falle: el panel muestra qué falló.
     if: ${{ !cancelled() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
@@ -173,11 +199,14 @@ jobs:
       - uses: actions/download-artifact@v4
         continue-on-error: true
         with: { name: reporte-aceptacion, path: reports }
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with: { name: reporte-vscode, path: descarga-vscode }
       - name: Reporte de depscan sobre este repo (dogfooding)
         continue-on-error: true
         # tests/fixtures contiene proyectos vulnerables A PROPÓSITO (datos de prueba): se excluyen.
         run: |
-          rm -rf tests/fixtures
+          rm -rf tests/fixtures apps/vscode/test/e2e/proyecto
           mkdir -p site && node apps/cli/dist/index.js . --format html --output site/depscan-report.html
       - name: Ensamblar sitio
         run: |
@@ -188,6 +217,13 @@ jobs:
           copiar reports/sistema    sistema
           copiar reports/ui         ui
           copiar reports/bdd        aceptacion
+          # Extensión: JUnit al resumen y el .vsix descargable con su README.
+          if [ -d descarga-vscode ]; then
+            mkdir -p reports/junit site/extension
+            cp descarga-vscode/reports/junit/vscode.xml reports/junit/ || true
+            cp descarga-vscode/apps/vscode/depscan.vsix site/extension/ || true
+            node scripts/pagina-extension.mjs descarga-vscode/apps/vscode/README.md > site/extension/index.html || true
+          fi
           node scripts/resumen-pruebas.mjs --json > site/resumen.json
           node scripts/pages-index.js > site/index.html
           node scripts/resumen-pruebas.mjs >> "$GITHUB_STEP_SUMMARY"

@@ -57,6 +57,13 @@ const FILAS = [
     que: "Historias en español por caso de uso del FD03 (CU-01, CU-04, CU-05, CU-08) y telemetría, ejecutadas en el navegador.",
     enlace: "aceptacion/index.html",
   },
+  {
+    id: "vscode",
+    tipo: "Extensión VS Code (e2e)",
+    herramienta: "@vscode/test-electron",
+    que: "VS Code real con la extensión: subrayado, hover, Quick Fix, reescaneo al guardar y skills del agente @depscan.",
+    enlace: "extension/",
+  },
 ];
 
 const filas = FILAS.map((f) => {

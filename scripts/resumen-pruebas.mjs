@@ -17,6 +17,7 @@ const SUITES = [
   { id: "sistema", nombre: "Sistema", junit: "reports/junit/sistema.xml" },
   { id: "ui", nombre: "Interfaz de usuario", junit: "reports/junit/ui.xml" },
   { id: "aceptacion", nombre: "Aceptación (BDD)", junit: "reports/junit/aceptacion.xml" },
+  { id: "vscode", nombre: "Extensión VS Code (e2e)", junit: "reports/junit/vscode.xml" },
 ];
 
 function leer(ruta) {

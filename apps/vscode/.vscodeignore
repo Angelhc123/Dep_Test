@@ -1,0 +1,10 @@
+src/**
+test/**
+dist-test/**
+**/*.map
+esbuild.mjs
+tsconfig.json
+.vscode-test*
+node_modules/**
+*.vsix
+*.tsbuildinfo

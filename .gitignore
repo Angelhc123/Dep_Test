@@ -17,3 +17,8 @@ test-results/
 playwright-report/
 # Laboratorios de la unidad 2 (repos independientes, solo referencia local)
 labssegundaUNidad/
+
+# Extensión de VS Code
+apps/vscode/.vscode-test/
+apps/vscode/dist-test/
+*.vsix

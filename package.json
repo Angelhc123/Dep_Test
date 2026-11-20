@@ -51,5 +51,8 @@
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.38.0",
     "vitest": "^4.1.11"
+  },
+  "overrides": {
+    "serialize-javascript": "^7.1.3"
   }
 }

@@ -27,7 +27,7 @@ jobs:
       - name: depscan sobre este repo
         # tests/fixtures contiene proyectos vulnerables A PROPÓSITO (datos de prueba): se excluyen.
         run: |
-          rm -rf tests/fixtures
+          rm -rf tests/fixtures apps/vscode/test/e2e/proyecto
           node apps/cli/dist/index.js . --fail-on high --format html --output depscan-report.html
       - name: Publicar reporte
         if: always()

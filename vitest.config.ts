@@ -13,7 +13,10 @@ export default defineConfig({
   test: {
     environment: "node",
     projects: [
-      { extends: true, test: { name: "unitarias", include: ["packages/*/test/**/*.test.ts"] } },
+      {
+        extends: true,
+        test: { name: "unitarias", include: ["packages/*/test/**/*.test.ts", "apps/vscode/test/unit/**/*.test.ts"] },
+      },
       {
         extends: true,
         test: { name: "integracion", include: ["apps/api/test/**/*.test.ts", "apps/cli/test/**/*.test.ts"] },
@@ -24,7 +27,7 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "html", "lcov", "json-summary"],
       reportsDirectory: "./coverage",
-      include: ["packages/*/src/**/*.ts", "apps/api/src/**/*.ts"],
+      include: ["packages/*/src/**/*.ts", "apps/api/src/**/*.ts", "apps/vscode/src/manifiestos.ts"],
       exclude: ["**/*.d.ts"],
       thresholds: {
         statements: 80,

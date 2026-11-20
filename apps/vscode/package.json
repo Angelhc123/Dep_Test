@@ -1,0 +1,237 @@
+{
+  "name": "depscan-vscode",
+  "displayName": "DepScan: dependencias vulnerables",
+  "description": "Detecta librerías vulnerables (npm y PyPI) mientras programas, propone la versión segura verificada y trae el agente @depscan para el chat.",
+  "version": "0.1.0",
+  "publisher": "depscan-upt",
+  "private": true,
+  "license": "MIT",
+  "icon": "media/icono.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Angelhc123/Dep_Test"
+  },
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "Linters",
+    "Other",
+    "AI",
+    "Chat"
+  ],
+  "keywords": [
+    "seguridad",
+    "vulnerabilidades",
+    "osv",
+    "npm",
+    "pypi",
+    "cve"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "workspaceContains:**/package.json",
+    "workspaceContains:**/requirements*.txt"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "depscan.scanWorkspace",
+        "title": "Escanear dependencias del proyecto",
+        "category": "DepScan",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "depscan.showReport",
+        "title": "Ver reporte completo",
+        "category": "DepScan",
+        "icon": "$(preview)"
+      },
+      {
+        "command": "depscan.fixAllDirect",
+        "title": "Actualizar todas las dependencias directas a su versión segura",
+        "category": "DepScan"
+      },
+      {
+        "command": "depscan.clearCache",
+        "title": "Limpiar caché de vulnerabilidades",
+        "category": "DepScan"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "depscan",
+          "title": "DepScan",
+          "icon": "media/escudo.svg"
+        }
+      ]
+    },
+    "views": {
+      "depscan": [
+        {
+          "id": "depscan.findings",
+          "name": "Hallazgos"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "depscan.findings",
+        "contents": "Todavía no se ha escaneado este proyecto.\n[Escanear dependencias](command:depscan.scanWorkspace)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "depscan.scanWorkspace",
+          "when": "view == depscan.findings",
+          "group": "navigation"
+        },
+        {
+          "command": "depscan.showReport",
+          "when": "view == depscan.findings",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "DepScan",
+      "properties": {
+        "depscan.scanOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Volver a escanear al guardar package.json, package-lock.json o requirements.txt."
+        },
+        "depscan.includeDev": {
+          "type": "boolean",
+          "default": true,
+          "description": "Incluir devDependencies."
+        },
+        "depscan.estimate": {
+          "type": "boolean",
+          "default": true,
+          "description": "Sin lockfile, estimar la versión instalada consultando el registro npm/PyPI."
+        },
+        "depscan.minimumSeverity": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "default": "low",
+          "description": "Severidad mínima que se subraya en el editor."
+        }
+      }
+    },
+    "languageModelTools": [
+      {
+        "name": "depscan_scan",
+        "toolReferenceName": "depscanScan",
+        "displayName": "DepScan: escanear dependencias",
+        "modelDescription": "Escanea los manifiestos del proyecto abierto (package.json, package-lock.json, requirements.txt) contra OSV y devuelve en JSON las dependencias vulnerables con su severidad, CVE y la versión segura verificada recomendada. Úsala cuando el usuario pregunte si su proyecto o sus dependencias son seguras.",
+        "userDescription": "Escanea las dependencias del proyecto en busca de vulnerabilidades.",
+        "canBeReferencedInPrompt": true,
+        "icon": "$(shield)",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "minimumSeverity": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical"
+              ],
+              "description": "Filtra los hallazgos por severidad mínima."
+            }
+          }
+        }
+      },
+      {
+        "name": "depscan_vulnerability",
+        "toolReferenceName": "depscanVulnerability",
+        "displayName": "DepScan: detalle de una vulnerabilidad",
+        "modelDescription": "Devuelve el detalle de una vulnerabilidad (CVE-…, GHSA-…, PYSEC-…) desde OSV: resumen, descripción, severidad, versiones corregidas y referencias. Úsala para explicar una falla concreta.",
+        "userDescription": "Consulta el detalle de un CVE o aviso GHSA.",
+        "canBeReferencedInPrompt": true,
+        "icon": "$(info)",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "ID del aviso, por ejemplo CVE-2021-23337 o GHSA-35jh-r3h4-6jhm."
+            }
+          }
+        }
+      },
+      {
+        "name": "depscan_fix",
+        "toolReferenceName": "depscanFix",
+        "displayName": "DepScan: aplicar versión segura",
+        "modelDescription": "Actualiza en el manifiesto (package.json o requirements.txt) una dependencia DIRECTA vulnerable a la versión segura verificada que calculó DepScan. Requiere confirmación del usuario. Después hay que reinstalar (npm install / pip install).",
+        "userDescription": "Actualiza una dependencia vulnerable a su versión segura.",
+        "canBeReferencedInPrompt": true,
+        "icon": "$(wrench)",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "package"
+          ],
+          "properties": {
+            "package": {
+              "type": "string",
+              "description": "Nombre del paquete a actualizar, por ejemplo lodash."
+            }
+          }
+        }
+      }
+    ],
+    "chatParticipants": [
+      {
+        "id": "depscan.agent",
+        "name": "depscan",
+        "fullName": "DepScan",
+        "description": "Pregúntame si tus dependencias son seguras y cómo arreglarlas",
+        "isSticky": true,
+        "commands": [
+          {
+            "name": "scan",
+            "description": "Escanear el proyecto y priorizar los riesgos"
+          },
+          {
+            "name": "fix",
+            "description": "Proponer y aplicar las actualizaciones seguras"
+          },
+          {
+            "name": "explain",
+            "description": "Explicar una vulnerabilidad (CVE o GHSA)"
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "package": "node esbuild.mjs --production && vsce package --no-dependencies -o depscan.vsix",
+    "test:e2e": "node esbuild.mjs && vscode-test"
+  },
+  "devDependencies": {
+    "@depscan/core": "*",
+    "@types/mocha": "^10.0.10",
+    "@types/vscode": "1.99.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.1.1",
+    "esbuild": "^0.28.2",
+    "mocha": "^12.0.3"
+  }
+}
